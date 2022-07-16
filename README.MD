@@ -1,4 +1,4 @@
-# Develott - Back
+# Develott - Backend
 
 Le frontend de l'app Develott
 
