@@ -1,6 +1,6 @@
 # Develott - Backend
 
-Le frontend de l'app Develott
+Le backend de l'app Develott
 
 ## Cahier des charges :
 
