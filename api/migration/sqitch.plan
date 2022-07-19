@@ -1,0 +1,5 @@
+%syntax-version=1.0.0
+%project=develott_sqitch
+
+init 2022-07-19T15:25:19Z student  <moretticlement@outlook.fr> # creat tables
+data_table 2022-07-19T16:09:13Z student  <moretticlement@outlook.fr> # add data

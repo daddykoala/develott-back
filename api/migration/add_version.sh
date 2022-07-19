@@ -1,0 +1,1 @@
+sqitch add data_table -n "add data"
