@@ -4,10 +4,10 @@ const router = express.Router();
 //todo middleware gestion de la 404 implementer ici
 
 //variable de nos modules
-const apiRouter = require("./router");
+const userRouter = require("./routerUser");
 
 // gersion de l'api
-router.use("/v1", apiRouter);
+router.use("/v1", userRouter);
 
 
 
