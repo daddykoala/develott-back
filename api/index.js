@@ -1,14 +1,19 @@
 const express = require('express');
 const app = express();
 const router = require('./app/router/index');
+require('./app/service/')
 
 //variable d'environnement
 require('dotenv').config();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 
+//test
 
-app.use(router);
+
+
+//app.use(router);
+app.use ()
 
 
 
