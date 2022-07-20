@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS "user"
     firstname TEXT COLLATE pg_catalog."default" NOT NULL,
     lastname TEXT COLLATE pg_catalog."default" NOT NULL,
     password TEXT COLLATE pg_catalog."default" NOT NULL,
-    email TEXT COLLATE pg_catalog."default" NOT NULL,
+    email TEXT COLLATE pg_catalog."default" NOT NULL UNIQUE,
     city TEXT COLLATE pg_catalog."default",
     description TEXT COLLATE pg_catalog."default",
     profil_picture TEXT COLLATE pg_catalog."default",
