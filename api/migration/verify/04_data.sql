@@ -1,4 +1,4 @@
--- Verify develott_sqitch:init on pg
+-- Verify develott_sqitch:04_data on pg
 
 BEGIN;
 

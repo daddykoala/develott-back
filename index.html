@@ -1,0 +1,307 @@
+---------------------------------------
+CREATE TABLE IF NOT EXISTS job
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    name TEXT COLLATE pg_catalog."default" NOT NULL,
+    description TEXT COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT job_pkey PRIMARY KEY (id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS "user"
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    firstname TEXT COLLATE pg_catalog."default" NOT NULL,
+    lastname TEXT COLLATE pg_catalog."default" NOT NULL,
+    password TEXT COLLATE pg_catalog."default" NOT NULL,
+    email TEXT COLLATE pg_catalog."default" NOT NULL
+    city TEXT COLLATE pg_catalog."default",
+    description TEXT COLLATE pg_catalog."default",
+    profil_picture TEXT COLLATE pg_catalog."default",
+    is_active BOOLEAN NOT NULL,
+    username_gith TEXT COLLATE pg_catalog."default",
+    url_github TEXT COLLATE pg_catalog."default",
+    url_gitlab TEXT COLLATE pg_catalog."default",
+    url_portfolio TEXT COLLATE pg_catalog."default",
+    url_linkedin TEXT COLLATE pg_catalog."default",
+    job_id INT NOT NULL,
+    CONSTRAINT user_pkey PRIMARY KEY (id),
+    CONSTRAINT user_job_id_fkey FOREIGN KEY (job_id)
+    REFERENCES job (id) MATCH SIMPLE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS "role"
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    name TEXT COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT role_pkey PRIMARY KEY (id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS techno
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    name TEXT COLLATE pg_catalog."default" UNIQUE,
+    CONSTRAINT techno_pkey PRIMARY KEY (id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS project
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    name TEXT COLLATE pg_catalog."default" NOT NULL,
+    description TEXT COLLATE pg_catalog."default" NOT NULL,
+    start_date TIMESTAMPTZ NOT NULL,
+    end_date TIMESTAMPTZ,
+    url_slack_server TEXT COLLATE pg_catalog."default",
+    url_github_repo TEXT COLLATE pg_catalog."default",
+    url_github_projet TEXT COLLATE pg_catalog."default",
+    url_trello TEXT COLLATE pg_catalog."default",
+    CONSTRAINT project_pkey PRIMARY KEY (id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS project_has_techno
+(
+   id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+   project_id INT NOT NULL,
+   techno_id INT NOT NULL,
+    CONSTRAINT techno_project_id_fkey FOREIGN KEY (project_id)
+    REFERENCES public.project (id) MATCH SIMPLE,
+    CONSTRAINT project_techno_id_fkey FOREIGN KEY (techno_id)
+    REFERENCES public.techno (id) MATCH SIMPLE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS project_has_job
+(
+   id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+   project_id INT NOT NULL,
+   job_id INT NOT NULL,
+    CONSTRAINT job_project_id_fkey FOREIGN KEY (project_id)
+    REFERENCES public.project (id) MATCH SIMPLE,
+    CONSTRAINT project_job_id_fkey FOREIGN KEY (job_id)
+    REFERENCES public.job (id) MATCH SIMPLE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS user_has_techno
+(
+   id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+   user_id INT NOT NULL,
+   techno_id INT NOT NULL,
+    CONSTRAINT techno_user_id_fkey FOREIGN KEY (user_id)
+    REFERENCES public.user (id) MATCH SIMPLE,
+    CONSTRAINT user_techno_id_fkey FOREIGN KEY (techno_id)
+    REFERENCES public.techno (id) MATCH SIMPLE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS user_has_project_role
+(
+   userProject integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+   user_id INT NOT NULL,
+   CONSTRAINT user_id_fkey FOREIGN KEY (user_id)
+   REFERENCES public.user (id) MATCH SIMPLE,
+   role_id INT NOT NULL,
+   CONSTRAINT role_id_fkey FOREIGN KEY (role_id)
+   REFERENCES public.role (id) MATCH SIMPLE,
+   project_id INT NOT NULL,
+   CONSTRAINT project_id_fkey FOREIGN KEY (project_id)
+   REFERENCES public.project (id) MATCH SIMPLE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+ );
+
+
+---------------------------------------
+INSERT INTO job (name, description)
+VALUES
+('Scrum Master', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+('Product Owner', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+('Lead Front', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+('Mead Back', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+('Developpeur Front', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+('Developpeur Back', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+('Designer', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
+
+INSERT INTO public.user (firstname, lastname, password, email, city, description, profil_picture, is_active, username_gith, url_github, url_gitlab, url_portfolio, url_linkedin, job_id)
+VALUES
+('Abraham', 'Noel', 'pTilwRoKc4hNzLI', 'Eubert.Marchand@yahoo.fr', 'Paris', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', ' ', 'true', ' ', ' ', ' ', ' ', ' ', '1'),
+('Renaud', 'Rolland', 'p1rcImV8hBYnc1o', 'Anmone.Giraud@gmail.com', 'Bordeaux', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', ' ', 'false', ' ', ' ', ' ', ' ', ' ', '7'),
+('Irina', 'Francois', 'Q3lgQznismux2ss', 'Francette49@gmail.com', 'Besançon', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', ' ', 'true', ' ', ' ', ' ', ' ', ' ', '6'),
+('Almire', 'Paris', 'TdyIzUBQp3ia3Od', 'Rosalie.Olivier99@hotmail.fr', 'Avignon', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', ' ', 'false', ' ', ' ', ' ', ' ', ' ', '3'),
+('Alpinien', 'Blanchard', 'CvjtRHvlLNkJ5lS', 'Alice.Dupuy@gmail.com', 'Nîmes', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', ' ', 'false', ' ', ' ', ' ', ' ', ' ', '4'),
+('Marianne', 'Joly', 'KRDQX0OL3rA3_kM', 'Amiel_Martin33@yahoo.fr', 'Rennes', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', ' ', 'false', ' ', ' ', ' ', ' ', ' ', '1'),
+('Noëlle', 'Lefebvre', '13cc73CLSkS_8yD', 'Cme90@gmail.com', 'Neuilly-sur-Seine', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', ' ', 'false', ' ', ' ', ' ', ' ', ' ', '5'),
+('Albane', 'Guillot', 'AekOjkVWvzvoggA', 'Emma_Boyer@yahoo.fr', 'Bordeaux', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', ' ', 'false', ' ', ' ', ' ', ' ', ' ', '2'),
+('Basilisse', 'Huet', 'rbAuv1m3fPKjFQw', 'Tristan.Carre@hotmail.fr', 'Tours', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', ' ', 'false', ' ', ' ', ' ', ' ', ' ', '5'),
+('Léa', 'Henry', 'oM8YoOMF0uyfgU2', 'Cllie.Dupuy70@hotmail.fr', 'Montpellier', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', ' ', 'false', ' ', ' ', ' ', ' ', ' ', '4'),
+('Charlélie', 'Lecomte', 'rms6RUNWiALflJd', 'Agilberte.Julien74@gmail.com', 'Marseille', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', ' ', 'true', ' ', ' ', ' ', ' ', ' ', '2'),
+('Hugo', 'Barbier', 'FhwCLU3WueltnZO', 'Sandrine_Meunier35@hotmail.fr', 'Brest', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', ' ', 'true', ' ', ' ', ' ', ' ', ' ', '7'),
+('Clément', 'Guerin', 'password', 'email', 'Nice', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', ' ', 'true', ' ', ' ', ' ', ' ', ' ', '3'),
+('Pierre-Antoine', 'Barbier', 'password', 'email', 'La Rochelle', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', ' ', 'true', ' ', ' ', ' ', ' ', ' ', '1');
+
+INSERT INTO role (name)
+VALUES
+('admin'),
+('participants'),
+('candidates');
+
+
+INSERT INTO project (name, description, start_date , end_date, url_slack_server, url_github_repo, url_github_projet, url_trello)
+VALUES
+('Learn(Err)', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '2023-05-05' ,'2025-05-05', ' ', ' ', ' ', ' '),
+('Tournament - Organisez votre tournoi de Bad comme un pro !', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '2027-08-18' , '2029-08-18', ' ', ' ', ' ', ' '),
+('SONOW - Le Tinder de l''événementiel', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '2022-09-30' , '2024-09-30', ' ', ' ', ' ', ' '),
+('Family business', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '2026-03-10' , '2028-03-10', ' ', ' ', ' ', ' '),
+('e-commerce F0F project', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '2023-05-03' , '2025-05-03', ' ', ' ', ' ', ' '),
+('Roling Playing Logbook', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '2025-11-07' , '2027-11-07', ' ', ' ', ' ', ' '),
+('the good choice market', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '2023-05-03' , '2025-05-03', ' ', ' ', ' ', ' ');
+
+
+INSERT INTO project_has_job (project_id, job_id)
+VALUES
+('1','5'),
+('1','6'),
+('2','4'),
+('2','6'),
+('3','2'),
+('4','7'),
+('5','4'),
+('6','1'),
+('6','5'),
+('7','2'),
+('7','3');
+
+
+
+INSERT INTO user_has_project_role (user_id, project_id, role_id)
+VALUES
+('1','1','1'),
+('2','2','1'),
+('3','3','1'),
+('4','4','1'),
+('5','5','1'),
+('6','6','1'),
+('7','7','1'),
+('8','6','2'),
+('9','5','3'),
+('10','7','2'),
+('11','4','2'),
+('12','2','2'),
+('13','1','3'),
+('14','3','3');
+
+---------------------------------------
+CREATE DOMAINE password AS text CHECK (VALUE ~ ^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,}));
+CREATE DOMAINE email AS text CHECK (VALUE ~ ^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$);
+---------------------------------------
+INIT
+export PGUSER=postgres
+
+# createuser develott --login chpaclhule
+
+createdb develott --owner develott
+
+sqitch init develott_sqitch --engine pg 
+
+sqitch add 01_init -n "creat tables"
+
+ADD
+sqitch add data_table -n "add data"
+
+deploy
+export PGUSER=develott
+export PGPASSWORD=huchaclepale
+
+# sqitch deploy db:pg:develott 01_init
+sqitch deploy db:pg:develott data_table
+
+revert
+TRUNCATE TABLE user_has_project_role, project_has_job, project_has_techno, project, user_has_techno, role, public.user, job;
+
+
+
+INSERT INTO job (name, description)
+VALUES
+('Scrum Master', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+('Product Owner', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+('Lead Front', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+('Mead Back', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+('Developpeur Front', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+('Developpeur Back', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+('Designer', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
+
+INSERT INTO public.user (firstname, lastname, password, email, city, description, profil_picture, is_active, username_gith, url_github, url_gitlab, url_portfolio, url_linkedin, job_id)
+VALUES
+('Abraham', 'Noel', 'pTilwRoKc4hNzLI', 'Eubert.Marchand@yahoo.fr', 'Paris', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', ' ', 'true', ' ', ' ', ' ', ' ', ' ', '1'),
+('Renaud', 'Rolland', 'p1rcImV8hBYnc1o', 'Anmone.Giraud@gmail.com', 'Bordeaux', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', ' ', 'false', ' ', ' ', ' ', ' ', ' ', '7'),
+('Irina', 'Francois', 'Q3lgQznismux2ss', 'Francette49@gmail.com', 'Besançon', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', ' ', 'true', ' ', ' ', ' ', ' ', ' ', '6'),
+('Almire', 'Paris', 'TdyIzUBQp3ia3Od', 'Rosalie.Olivier99@hotmail.fr', 'Avignon', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', ' ', 'false', ' ', ' ', ' ', ' ', ' ', '3'),
+('Alpinien', 'Blanchard', 'CvjtRHvlLNkJ5lS', 'Alice.Dupuy@gmail.com', 'Nîmes', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', ' ', 'false', ' ', ' ', ' ', ' ', ' ', '4'),
+('Marianne', 'Joly', 'KRDQX0OL3rA3_kM', 'Amiel_Martin33@yahoo.fr', 'Rennes', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', ' ', 'false', ' ', ' ', ' ', ' ', ' ', '1'),
+('Noëlle', 'Lefebvre', '13cc73CLSkS_8yD', 'Cme90@gmail.com', 'Neuilly-sur-Seine', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', ' ', 'false', ' ', ' ', ' ', ' ', ' ', '5'),
+('Albane', 'Guillot', 'AekOjkVWvzvoggA', 'Emma_Boyer@yahoo.fr', 'Bordeaux', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', ' ', 'false', ' ', ' ', ' ', ' ', ' ', '2'),
+('Basilisse', 'Huet', 'rbAuv1m3fPKjFQw', 'Tristan.Carre@hotmail.fr', 'Tours', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', ' ', 'false', ' ', ' ', ' ', ' ', ' ', '5'),
+('Léa', 'Henry', 'oM8YoOMF0uyfgU2', 'Cllie.Dupuy70@hotmail.fr', 'Montpellier', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', ' ', 'false', ' ', ' ', ' ', ' ', ' ', '4'),
+('Charlélie', 'Lecomte', 'rms6RUNWiALflJd', 'Agilberte.Julien74@gmail.com', 'Marseille', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', ' ', 'true', ' ', ' ', ' ', ' ', ' ', '2'),
+('Hugo', 'Barbier', 'FhwCLU3WueltnZO', 'Sandrine_Meunier35@hotmail.fr', 'Brest', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', ' ', 'true', ' ', ' ', ' ', ' ', ' ', '7'),
+('Clément', 'Guerin', 'JBfUhjkbfyBHJOohuh', 'futurroidelacrypto@hotmail.fr', 'Nice', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', ' ', 'true', ' ', ' ', ' ', ' ', ' ', '3'),
+('Pierre-Antoine', 'Barbier', 'AekJHbnbgvBvoggA', 'nomdezeus@gmail.com', 'La Rochelle', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', ' ', 'true', ' ', ' ', ' ', ' ', ' ', '1');
+
+INSERT INTO role (name)
+VALUES
+('admin'),
+('participants'),
+('candidates');
+
+INSERT INTO project (name, description, start_date , end_date, url_slack_server, url_github_repo, url_github_projet, url_trello)
+VALUES
+('Learn(Err)', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '2023-05-05' ,'2025-05-05', ' ', ' ', ' ', ' '),
+('Tournament - Organisez votre tournoi de Bad comme un pro !', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '2027-08-18' , '2029-08-18', ' ', ' ', ' ', ' '),
+('SONOW - Le Tinder de l''événementiel', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '2022-09-30' , '2024-09-30', ' ', ' ', ' ', ' '),
+('Family business', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '2026-03-10' , '2028-03-10', ' ', ' ', ' ', ' '),
+('e-commerce F0F project', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '2023-05-03' , '2025-05-03', ' ', ' ', ' ', ' '),
+('Roling Playing Logbook', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '2025-11-07' , '2027-11-07', ' ', ' ', ' ', ' '),
+('the good choice market', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '2023-05-03' , '2025-05-03', ' ', ' ', ' ', ' ');
+
+INSERT INTO project_has_job (project_id, job_id)
+VALUES
+('1','5'),
+('1','6'),
+('2','4'),
+('2','6'),
+('3','2'),
+('4','7'),
+('5','4'),
+('6','1'),
+('6','5'),
+('7','2'),
+('7','3');
+
+INSERT INTO user_has_project_role (user_id, project_id, role_id)
+VALUES
+('1','1','1'),
+('2','2','1'),
+('3','3','1'),
+('4','4','1'),
+('5','5','1'),
+('6','6','1'),
+('7','7','1'),
+('8','6','2'),
+('9','5','3'),
+('10','7','2'),
+('11','4','2'),
+('12','2','2'),
+('13','1','3'),
+('14','3','3');
