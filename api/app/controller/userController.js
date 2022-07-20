@@ -20,16 +20,18 @@ const userController = {
         const email = req.body.email;
         const password = req.body.password;
     
-        const foundUser = await userDatamapper.foundUser(email, password);
-        console.log(foundUser.email)
+        const foundUser = await userDatamapper.foundUser(email);
         if (foundUser.email !== email) {
           res.status(401).send("invalid credentials");
           return;
         }
-        if (foundUser.password !== password) {
-          res.status(401).send("invalid credentials");
-          return;
-        }
+        bcrypt.compare(password, foundUser.password, function(err, result) {
+          if(result == false){
+            res.status(401).send("code invalide")
+          return
+         }
+        })
+          
     
         //const accessToken = generateAccessToken(foundUser);
         // todo pourquoi je donne deja le refresh?
