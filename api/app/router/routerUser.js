@@ -7,6 +7,9 @@ const userController = require('../controller/userController')
 
 //GET
 //router.get('/user',)
+userRouter.get('/',(_, res) => {
+    res.send('hello')
+})
 
 //POST
 userRouter.post('/user/login',userController.logIn);

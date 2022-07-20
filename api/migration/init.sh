@@ -4,6 +4,6 @@ export PGUSER=postgres
 
 createdb develott --owner develott
 
-sqitch init develott_sqitch --engine pg 
+# sqitch init develott_sqitch --engine pg 
 
-sqitch add 01_init -n "creat tables"
+# sqitch add 01_init -n "creat tables"
