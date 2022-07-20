@@ -1,3 +1,4 @@
+-- SQLBook: Code
 -- Deploy develott_sqitch:01_init to pg
 BEGIN;
 
