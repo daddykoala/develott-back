@@ -5,8 +5,9 @@ const pool = require('../db/connect');
 const projectDatamapper = {
 
     async allProject (){
+    const sql = 'SELECT * FROM project'
     try {
-        const result = await pool.query('SELECT * FROM project');
+        const result = await pool.query(sql);
         return result.rows;
     } catch (error) {
         console.error(error);
@@ -14,8 +15,9 @@ const projectDatamapper = {
     },
 
     async oneProject(projectID){
+    const sql = 'SELECT * FROM project WHERRE id=$1'
     try {
-        const result = await pool.query('SELECT * FROM project WHERRE id=$1', [projectID]);
+        const result = await pool.query(sql, [projectID]);
         return result.rows[0];
     } catch (error) {
         console.error(error);
@@ -23,9 +25,7 @@ const projectDatamapper = {
     },
 
     async create (body){
-    try {
-        
-        const sql= `INSERT INTO project (name, exerpt, description, start_date, end_date)VALUES($1, $2, $3, $4, $5)`
+        const sql =  `INSERT INTO project (name, exerpt, description, start_date, end_date)VALUES($1, $2, $3, $4, $5)`
         body = { 
             name : body.route,
             exerpt : body.exerpt,
@@ -33,6 +33,7 @@ const projectDatamapper = {
             start_date : body.start_date,
             end_date : body.end_date
         };
+    try {
         const result = await client.query(sql, [body.name, body.exerpt, body.description, body.start_date, body.end_date]);
         return result.row;
     } catch (error) {
@@ -41,15 +42,24 @@ const projectDatamapper = {
     },
 
     async destroy (projectID){
+    const sql = `DELETE FROM project WHERE id=$1`;
     try {
-        const result = await pool.query(`DELETE FROM project WHERE id=$1`, [projectID]);
+        const result = await pool.query(sql, [projectID]);
         return result.rows[0];
     } catch (error) {
         console.error(error);
     };
     },
 
-    async update ()
+    async update (){
+    const sql = 'UPDATE project SET'
+    try {
+        const result = await pool.query(sql);
+        return result.rows[0];
+    } catch (error) {
+        console.error(error);
+    };
+    }
 
 //     const savedPost = await client.query(
             

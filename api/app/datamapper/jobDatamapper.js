@@ -10,7 +10,8 @@ const jobDatamapper = {
         console.log(result.rows);
         res.json(result[0])
 
-    },
+    }
+
 }
 
 module.exports = jobDatamapper ;
