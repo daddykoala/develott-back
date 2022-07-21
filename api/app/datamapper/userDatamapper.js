@@ -40,8 +40,32 @@ const userDatamapper = {
         
         return result.rows[0]
 
-    }
-}
+        },
+
+        async destroy (userId){
+        try {
+            const result = await pool.query(`DELETE FROM public.user WHERE id=$1`, [userId]);
+            return result.rows[0];
+        } catch (error) {
+            console.error(error);
+        };
+           
+        },
+        
+        async update (body){
+            try {
+                const sql = `UPDATE public.user SET (firstname, lastname, password, email, city, description, profil_picture, username_gith, url_github, url_gitlab, url_portfolio, url_linkedin)
+                VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)`;
+                body = {
+                    
+                }
+                const result = await pool.query(sql, values);
+                return result.rows[0];
+            } catch (error) {
+                console.error(error);
+            }
+        }
+};
         
 
             

@@ -13,7 +13,6 @@ const userController = {
         //todo comment generer le token a la création du profil plusierus response possible ?
     },
 
-    
     //la generation de token
     async logIn ( req, res) {
         
@@ -43,33 +42,33 @@ const userController = {
          );
 
         },
-      }
-      
-
-    // async login2 (req, res) {
-
-    //   const email= req.email;
-      
-    //   async checkUser(email, password) {
         
+        
+        // async login2 (req, res) {
+
+          //   const email= req.email;
+          
+          //   async checkUser(email, password) {
+            
     //     const foundUser = await userDatamapper.foundUser(email);
     //     //... fetch user from a db etc.
     
     //     const match = await bcrypt.compare(password, user.passwordHash);
     
     //     if(match) {
-    //         //login
-    //     }
-    
-    //     //...
-    // }
-  
-
-
-
-
-
-
-
+      //         //login
+      //     }
+      
+      //     //...
+      // }
+};
+      
+      
+      
+      
+      
+      
+      
+      
 module.exports = userController ;
 
