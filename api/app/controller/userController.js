@@ -4,6 +4,7 @@ const { generateAccessToken, generateRefreshToken } = require('../service/jsonwe
 
 
 const userController = {
+  
     async create (req,res) {
         
         const data = req.body;
@@ -43,32 +44,7 @@ const userController = {
 
         },
         
-        
-        // async login2 (req, res) {
-
-          //   const email= req.email;
-          
-          //   async checkUser(email, password) {
-            
-    //     const foundUser = await userDatamapper.foundUser(email);
-    //     //... fetch user from a db etc.
-    
-    //     const match = await bcrypt.compare(password, user.passwordHash);
-    
-    //     if(match) {
-      //         //login
-      //     }
-      
-      //     //...
-      // }
-};
-      
-      
-      
-      
-      
-      
-      
+};     
       
 module.exports = userController ;
 

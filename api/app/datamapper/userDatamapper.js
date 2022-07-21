@@ -30,11 +30,20 @@ const userDatamapper = {
                 req.url_linkedin]
 
             const result = await pool.query(sql, values);
-         
         },
-        
-        async foundUser (email) {
 
+        async allUser (){
+        const sql = 'SELECT * FROM public.user'
+        try {
+            const result = await pool.query(sql);
+            return result.rows;
+        } catch (error) {
+            console.error(error);
+        };
+        },
+
+        async foundUser (email) {
+        const sql = ''
         const result = await pool.query(`SELECT email, password
         FROM public."user" where email = '${email}'`)
         
@@ -43,8 +52,9 @@ const userDatamapper = {
         },
 
         async destroy (userId){
+        const sql = `DELETE FROM public.user WHERE id=$1`
         try {
-            const result = await pool.query(`DELETE FROM public.user WHERE id=$1`, [userId]);
+            const result = await pool.query(sql, [userId]);
             return result.rows[0];
         } catch (error) {
             console.error(error);
@@ -66,8 +76,5 @@ const userDatamapper = {
             }
         }
 };
-        
-
-
 
 module.exports = userDatamapper;
