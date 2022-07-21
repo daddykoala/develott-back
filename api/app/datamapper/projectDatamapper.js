@@ -8,7 +8,6 @@ const projectDatamapper = {
     const sql = 'SELECT * FROM project'
     try {
         const result = await pool.query(sql);
-        console.log(result)
         return result.rows;
     } catch (error) {
         console.error(error);

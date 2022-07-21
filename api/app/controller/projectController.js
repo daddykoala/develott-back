@@ -1,6 +1,6 @@
 const projectDatamapper = require ('../datamapper/projectDatamapper');
 
-console.log(projectDatamapper, 'youhou')
+
 
 const projectController ={
     async fetchAllProject(_,res) {
