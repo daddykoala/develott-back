@@ -2,17 +2,13 @@ const jwt = require('jsonwebtoken');
 
 function generateAccessToken(user) {
     //on crée le token en donnat le secret
-    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: '1800s'
-    });
+    return jwt.sign({user: user}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: `30s` });
 }
 
 
 function generateRefreshToken(user) {
     //on crée le token en donnant le secret 
-    return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {
-        expiresIn: '1y'
-    });
+    return jwt.sign({user: user}, process.env.REFRESH_TOKEN_SECRET, { expiresIn: `1d`});
 }
 
 function authenticateToken(req, res, next) {
@@ -26,8 +22,8 @@ function authenticateToken(req, res, next) {
     //on verifie la veracité du token avec le secret.
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
         if (err) {
-            return res.sendStatus(401);
-        }
+            return res.sendStatus(403)//403 c'est forbidden;
+        }    
         req.user = user;
         next();
     });
