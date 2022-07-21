@@ -42,9 +42,9 @@ const userController = {
 
         //? Est-ce qu'on stocke le refreshToken en bdd ?
         
-        res.cookie("jwt", refreshToken, {httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
-        // res.cookie("jwt", refreshToken, {httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 })
-        res.status(200).json({accessToken}) 
+        // res.cookie("jwt", refreshToken, {httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
+        res.cookie("jwt", refreshToken, {httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 })
+        res.status(200).json({accessToken, foundUser}) 
         }})       
 
         },

@@ -35,7 +35,7 @@ const userDatamapper = {
         
         async foundUser (email) {
 
-        const result = await pool.query(`SELECT email, password
+        const result = await pool.query(`SELECT *
         FROM public."user" where email = '${email}'`)
         
         return result.rows[0]

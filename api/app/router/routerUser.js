@@ -20,6 +20,13 @@ userRouter.get('/home',authenticateToken, (_, res) => {
 //token
 
 //POST
+/**
+ * POST /post 
+ * @tags Articles
+ * @descrition lamain dans mon slip
+ * @parameters bla bla bla
+ * 
+ */
 userRouter.get('/user/refreshToken', refreshTokenController.handleRefreshToken);
 userRouter.get('/user/logout', logoutController.handleLogout);
 userRouter.post('/user/create', userController.create);

@@ -5,10 +5,10 @@ const schemaProject = Joi.object({
                 .required(),
     description : Joi.string()
                 .required(),
-    start_date : Joi.string()
+    start_date : Joi.date().greater('now')
                .required(),
-    end_date : Joi.string()
-            .required(),
+    end_date : Joi.date()
+      //? obligation demettre une date de fin ?      
     url_slack_server: Joi.string().allow(''),
     url_github_repo : Joi.string().allow(''),
     url_github_projet : Joi.string().allow(''),
