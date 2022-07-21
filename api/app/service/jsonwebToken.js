@@ -29,36 +29,9 @@ function authenticateToken(req, res, next) {
     });
 }
 
-//pour une navigation fluide de l'utilisateur
-function generateAccessTokenBis (req, res) {
-    //On recupere le token dans le headers
-  const authHeader = req.headers["authorization"];
-  console.log(req.headers["authorization"]);
-  const token = authHeader && authHeader.split(" ")[1];
-  if (!token) {
-    return res.sendStatus(401);
-  }
-//ici le user estencodé dans notre token il estdecode avec le secret est passsé en argument
-jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-    console.log(user)
-    if (err) {
-      return res.sendStatus(401);
-    }
-  // a cette etape on doit controler que le user ai toujours ses droits en bdd .
-  //todo check bdd
-
-    delete user.iat;
-    delete user.exp;
-    const refreshedToken = generateAccessToken(user);
-    res.send({
-      accessToken: refreshedToken,
-    });
-  });
-}
-
 module.exports = {
     generateAccessToken,
     generateRefreshToken,
     authenticateToken,
-    generateAccessTokenBis
+    // generateAccessTokenBis
 };
