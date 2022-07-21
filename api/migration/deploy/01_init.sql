@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS job
     name TEXT COLLATE pg_catalog."default" NOT NULL,
     description TEXT COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT job_pkey PRIMARY KEY (id),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TABLE IF NOT EXISTS "user"
@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS "user"
     lastname TEXT COLLATE pg_catalog."default" NOT NULL,
     password TEXT COLLATE pg_catalog."default" NOT NULL,
     email TEXT COLLATE pg_catalog."default" NOT NULL UNIQUE,
+    charte BOOLEAN,
     city TEXT COLLATE pg_catalog."default",
     description TEXT COLLATE pg_catalog."default",
     profil_picture TEXT COLLATE pg_catalog."default",
@@ -32,7 +33,7 @@ CREATE TABLE IF NOT EXISTS "user"
     CONSTRAINT user_pkey PRIMARY KEY (id),
     CONSTRAINT user_job_id_fkey FOREIGN KEY (job_id)
     REFERENCES job (id) MATCH SIMPLE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -41,7 +42,7 @@ CREATE TABLE IF NOT EXISTS "role"
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     name TEXT COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT role_pkey PRIMARY KEY (id),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -50,7 +51,7 @@ CREATE TABLE IF NOT EXISTS techno
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     name TEXT COLLATE pg_catalog."default" UNIQUE,
     CONSTRAINT techno_pkey PRIMARY KEY (id),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -58,6 +59,7 @@ CREATE TABLE IF NOT EXISTS project
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     name TEXT COLLATE pg_catalog."default" NOT NULL,
+    exerpt TEXT COLLATE pg_catalog."default" NOT NULL,
     description TEXT COLLATE pg_catalog."default" NOT NULL,
     start_date TIMESTAMPTZ NOT NULL,
     end_date TIMESTAMPTZ,
@@ -66,7 +68,7 @@ CREATE TABLE IF NOT EXISTS project
     url_github_projet TEXT COLLATE pg_catalog."default",
     url_trello TEXT COLLATE pg_catalog."default",
     CONSTRAINT project_pkey PRIMARY KEY (id),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -79,7 +81,7 @@ CREATE TABLE IF NOT EXISTS project_has_techno
     REFERENCES public.project (id) MATCH SIMPLE,
     CONSTRAINT project_techno_id_fkey FOREIGN KEY (techno_id)
     REFERENCES public.techno (id) MATCH SIMPLE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -92,7 +94,7 @@ CREATE TABLE IF NOT EXISTS project_has_job
     REFERENCES public.project (id) MATCH SIMPLE,
     CONSTRAINT project_job_id_fkey FOREIGN KEY (job_id)
     REFERENCES public.job (id) MATCH SIMPLE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -105,7 +107,7 @@ CREATE TABLE IF NOT EXISTS user_has_techno
     REFERENCES public.user (id) MATCH SIMPLE,
     CONSTRAINT user_techno_id_fkey FOREIGN KEY (techno_id)
     REFERENCES public.techno (id) MATCH SIMPLE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -120,9 +122,9 @@ CREATE TABLE IF NOT EXISTS user_has_project_role
    project_id INT NOT NULL,
    CONSTRAINT project_id_fkey FOREIGN KEY (project_id)
    REFERENCES public.project (id) MATCH SIMPLE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-       PRIMARY KEY ("user_id", "role_id", "project_id")
+    PRIMARY KEY ("user_id", "role_id", "project_id")
 
  );
 
