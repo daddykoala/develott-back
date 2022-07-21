@@ -9,7 +9,8 @@ const handleLogout = (req, res) => {
   }
   const refreshToken = cookies.jwt;
   
-  res.clearCookie("jwt", refreshToken, {httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
+  res.clearCookie("jwt", refreshToken, {httpOnly: true})
+  // res.clearCookie("jwt", refreshToken, {httpOnly: true, sameSite: 'None', secure: true })
   //! En prod: si https ajouter secure: true !!!!
   res.sendStatus(204)
 
