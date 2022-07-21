@@ -68,24 +68,6 @@ const userDatamapper = {
 };
         
 
-            
-
-            
-
-
-    
-
-
-
-
-
-
-
-
-    
-
-
-
 
 
 module.exports = userDatamapper;
