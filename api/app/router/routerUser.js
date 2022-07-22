@@ -1,8 +1,12 @@
 const express = require ('express');
 const userRouter = express.Router();
+const { authenticateToken } = require('../service/jsonwebToken')
 
 //import module
-const userController = require('../controller/userController')
+const userController = require('../controller/userController');
+const { handleRefreshToken } = require('../controller/refreshTokenController');
+const refreshTokenController = (require('../controller/refreshTokenController'))
+const logoutController = (require('../controller/logoutController'))
 
 
 //GET
@@ -10,9 +14,25 @@ userRouter.get('/users',userController.fetchAllUser);
 userRouter.get('/user/:id(\\d+)',userController.fetchOneUserById);
 userRouter.get('/user/:email',userController.fetchOneUserBymail);
 
+userRouter.get('/home',authenticateToken, (_, res) => {
+    res.send('Vous êtes bien connecté')
+})
+//token
+
 //POST
-userRouter.post('/user/login',userController.logIn);
-userRouter.post('/user/create',userController.create);
+/**
+ * POST /post 
+ * @tags Articles
+ * @descrition lamain dans mon slip
+ * @parameters bla bla bla
+ * 
+ */
+userRouter.get('/user/refreshToken', refreshTokenController.handleRefreshToken);
+userRouter.get('/user/logout', logoutController.handleLogout);
+userRouter.post('/user/create', userController.create);
+userRouter.post('/user/login', userController.logIn);
+
+
 
 //DELETE
 userRouter.delete('/user/:id',userController.deleteUser);
