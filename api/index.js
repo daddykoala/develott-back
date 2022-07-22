@@ -21,19 +21,9 @@ app.use(cors(corsOptions));
 
 //test
 
-
-
 app.use(router);
-
-
-
-
-
-
-
-
 
 app.listen(3001, () => {console.log('Server running on http://localhost:3001')});
 
-app.listen(3001, () => {console.log('Server running on http://localhost:3001/api-docs')});
+// app.listen(3001, () => {console.log('Server running on http://localhost:3001/api-docs')});
 

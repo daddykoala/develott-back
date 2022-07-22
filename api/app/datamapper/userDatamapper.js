@@ -53,15 +53,13 @@ const userDatamapper = {
         },
 
         async foundUserBymail (email) {
-        const sql = ''
-        const result = await pool.query(`SELECT email, password
-
-        const result = await pool.query(`SELECT *
-
-        FROM public."user" where email = '${email}'`)
-        
-        return result.rows[0]
-
+        const sql = `SELECT * FROM public.user WHERE email = '${email}'`
+        try {
+            const result = await pool.query(sql)
+            return result.rows[0]
+        } catch (error) {
+            console.error(error);
+        }
         },
 
         async destroy (userId){
@@ -75,19 +73,55 @@ const userDatamapper = {
            
         },
         
-        async update (body){
+        async update (body,userId){
+            
             try {
-                const sql = `UPDATE public.user SET (firstname, lastname, password, email, city, description, profil_picture, username_gith, url_github, url_gitlab, url_portfolio, url_linkedin)
-                VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)`;
-                body = {
-                    
-                }
-                const result = await pool.query(sql, values);
+                const query = {
+
+                    text : `UPDATE public.user SET 
+                    "firstname" = $1
+                     WHERE id ='${userId}' RETURNING id`,
+                    values : [
+                    body.firstname
+                    ],
+                };
+                const result = await pool.query(query, userId);
                 return result.rows[0];
             } catch (error) {
                 console.error(error);
             }
         }
+
+
+// update() {
+//     const query = {
+//         text: `UPDATE "user" SET
+//             "firstname" = $1,
+//             "lastname" = $2,
+//             "email" = $3,
+//             "password" = $4
+//             WHERE id = $5 RETURNING id`,
+//         values: [
+//             this.firstname,
+//             this.lastname,
+//             this.email,
+//             this.password,
+//             this.id,
+//         ],
+//     };
+//     client.query(query, (err, result) => {
+//         if (err) {
+//             return err;
+//         }
+
+//         if (!result.rowCount) {
+//             return console.log('Update did not target any rows', this);
+//         }
+
+//         // au moins une ligne a été modifié => tout va bien !
+//         return console.log(this);
+//     });
+// }
 };
 
 module.exports = userDatamapper;

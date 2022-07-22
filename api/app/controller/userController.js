@@ -54,40 +54,49 @@ const userController = {
       };
     },
 
+    async updateUser (req, res) {
+      const body = req.body;
+      const userId = parseInt(req.params.id, 10);
+      try {
+        const update = await userDatamapper.update(body, userId);
+        return res.json(update);
+      } catch (error) {
+        console.error(error);
+      };
+    },
+
     //la generation de token
-    async logIn ( req, res) {
+    async logIn (req, res) {
         
         const email = req.body.email;
         const password = req.body.password;
-        console.log(password);
+
     
-        const foundUser = await userDatamapper.foundUser(email);
-        console.log(foundUser.email);
-        console.log(foundUser.password);
-        if (foundUser.email !== email) {
+        const foundUserBymail = await userDatamapper.foundUserBymail(email);
+
+        if (foundUserBymail.email !== email) {
           res.status(401).send("invalid credentials");
           return;
         }
-        bcrypt.compare(password, foundUser.password, function(err, result) {
+        bcrypt.compare(password, foundUserBymail.password, function(err, result) {
           if(result == false){
             res.status(401).send("code invalide")
           return
          }
          if(result == true){
         //*création du JWT
-        const accessToken = generateAccessToken(foundUser.email)
+        const accessToken = generateAccessToken(foundUserBymail.email)
         //* création du refreshToken
-        const refreshToken = generateRefreshToken(foundUser.email)
+        const refreshToken = generateRefreshToken(foundUserBymail.email)
 
         //? Est-ce qu'on stocke le refreshToken en bdd ?
         
-        // res.cookie("jwt", refreshToken, {httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
-        res.cookie("jwt", refreshToken, {httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 })
-        res.status(200).json({accessToken, foundUser}) 
+        res.cookie("jwt", refreshToken, {httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
+        //res.cookie("jwt", refreshToken, {httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 })
+        res.status(200).json({accessToken, foundUserBymail}) 
         }})       
 
-        },
-        
+        }
 };     
 module.exports = userController ;
 

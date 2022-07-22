@@ -32,7 +32,8 @@ userRouter.get('/user/logout', logoutController.handleLogout);
 userRouter.post('/user/create', userController.create);
 userRouter.post('/user/login', userController.logIn);
 
-
+//PATCH
+userRouter.patch('/user/:id', userController.updateUser);
 
 //DELETE
 userRouter.delete('/user/:id',userController.deleteUser);
