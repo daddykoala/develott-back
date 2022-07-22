@@ -32,7 +32,7 @@ const userDatamapper = {
 
             const result = await pool.query(sql, values);
             console.log(result.rows[0]);
-            return result.rows
+            return result.rows[0]
         },
 
         async allUser (){
@@ -88,7 +88,27 @@ const userDatamapper = {
             } catch (error) {
                 console.error(error);
             }
-        }
+        },
+
+        async deleteLinkEmail (userEmail,userVerificationLink) {
+
+            sql=`SELECT email,verificationlink FROM public.user WHERE email=$1 AND verificationlink = $2`;
+            values=userEmail,userVerificationLink;
+
+            const result = await pool.query(sql,[values]);
+            return result.rows
+        },
+
+        async updatesStatus (userEmail) {
+
+            sql=`SELECT email,verificationlink FROM public.user WHERE email=$1 AND verificationlink = $2`;
+            values=userEmail,userVerificationLink;
+
+            const result = await pool.query(sql,[values]);
+            return result.rows
+        },
+
+
 };
 
 module.exports = userDatamapper;

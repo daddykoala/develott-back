@@ -2,7 +2,8 @@ const userDatamapper = require ('../datamapper/userDatamapper');
 const bcrypt = require('bcrypt');
 const { generateAccessToken, generateRefreshToken } = require('../service/jsonwebToken');
 const crypto = require('crypto');
-const postMail = require("../service/nodemailerService.js")
+const postMail = require("../service/nodemailerService.js");
+const { update } = require('../datamapper/userDatamapper');
 
 
 
@@ -33,13 +34,23 @@ const userController = {
 
       //TODO check dans base si l'email (userId) existe ET le lien de vérification
       //si utilisateur n'existe pas : res.status(400).send("Lien invalide")
+      const result = await userdatamapper.verificationLink(userEmail,userVerificationLink);
+      if (result){        
+        //TODO update l'utilisateur : on supprime le verificationLink + on passe Verified à true
+        await userdatamapper.deleteLinkEmail(userVerificationLink);
+        await userdatamapper.updatesStatus(useremail);
+
+        res.status(200).redirect("http://localhost:3000/connexion")
+
+      }
+      res.status(400).send("Lien invalide")
+      
+
       
       
-      
-      //TODO update l'utilisateur : on supprime le verificationLink + on passe Verified à true
       //
 
-      res.status(200).redirect("http://localhost:3000/connexion")
+     
     },
 
 
