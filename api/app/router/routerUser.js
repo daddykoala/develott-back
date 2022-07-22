@@ -10,10 +10,10 @@ const logoutController = (require('../controller/logoutController'))
 
 
 //GET
-//router.get('/user',)
-userRouter.get('/',(_, res) => {
-    res.send('hello')
-})
+userRouter.get('/users',userController.fetchAllUser);
+userRouter.get('/user/:id(\\d+)',userController.fetchOneUserById);
+userRouter.get('/user/:email',userController.fetchOneUserBymail);
+
 userRouter.get('/home',authenticateToken, (_, res) => {
     res.send('Vous êtes bien connecté')
 })
@@ -33,5 +33,8 @@ userRouter.post('/user/create', userController.create);
 userRouter.post('/user/login', userController.logIn);
 
 
+
+//DELETE
+userRouter.delete('/user/:id',userController.deleteUser);
 
 module.exports = userRouter ;

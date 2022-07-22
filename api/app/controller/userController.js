@@ -5,6 +5,7 @@ const { generateAccessToken, generateRefreshToken } = require('../service/jsonwe
 
 
 const userController = {
+  
     async create (req,res) {
         
         const data = req.body;
@@ -14,7 +15,45 @@ const userController = {
         //todo comment generer le token a la création du profil plusierus response possible ?
     },
 
-    
+    async fetchAllUser(_,res) {
+      try {
+          const allUser = await userDatamapper.allUser();
+          return res.json(allUser);
+      } catch (error) {
+          console.error(error);
+      };
+    },
+
+    async fetchOneUserById(req, res){
+      const userId = parseInt(req.params.id, 10);
+      try {
+          const foundUserById = await userDatamapper.foundUserById(userId);
+          return res.json(foundUserById)
+      } catch (error) {
+          console.error(error);
+      };
+    },
+
+    async fetchOneUserBymail(req, res){
+      const userMail = req.params.email;
+      try {
+          const foundUserBymail = await userDatamapper.foundUserBymail(userMail);
+          return res.json(foundUserBymail)
+      } catch (error) {
+          console.error(error);
+      };
+    },
+
+    async deleteUser (req, res) {
+      const userId = parseInt(req.params.id, 10);
+      try {
+          const destroy = await userDatamapper.destroy(userId);
+          return res.json(destroy);
+      } catch (error) {
+          console.error(error);
+      };
+    },
+
     //la generation de token
     async logIn ( req, res) {
         
@@ -48,16 +87,7 @@ const userController = {
         }})       
 
         },
-      }
-      
-
-  
-
-
-
-
-
-
-
+        
+};     
 module.exports = userController ;
 
