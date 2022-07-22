@@ -14,10 +14,10 @@ const projectDatamapper = {
     }
     },
 
-    async oneProject(projectID){
-    const sql = 'SELECT * FROM project WHERRE id=$1'
+    async oneProject(projectId){
+    const sql = 'SELECT * FROM project WHERE id=$1'
     try {
-        const result = await pool.query(sql, [projectID]);
+        const result = await pool.query(sql, [projectId]);
         return result.rows[0];
     } catch (error) {
         console.error(error);
@@ -27,15 +27,15 @@ const projectDatamapper = {
     async create (body){
         const sql =  `INSERT INTO project (name, exerpt, description, start_date, end_date)VALUES($1, $2, $3, $4, $5)`
         body = { 
-            name : body.route,
+            name : body.name,
             exerpt : body.exerpt,
             description : body.description,
             start_date : body.start_date,
             end_date : body.end_date
         };
     try {
-        const result = await client.query(sql, [body.name, body.exerpt, body.description, body.start_date, body.end_date]);
-        return result.row;
+        const result = await pool.query(sql, [body.name, body.exerpt, body.description, body.start_date, body.end_date]);
+        return result.rows[0];
     } catch (error) {
         console.error(error);
     }

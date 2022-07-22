@@ -6,13 +6,16 @@ const projectController = require('../controller/projectController')
 
 
 //GET
-//router.get('/user',)
-// projectRouter.get('/',(_, res) => {
-//     res.send('hello')
-// })
 projectRouter.get('/projects',projectController.fetchAllProject);
+projectRouter.get('/project/:id(\\d+)',projectController.fetchOneProject);
 
 //POST
-// projectRouter.post('/user/create',userController.create);
+projectRouter.post('/project',projectController.creatProject);
+
+//DELETE
+projectRouter.delete('/project/:id(\\d+)',projectController.deleteProject);
+
+//PATCH
+
 
 module.exports = projectRouter ;

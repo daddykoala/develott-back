@@ -42,7 +42,17 @@ const userDatamapper = {
         };
         },
 
-        async foundUser (email) {
+        async foundUserById (userId){
+        const sql = 'SELECT * FROM public.user WHERE id=$1'
+        try {
+            const result = await pool.query(sql, [userId]);
+            return result.rows[0];
+        } catch (error) {
+            console.error(error);
+        };
+        },
+
+        async foundUserBymail (email) {
         const sql = ''
         const result = await pool.query(`SELECT email, password
         FROM public."user" where email = '${email}'`)
