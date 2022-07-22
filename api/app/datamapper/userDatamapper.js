@@ -72,75 +72,24 @@ const userDatamapper = {
         };
            
         },
-        
-        async update (body, userId){
-            const sql = `UPDATE public.user SET 
-            firstname = $1,
-            lastname = $2,
-            password = $3,
-            email = $4,
-            city = $5,
-            description = $6,
-            profil_picture = $7,
-            username_gith = $8,
-            url_github = $9,
-            url_gitlab = $10,
-            url_portfolio = $11,
-            url_linkedin = $12
-            WHERE id ='${userId}' RETURNING id`
-            value = [
-                firstname = body.firstname,
-                lastname = body.lastname,
-                password = body.password,
-                email = body.email,
-                city = body.city,
-                description = body.description,
-                profil_picture = body.profil_picture,
-                username_gith = body.username_gith,
-                url_github = body.url_github,
-                url_gitlab = body.url_gitlab,
-                url_portfolio = body.url_portfolio,
-                url_linkedin = body.url_linkedin
-            ];
-            try {
-                const result = await pool.query(sql, value);
-                return result.rows[0];
-            } catch (error) {
-                console.error(error);
-            }
+
+        async update(body, userId) {
+            console.log(body);
+            const fields = Object.keys(body).map((prop, index) => `"${prop}" = $${index + 1}`);
+            console.log(fields);
+            const values = Object.values(body);
+            console.log(values);
+            const savedPost = await pool.query(
+                `
+                    UPDATE public.user SET
+                        ${fields}
+                    WHERE id = $${fields.length + 1}
+                    RETURNING *
+                `,
+                [...values, userId],
+            );
+            return savedPost.rows[0];
         }
-
-
-// update() {
-//     const query = {
-//         text: `UPDATE "user" SET
-//             "firstname" = $1,
-//             "lastname" = $2,
-//             "email" = $3,
-//             "password" = $4
-//             WHERE id = $5 RETURNING id`,
-//         values: [
-//             this.firstname,
-//             this.lastname,
-//             this.email,
-//             this.password,
-//             this.id,
-//         ],
-//     };
-//     client.query(query, (err, result) => {
-//         if (err) {
-//             return err;
-//         }
-
-//         if (!result.rowCount) {
-//             return console.log('Update did not target any rows', this);
-//         }
-
-
-// au moins une ligne a été modifié => tout va bien !
-//         return console.log(this);
-//     });
-// }
 };
 
 module.exports = userDatamapper;
