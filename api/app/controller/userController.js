@@ -9,7 +9,7 @@ const userController = {
     async create (req,res) {
         
         const data = req.body;
-        console.log(data);
+        
         const result = await userDatamapper.createUser(data);
         res.json(result)
         //todo comment generer le token a la création du profil plusierus response possible ?

@@ -11,11 +11,11 @@ const userDatamapper = {
         //     const job_id = await getJobId(req.job_name)
         //     console.log('lllooo',job_id);
         //todo vérifier que le user n'existe pas deja 
-        console.log(req.email);
+        
         const userExist = await pool.query(`SELECT email, password
         FROM public."user" where email = '${req.email}'`)
         
-        console.log(userExist);
+        
         if  (userExist.email === req.email ) {
           res.status(401).send("un utilisateur est déjâ enregistré avec cet email");
             return;
@@ -53,8 +53,6 @@ const userDatamapper = {
         },
 
         async foundUserBymail (email) {
-        const sql = ''
-        const result = await pool.query(`SELECT email, password
 
         const result = await pool.query(`SELECT *
 
