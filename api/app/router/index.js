@@ -5,9 +5,11 @@ const router = express.Router();
 
 //variable de nos modules
 const userRouter = require("./routerUser");
+const projectRouter = require("./routerProject");
 
 // gersion de l'api
 router.use("/v1", userRouter);
+router.use("/v1",projectRouter);
 
 
 

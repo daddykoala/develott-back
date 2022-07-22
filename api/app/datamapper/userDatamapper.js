@@ -30,38 +30,64 @@ const userDatamapper = {
                 req.url_linkedin]
 
             const result = await pool.query(sql, values);
-         
         },
-        
-        async foundUser (email) {
 
+        async allUser (){
+        const sql = 'SELECT * FROM public.user'
+        try {
+            const result = await pool.query(sql);
+            return result.rows;
+        } catch (error) {
+            console.error(error);
+        };
+        },
+
+        async foundUserById (userId){
+        const sql = 'SELECT * FROM public.user WHERE id=$1'
+        try {
+            const result = await pool.query(sql, [userId]);
+            return result.rows[0];
+        } catch (error) {
+            console.error(error);
+        };
+        },
+
+        async foundUserBymail (email) {
+        const sql = ''
         const result = await pool.query(`SELECT email, password
+
+        const result = await pool.query(`SELECT *
+
         FROM public."user" where email = '${email}'`)
         
         return result.rows[0]
 
-    }
-}
+        },
+
+        async destroy (userId){
+        const sql = `DELETE FROM public.user WHERE id=$1`
+        try {
+            const result = await pool.query(sql, [userId]);
+            return result.rows[0];
+        } catch (error) {
+            console.error(error);
+        };
+           
+        },
         
-
-            
-
-            
-
-
-    
-
-
-
-
-
-
-
-
-    
-
-
-
-
+        async update (body){
+            try {
+                const sql = `UPDATE public.user SET (firstname, lastname, password, email, city, description, profil_picture, username_gith, url_github, url_gitlab, url_portfolio, url_linkedin)
+                VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)`;
+                body = {
+                    
+                }
+                const result = await pool.query(sql, values);
+                return result.rows[0];
+            } catch (error) {
+                console.error(error);
+            }
+        }
+};
 
 module.exports = userDatamapper;
