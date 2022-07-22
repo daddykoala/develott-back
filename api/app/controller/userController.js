@@ -12,13 +12,16 @@ const userController = {
     async create (req,res) {
         
         const data = req.body;
+        console.log(data);
          const verificationLink = crypto.randomBytes(32).toString("hex")
 
         //TODO créer l'utilisateur en bdd + la verificationLink
         const result = await userDatamapper.createUser(data,verificationLink);
+        const user = await userDatamapper.foundUserBymail(data.email);
+        console.log("user= ",user);
 
 
-        const message = `http://localhost:3001/v1/user/verify/${data.email}/${verificationLink}` 
+        const message = `http://localhost:3001/v1/user/verify/${user.id}/${verificationLink}` 
         
 
         await postMail(data.email, message)
@@ -29,16 +32,22 @@ const userController = {
 
     async checkVerificationLink(req, res){
       const data = req.params
+      console.log(data);
       const userEmail = data.id
+      console.log(userEmail,"1");
       const userVerificationLink=data.verificationLink
 
       //TODO check dans base si l'email (userId) existe ET le lien de vérification
       //si utilisateur n'existe pas : res.status(400).send("Lien invalide")
-      const result = await userdatamapper.verificationLink(userEmail,userVerificationLink);
+      const result = await userDatamapper.verificationLink(userEmail,userVerificationLink);
+      console.log(result,"3");
       if (result){        
         //TODO update l'utilisateur : on supprime le verificationLink + on passe Verified à true
-        await userdatamapper.deleteLinkEmail(userVerificationLink);
-        await userdatamapper.updatesStatus(useremail);
+        const valideleted = await userDatamapper.deleteLinkEmail(userVerificationLink);
+        console.log(valideleted,"5");
+
+        const updated = await userDatamapper.updatesStatus(useremail);
+        console.log(updated);
 
         res.status(200).redirect("http://localhost:3000/connexion")
 

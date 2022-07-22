@@ -6,14 +6,13 @@ const { getJobId } = require('./jobDatamapper');
 const userDatamapper = {
 
         async createUser(req,validationlink, res) {
-            console.log(req.body,validationlink,"1");
         //todo creer la requete imbriquer pour chopper le job_id
         //     console.log(req.body);
         //     const job_id = await getJobId(req.job_name)
         //     console.log('lllooo',job_id);
         //todo vérifier que le user n'existe pas deja 
         
-        const userExist = await pool.query(`SELECT email, password
+        const userExist = await pool.query(`SELECT email, password, id
         FROM public."user" where email = '${req.email}'`)
         
         
@@ -31,8 +30,8 @@ const userDatamapper = {
                 req.url_linkedin, validationlink]
 
             const result = await pool.query(sql, values);
-            console.log(result.rows[0]);
-            return result.rows[0]
+            
+            return result
         },
 
         async allUser (){
@@ -90,12 +89,24 @@ const userDatamapper = {
             }
         },
 
-        async deleteLinkEmail (userEmail,userVerificationLink) {
+        async verificationLink (id) {
+            
+            const result = await pool.query(`SELECT validationlink,email
+    
+            FROM public."user" where id = '${id}'`)
+            console.log(result.rows[0]);
+            return result.rows[0]
+        },
+            
+    
 
-            sql=`SELECT email,verificationlink FROM public.user WHERE email=$1 AND verificationlink = $2`;
-            values=userEmail,userVerificationLink;
+        async deleteLinkEmail (userEmail) {
+
+            sql=`DELETE validationlink FROM public.user WHERE email=$1 `;
+            values=userEmail;
 
             const result = await pool.query(sql,[values]);
+            console.log(result.rows,"4");
             return result.rows
         },
 
@@ -105,6 +116,8 @@ const userDatamapper = {
             values=userEmail,userVerificationLink;
 
             const result = await pool.query(sql,[values]);
+            console.log(result.rows,"6");
+
             return result.rows
         },
 
