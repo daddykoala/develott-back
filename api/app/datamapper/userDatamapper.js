@@ -73,19 +73,15 @@ const userDatamapper = {
            
         },
         
-        async update (body,userId){
-            
+        async update (body, userId){
+            const sql = `UPDATE public.user SET 
+            firstname = $1
+            WHERE id ='${userId}' RETURNING id`
+            value = [
+                firstname = body.firstname
+            ];
             try {
-                const query = {
-
-                    text : `UPDATE public.user SET 
-                    "firstname" = $1
-                     WHERE id ='${userId}' RETURNING id`,
-                    values : [
-                    body.firstname
-                    ],
-                };
-                const result = await pool.query(query, userId);
+                const result = await pool.query(sql, value);
                 return result.rows[0];
             } catch (error) {
                 console.error(error);
@@ -118,7 +114,8 @@ const userDatamapper = {
 //             return console.log('Update did not target any rows', this);
 //         }
 
-//         // au moins une ligne a été modifié => tout va bien !
+
+// au moins une ligne a été modifié => tout va bien !
 //         return console.log(this);
 //     });
 // }
