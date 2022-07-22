@@ -1,6 +1,8 @@
 const userDatamapper = require ('../datamapper/userDatamapper');
 const bcrypt = require('bcrypt');
 const { generateAccessToken, generateRefreshToken } = require('../service/jsonwebToken');
+const crypto = require('crypto');
+const postMail = require("../service/nodemailerService.js")
 
 
 
@@ -9,11 +11,38 @@ const userController = {
     async create (req,res) {
         
         const data = req.body;
+         const verificationLink = crypto.randomBytes(32).toString("hex")
+
+        //TODO créer l'utilisateur en bdd + la verificationLink
+        const result = await userDatamapper.createUser(data,verificationLink);
+
+
+        const message = `http://localhost:3001/v1/user/verify/${data.email}/${verificationLink}` 
         
-        const result = await userDatamapper.createUser(data);
-        res.json(result)
+
+        await postMail(data.email, message)
+
+        res.status(200).json(result)
         //todo comment generer le token a la création du profil plusierus response possible ?
     },
+
+    async checkVerificationLink(req, res){
+      const data = req.params
+      const userEmail = data.id
+      const userVerificationLink=data.verificationLink
+
+      //TODO check dans base si l'email (userId) existe ET le lien de vérification
+      //si utilisateur n'existe pas : res.status(400).send("Lien invalide")
+      
+      
+      
+      //TODO update l'utilisateur : on supprime le verificationLink + on passe Verified à true
+      //
+
+      res.status(200).redirect("http://localhost:3000/connexion")
+    },
+
+
 
     async fetchAllUser(_,res) {
       try {
@@ -61,7 +90,7 @@ const userController = {
         const password = req.body.password;
         console.log(password);
     
-        const foundUser = await userDatamapper.foundUser(email);
+        const foundUser = await userDatamapper.foundUserBymail(email);
         console.log(foundUser.email);
         console.log(foundUser.password);
         if (foundUser.email !== email) {

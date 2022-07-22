@@ -5,7 +5,8 @@ const { getJobId } = require('./jobDatamapper');
 
 const userDatamapper = {
 
-        async createUser(req, res) {
+        async createUser(req,validationlink, res) {
+            console.log(req.body,validationlink,"1");
         //todo creer la requete imbriquer pour chopper le job_id
         //     console.log(req.body);
         //     const job_id = await getJobId(req.job_name)
@@ -23,13 +24,15 @@ const userDatamapper = {
             const encryptedPassword = (await bcrypt.hash(req.password,10));
             
 
-            const sql = `INSERT INTO public.user( firstname, lastname, password, email, city, description, profil_picture, username_gith, url_github, url_gitlab, url_portfolio, url_linkedin)
-            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)`;
+            const sql = `INSERT INTO public.user( firstname, lastname, password, email, city, description, profil_picture, username_gith, url_github, url_gitlab, url_portfolio, url_linkedin, validationlink)
+            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)`;
 
             const values = [req.firstname, req.lastname, encryptedPassword, req.email, req.city, req.description, req.profil_picture, req.username_gith, req.url_github, req.url_gitlab, req.url_portfolio,
-                req.url_linkedin]
+                req.url_linkedin, validationlink]
 
             const result = await pool.query(sql, values);
+            console.log(result.rows[0]);
+            return result.rows
         },
 
         async allUser (){

@@ -16,6 +16,7 @@ const validate = createValidator()
 
 //GET
 userRouter.get('/users',userController.fetchAllUser);
+userRouter.get('/user/verify/:id/:verificationLink', userController.checkVerificationLink)
 userRouter.get('/user/:id(\\d+)',userController.fetchOneUserById);
 userRouter.get('/user/:email',userController.fetchOneUserBymail);
 
