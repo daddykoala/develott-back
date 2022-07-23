@@ -6,7 +6,7 @@ const schemaCreateUser = Joi.object({
     lastname : Joi.string()
                 .required(),
     password : Joi.string()
-               .pattern(/^(?=.[a-z])(?=.[A-Z])(?=.[0-9])(?=.[!@#$%^&*])(?=.{8,})/)
+               .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*"'()+,-./:;<=>?[\]^_`{|}~])(?=.{8,})/)
                .required(),
     email : Joi.string()
             .pattern(/^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/)

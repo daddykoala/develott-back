@@ -35,7 +35,7 @@ userRouter.get('/home',authenticateToken, (_, res) => {
  */
 userRouter.get('/user/refreshToken', refreshTokenController.handleRefreshToken);
 userRouter.get('/user/logout', logoutController.handleLogout);
-userRouter.post('/user/create',userController.create);
+userRouter.post('/user/create',validate.body(createUser),userController.create);
 userRouter.post('/user/login', userController.logIn);
 
 
