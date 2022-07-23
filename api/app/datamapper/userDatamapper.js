@@ -72,8 +72,8 @@ const userDatamapper = {
         } catch (error) {
             console.error(error);
         };
-           
-        },
+    },
+
         
         async update (body){
             try {
@@ -89,39 +89,37 @@ const userDatamapper = {
             }
         },
 
+        
         async verificationLink (id) {
             
             const result = await pool.query(`SELECT validationlink,email
-    
-            FROM public."user" where id = '${id}'`)
-            console.log(result.rows[0]);
+            FROM public."user" where id = '${id}'`);
             return result.rows[0]
         },
-            
     
+            
+        async deleteLinkEmail (id) {
 
-        async deleteLinkEmail (userEmail) {
-
-            sql=`DELETE validationlink FROM public.user WHERE email=$1 `;
-            values=userEmail;
-
+            sql=`UPDATE public."user" SET validationlink =' ' WHERE id=$1`;
+            values=id;
             const result = await pool.query(sql,[values]);
-            console.log(result.rows,"4");
-            return result.rows
-        },
-
-        async updatesStatus (userEmail) {
-
-            sql=`SELECT email,verificationlink FROM public.user WHERE email=$1 AND verificationlink = $2`;
-            values=userEmail,userVerificationLink;
-
-            const result = await pool.query(sql,[values]);
-            console.log(result.rows,"6");
-
-            return result.rows
+            return result
         },
 
 
-};
+        async updatesStatus (id) {
+
+            sql=`UPDATE public."user" SET validate ='true' WHERE id=$1`;
+            values=id;
+            const result = await pool.query(sql,[values]);
+            return 
+        },
+    };
 
 module.exports = userDatamapper;
+            
+
+
+
+
+
