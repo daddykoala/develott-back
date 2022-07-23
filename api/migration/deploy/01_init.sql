@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS "user"
     profil_picture TEXT COLLATE pg_catalog."default",
     is_active BOOLEAN ,
     validate BOOLEAN DEFAULT 'false',
+    validationlink TEXT COLLATE pg_catalog."default",
     username_gith TEXT COLLATE pg_catalog."default",
     url_github TEXT COLLATE pg_catalog."default",
     url_gitlab TEXT COLLATE pg_catalog."default",

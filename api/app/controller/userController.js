@@ -4,6 +4,7 @@ const { generateAccessToken, generateRefreshToken } = require('../service/jsonwe
 const crypto = require('crypto');
 const postMail = require("../service/nodemailerService.js");
 const { update } = require('../datamapper/userDatamapper');
+const { log } = require('console');
 
 
 
@@ -20,7 +21,7 @@ const userController = {
 
         const user = await userDatamapper.foundUserBymail(data.email);
         
-        const message = `http://localhost:3001/v1/user/verify/${user.id}/${verificationLink}` 
+        const message = `http://localhost:5000/v1/user/verify/${user.id}/${verificationLink}` 
 
         await postMail(data.email, message)
         res.status(200).json(result)
@@ -36,18 +37,19 @@ const userController = {
       //si utilisateur n'existe pas : res.status(400).send("Lien invalide")
       const result = await userDatamapper.verificationLink(userId,userVerificationLink);
 
-      if (result){        
-        //TODO update l'utilisateur : on supprime le verificationLink + on passe Verified à true
-        const valideleted = await userDatamapper.deleteLinkEmail(userId);
-        console.log(valideleted,"5");
-
-        const updated = await userDatamapper.updatesStatus(userId);
-        console.log(updated);
-
-        res.status(200).redirect("http://localhost:3000/connexion")
-
+      if (!result){        
+        
+        res.status(400).send("Lien invalide")
+        
       }
-      res.status(400).send("Lien invalide")
+      //TODO update l'utilisateur : on supprime le verificationLink + on passe Verified à true
+      const valideleted = await userDatamapper.deleteLinkEmail(userId);
+      
+
+      const updated = await userDatamapper.updatesStatus(userId);
+      
+
+      res.status(200).redirect("http://localhost:5000/v1/")
     },
       
 
@@ -107,7 +109,7 @@ const userController = {
       
       const email = req.body.email;
       const password = req.body.password;
-      
+      console.log(email)
       const foundUser = await userDatamapper.foundUserBymail(email);
   
       if (foundUser.email !== email) {
@@ -127,8 +129,8 @@ const userController = {
     
       //? Est-ce qu'on stocke le refreshToken en bdd ?
       
-      // res.cookie("jwt", refreshToken, {httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
-      res.cookie("jwt", refreshToken, {httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 })
+      res.cookie("jwt", refreshToken, {httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
+      //res.cookie("jwt", refreshToken, {httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 })
       res.status(200).json({accessToken, foundUser}) 
       }})       
       }

@@ -55,6 +55,8 @@ const userDatamapper = {
         },
 
         async foundUserBymail (email) {
+            console.log(email
+            );
 
         const sql = `SELECT * FROM public.user WHERE email = '${email}'`
         try {
@@ -93,8 +95,8 @@ const userDatamapper = {
                 [...values, userId],
             );
             return savedPost.rows[0];
-        }
-    },
+        },
+    
 
         async verificationLink (id) {
             
@@ -105,23 +107,24 @@ const userDatamapper = {
     
             
         async deleteLinkEmail (id) {
+            
 
             sql=`UPDATE public."user" SET validationlink =' ' WHERE id=$1`;
             values=id;
             const result = await pool.query(sql,[values]);
-            return result
+            return 
         },
 
 
         async updatesStatus (id) {
-
+            console.log(id);
             sql=`UPDATE public."user" SET validate ='true' WHERE id=$1`;
             values=id;
             const result = await pool.query(sql,[values]);
+            console.log('voilivoilou')
             return 
         },
     };
 
 module.exports = userDatamapper;
-           
 
