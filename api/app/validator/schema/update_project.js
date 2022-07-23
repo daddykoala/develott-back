@@ -1,6 +1,6 @@
 const Joi = require ('joi');
 
-const schemaProject = Joi.object({
+const schemaUpdateProject = Joi.object({
     name : Joi.string(),
     description : Joi.string(),
     start_date : Joi.date().greater('now'),
@@ -12,4 +12,4 @@ const schemaProject = Joi.object({
     url_trello : Joi.string(),
 }).min(1).required();
 
-module.exports = schemaproject;
+module.exports = schemaUpdateProject;

@@ -4,7 +4,7 @@ const schemaUpdateUser = Joi.object({
     firstname : Joi.string(),
     lastname : Joi.string(),
     password : Joi.string()
-               .pattern(/^(?=.[a-z])(?=.[A-Z])(?=.[0-9])(?=.[!@#$%^&*])(?=.{8,})/),
+               .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*"'()+,-./:;<=>?[\]^_`{|}~])(?=.{8,})/),
     email : Joi.string()
             .pattern(/^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/),
     city : Joi.string(),

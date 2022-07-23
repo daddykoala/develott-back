@@ -1,6 +1,9 @@
 const userDatamapper = require ('../datamapper/userDatamapper');
 const bcrypt = require('bcrypt');
 const { generateAccessToken, generateRefreshToken } = require('../service/jsonwebToken');
+const crypto = require('crypto');
+const postMail = require("../service/nodemailerService.js");
+const { update } = require('../datamapper/userDatamapper');
 
 
 
@@ -10,10 +13,43 @@ const userController = {
         
         const data = req.body;
         console.log(data);
-        const result = await userDatamapper.createUser(data);
-        res.json(result)
-        //todo comment generer le token a la création du profil plusierus response possible ?
+         const verificationLink = crypto.randomBytes(32).toString("hex")
+
+        //TODO créer l'utilisateur en bdd + la verificationLink
+        const result = await userDatamapper.createUser(data,verificationLink);
+
+        const user = await userDatamapper.foundUserBymail(data.email);
+        
+        const message = `http://localhost:3001/v1/user/verify/${user.id}/${verificationLink}` 
+
+        await postMail(data.email, message)
+        res.status(200).json(result)
+        
     },
+
+    async checkVerificationLink(req, res){
+      const data = req.params
+      const userId = data.id
+      const userVerificationLink=data.verificationLink
+
+      //TODO check dans base si l'email (userId) existe ET le lien de vérification
+      //si utilisateur n'existe pas : res.status(400).send("Lien invalide")
+      const result = await userDatamapper.verificationLink(userId,userVerificationLink);
+
+      if (result){        
+        //TODO update l'utilisateur : on supprime le verificationLink + on passe Verified à true
+        const valideleted = await userDatamapper.deleteLinkEmail(userId);
+        console.log(valideleted,"5");
+
+        const updated = await userDatamapper.updatesStatus(userId);
+        console.log(updated);
+
+        res.status(200).redirect("http://localhost:3000/connexion")
+
+      }
+      res.status(400).send("Lien invalide")
+    },
+      
 
     async fetchAllUser(_,res) {
       try {
@@ -66,37 +102,35 @@ const userController = {
     },
 
     //la generation de token
-    async logIn (req, res) {
-        
-        const email = req.body.email;
-        const password = req.body.password;
 
+    async logIn ( req, res) {
+      
+      const email = req.body.email;
+      const password = req.body.password;
+      
+      const foundUser = await userDatamapper.foundUserBymail(email);
+  
+      if (foundUser.email !== email) {
+        res.status(401).send("invalid credentials");
+        return;
+      }
+      bcrypt.compare(password, foundUser.password, function(err, result) {
+        if(result == false){
+          res.status(401).send("code invalide")
+        return
+       }
+       if(result == true){
+      //*création du JWT
+      const accessToken = generateAccessToken(foundUser.email)
+      //* création du refreshToken
+      const refreshToken = generateRefreshToken(foundUser.email)
     
-        const foundUserBymail = await userDatamapper.foundUserBymail(email);
-
-        if (foundUserBymail.email !== email) {
-          res.status(401).send("invalid credentials");
-          return;
-        }
-        bcrypt.compare(password, foundUserBymail.password, function(err, result) {
-          if(result == false){
-            res.status(401).send("code invalide")
-          return
-         }
-         if(result == true){
-        //*création du JWT
-        const accessToken = generateAccessToken(foundUserBymail.email)
-        //* création du refreshToken
-        const refreshToken = generateRefreshToken(foundUserBymail.email)
-
-        //? Est-ce qu'on stocke le refreshToken en bdd ?
-        
-        res.cookie("jwt", refreshToken, {httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
-        //res.cookie("jwt", refreshToken, {httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 })
-        res.status(200).json({accessToken, foundUserBymail}) 
-        }})       
-
-        }
-};     
+      //? Est-ce qu'on stocke le refreshToken en bdd ?
+      
+      // res.cookie("jwt", refreshToken, {httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
+      res.cookie("jwt", refreshToken, {httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 })
+      res.status(200).json({accessToken, foundUser}) 
+      }})       
+      }
+    };     
 module.exports = userController ;
-

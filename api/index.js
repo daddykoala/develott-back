@@ -30,5 +30,5 @@ const SERVER_PORT = process.env.SERVER_PORT || 5000;
 
 app.listen(SERVER_PORT, () => {console.log(`Server running on http://localhost:${SERVER_PORT}`)});
 
-// app.listen(SERVER_PORT, () => {console.log('Server running on http://localhost:3001/api-docs')});
 
+// app.listen(SERVER_PORT, () => {console.log('Server running on http://localhost:3001/api-docs')});
