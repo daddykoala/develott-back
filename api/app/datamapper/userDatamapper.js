@@ -56,11 +56,13 @@ const userDatamapper = {
 
         async foundUserBymail (email) {
 
-        const result = await pool.query(`SELECT *
-
-        FROM public."user" where email = '${email}'`)
-        
-        return result.rows[0]
+        const sql = `SELECT * FROM public.user WHERE email = '${email}'`
+        try {
+            const result = await pool.query(sql)
+            return result.rows[0]
+        } catch (error) {
+            console.error(error);
+        }
 
         },
 
@@ -71,25 +73,29 @@ const userDatamapper = {
             return result.rows[0];
         } catch (error) {
             console.error(error);
-        };
-    },
-
-        
-        async update (body){
-            try {
-                const sql = `UPDATE public.user SET (firstname, lastname, password, email, city, description, profil_picture, username_gith, url_github, url_gitlab, url_portfolio, url_linkedin)
-                VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)`;
-                body = {
-                    
-                }
-                const result = await pool.query(sql, values);
-                return result.rows[0];
-            } catch (error) {
-                console.error(error);
-            }
+        }
+       
         },
 
-        
+        async update(body, userId) {
+            console.log(body);
+            const fields = Object.keys(body).map((prop, index) => `"${prop}" = $${index + 1}`);
+            console.log(fields);
+            const values = Object.values(body);
+            console.log(values);
+            const savedPost = await pool.query(
+                `
+                    UPDATE public.user SET
+                        ${fields}
+                    WHERE id = $${fields.length + 1}
+                    RETURNING *
+                `,
+                [...values, userId],
+            );
+            return savedPost.rows[0];
+        }
+    },
+
         async verificationLink (id) {
             
             const result = await pool.query(`SELECT validationlink,email
@@ -117,9 +123,5 @@ const userDatamapper = {
     };
 
 module.exports = userDatamapper;
-            
-
-
-
-
+           
 

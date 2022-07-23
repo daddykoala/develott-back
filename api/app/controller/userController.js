@@ -90,7 +90,19 @@ const userController = {
       };
     },
 
+    async updateUser (req, res) {
+      const body = req.body;
+      const userId = parseInt(req.params.id, 10);
+      try {
+        const update = await userDatamapper.update(body, userId);
+        return res.json(update);
+      } catch (error) {
+        console.error(error);
+      };
+    },
+
     //la generation de token
+
     async logIn ( req, res) {
       
       const email = req.body.email;
@@ -119,7 +131,6 @@ const userController = {
       res.cookie("jwt", refreshToken, {httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 })
       res.status(200).json({accessToken, foundUser}) 
       }})       
-
-      },
+      }
     };     
 module.exports = userController ;
