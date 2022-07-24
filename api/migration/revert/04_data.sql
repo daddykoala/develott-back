@@ -2,7 +2,7 @@
 
 BEGIN;
 
-TRUNCATE TABLE user_has_project_role, project_has_job, project_has_techno, project, user_has_techno, role, public.user, job;
+TRUNCATE TABLE customer_has_project_role, project_has_job, project_has_techno, project, customer_has_techno, role, customer, job;
 
 
 COMMIT;

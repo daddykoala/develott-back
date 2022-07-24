@@ -2,8 +2,8 @@
 
 BEGIN;
 
-CREATE INDEX index_job ON public.job (name);
-CREATE INDEX index_techno ON public.techno (name);
-CREATE INDEX index_project ON public.project (name, start_date);
+CREATE INDEX index_job ON job (name);
+CREATE INDEX index_techno ON techno (name);
+CREATE INDEX index_project ON project (name, start_date);
 
 COMMIT;
