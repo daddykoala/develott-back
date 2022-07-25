@@ -7,7 +7,6 @@ const {
 const crypto = require("crypto");
 const postMail = require("../service/nodemailerService.js");
 const { update } = require("../datamapper/userDatamapper");
-const { log } = require("console");
 
 const userController = {
 	async create(req, res) {

@@ -1,12 +1,6 @@
 const passport = require("passport");
 const GithubStrategy = require("passport-github2").Strategy;
-
-// 			//TODO ICI on vérifie que le profile.username === github_username
-// 			// const User = await foundByGithubUsername(profile.username)
-// 			// 	console.log(User);
-// 			// 	if(!User){
-// 			// 		res.redirect('/user/create')
-// 			// 	}
+const { foundByGithubUsername } = require("../datamapper/userDatamapper");
 
 passport.use(
 	new GithubStrategy(
@@ -15,9 +9,14 @@ passport.use(
 			clientSecret: "185247a333093dad2aeb7ff26b005cb4d61132ee",
 			callbackURL: "http://localhost:3001/v1/auth/github/callback",
 		},
-		function (accessToken, refreshToken, profile, done) {
-			console.log(profile);
-			done(null, profile);
+		async function (accessToken, refreshToken, profile, done) {
+			// console.log(profile);
+			const User = await foundByGithubUsername(profile._json.login);
+			if (!User) {
+				return done(null, false);
+			}
+
+			return done(null, profile);
 		}
 	)
 );
