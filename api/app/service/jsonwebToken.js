@@ -2,6 +2,9 @@ const jwt = require('jsonwebtoken');
 
 function generateAccessToken(user) {
     //on crée le token en donnat le secret
+    console.log(process.env.ACCESS_TOKEN_SECRET);
+    console.log(user);
+    console.log("ici");
     return jwt.sign({user: user}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: `30s` });
 }
 

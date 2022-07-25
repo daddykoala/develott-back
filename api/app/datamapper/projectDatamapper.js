@@ -61,15 +61,7 @@ const projectDatamapper = {
     };
     }
 
-//     const savedPost = await client.query(
-            
-//         UPDATE post SET
-//             ${fields}
-//         WHERE id = $${fields.length + 1}
-//         RETURNING *
-//     ,
-//     [...values, id],
-// );
+
 };
 
 module.exports = projectDatamapper;
