@@ -1,22 +1,22 @@
-const express = require ('express');
+const passport = require("passport");
+const express = require("express");
 const gitRouter = express.Router();
 //module
-const passport = require("passport");
-
-//variable d'nvironnement git
-const gitConfig = require('../service/passport')
 
 //ROUTER API
-const CLIENT_URL = "http://localhost:3001/v1";
-
-gitRouter.get("/auth/github", passport.authenticate("github", { scope: ["profile"] }));
+const CLIENT_URL = "http://localhost:3000";
 
 gitRouter.get(
-    "/github/callback",
-    passport.authenticate("github", {
-        successRedirect: CLIENT_URL,
-        failureRedirect: "/login/failed",
-    })
+	"/auth/github",
+	passport.authenticate("github", { scope: ["profile"] })
+);
+
+gitRouter.get(
+	"/auth/github/callback",
+	passport.authenticate("github", {
+		successRedirect: CLIENT_URL,
+		failureRedirect: "/login/failed",
+	})
 );
 
 gitRouter.get("/login/success", (req, res) => {
@@ -30,13 +30,11 @@ gitRouter.get("/login/success", (req, res) => {
 		res.status(403).json({ message: "no user" });
 	}
 });
-gitRouter.get("/login/failed", (req, res) => {
+gitRouter.get("/login/failed", (_, res) => {
 	res.status(401).json({
 		success: false,
 		message: "failure",
 	});
 });
 
-
-
-module.exports = gitRouter ;
+module.exports = gitRouter;
