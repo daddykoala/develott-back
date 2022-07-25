@@ -29,6 +29,10 @@ userRouter.get(
 	"/user/verify/:id/:verificationLink",
 	userController.checkVerificationLink
 );
+userRouter.get(
+	"/user/verifyPassword/:id/:verificationLink",
+	userController.checkPasswordResetLink
+);
 userRouter.get("/user/:id(\\d+)", userController.fetchOneUserById);
 userRouter.get("/user/:email", userController.fetchOneUserBymail);
 
@@ -53,6 +57,8 @@ userRouter.post(
 	userController.create
 );
 userRouter.post("/user/login", userController.logIn);
+userRouter.post("/user/forgotPassword", userController.createResetPasswordLink);
+userRouter.post("/user/newPassword", userController.updatePassword);
 
 //PATCH
 userRouter.patch("/user/:id", userController.updateUser);

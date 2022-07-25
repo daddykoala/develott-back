@@ -6,6 +6,7 @@ const {
 } = require("../service/jsonwebToken");
 const crypto = require("crypto");
 const postMail = require("../service/nodemailerService.js");
+const resetPasswordMail = require("../service/nodemailerPasswordService.js");
 const { update } = require("../datamapper/userDatamapper");
 
 const userController = {
@@ -16,9 +17,7 @@ const userController = {
 
 		//TODO créer l'utilisateur en bdd + la verificationLink
 		const result = await userDatamapper.createUser(data, verificationLink);
-
 		const user = await userDatamapper.foundUserBymail(data.email);
-
 		const message = `http://localhost:3001/v1/user/verify/${user.id}/${verificationLink}`;
 
 		await postMail(data.email, message);
@@ -46,6 +45,56 @@ const userController = {
 		const updated = await userDatamapper.updatesStatus(userId);
 
 		res.status(200).redirect("http://localhost:3000/connexion/");
+	},
+
+	async createResetPasswordLink(req, res) {
+		const email = req.body.email;
+
+		const verificationLink = crypto.randomBytes(32).toString("hex");
+		const user = await userDatamapper.foundUserBymail(email);
+
+		const updateLink = await userDatamapper.updatesValidationLink(
+			verificationLink,
+			user.id
+		);
+
+		const message = `http://localhost:3001/v1/user/verifyPassword/${user.id}/${verificationLink}`;
+
+		await resetPasswordMail(email, message);
+		res.status(200).json("ok");
+	},
+
+	async checkPasswordResetLink(req, res) {
+		const data = req.params;
+		const userId = data.id;
+		const userVerificationLink = data.verificationLink;
+
+		//TODO check dans base si l'email (userId) existe ET le lien de vérification
+		//si utilisateur n'existe pas : res.status(400).send("Lien invalide")
+		const result = await userDatamapper.verificationLink(
+			userId,
+			userVerificationLink
+		);
+
+		if (!result) {
+			res.status(400).send("Lien invalide");
+		}
+		//TODO update l'utilisateur : on supprime le verificationLink + on passe Verified à true
+		const valideleted = await userDatamapper.deleteLinkEmail(userId);
+
+		res.status(200).redirect(`http://localhost:3000/newpassword/${userId}`);
+	},
+
+	async updatePassword(req, res) {
+		const newPassword = req.body.password;
+		const userId = Number(req.body.userId);
+		console.log(req.body);
+		const resetPassword = await userDatamapper.updatePassword(
+			newPassword,
+			userId
+		);
+
+		res.sendStatus(200);
 	},
 
 	async fetchAllUser(_, res) {

@@ -134,6 +134,26 @@ const userDatamapper = {
 		console.log("voilivoilou");
 		return;
 	},
+
+	async updatesValidationLink(validationLink, id) {
+		console.log(id);
+		sql = `UPDATE public."customer" SET validation_link =$1 WHERE id=$2`;
+
+		const values = [validationLink, id];
+		const result = await pool.query(sql, values);
+
+		return;
+	},
+	async updatePassword(newPassword, id) {
+		console.log(newPassword, id);
+		const encryptedPassword = await bcrypt.hash(newPassword, 10);
+
+		sql = `UPDATE public."customer" SET password =$1 WHERE id=$2`;
+		const values = [encryptedPassword, id];
+		const result = await pool.query(sql, values);
+
+		return;
+	},
 };
 
 module.exports = userDatamapper;
