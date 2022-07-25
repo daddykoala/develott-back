@@ -13,7 +13,7 @@ const userDatamapper = {
         //todo vérifier que le user n'existe pas deja 
         
         const userExist = await pool.query(`SELECT email, password, id
-        FROM public."user" where email = '${req.email}'`)
+        FROM public."customer" where email = '${req.email}'`)
         
         
         if  (userExist.email === req.email ) {
@@ -23,7 +23,7 @@ const userDatamapper = {
             const encryptedPassword = (await bcrypt.hash(req.password,10));
             
 
-            const sql = `INSERT INTO customer( firstname, lastname, password, email, city, description, profil_picture, username_gith, url_github, url_gitlab, url_portfolio, url_linkedin, validationlink)
+            const sql = `INSERT INTO customer( firstname, lastname, password, email, city, description, profil_picture, username_gith, url_github, url_gitlab, url_portfolio, url_linkedin, validation_link)
             VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)`;
 
             const values = [req.firstname, req.lastname, encryptedPassword, req.email, req.city, req.description, req.profil_picture, req.username_gith, req.url_github, req.url_gitlab, req.url_portfolio,
@@ -68,6 +68,23 @@ const userDatamapper = {
 
         },
 
+        async foundByGithubUsername (username) {
+            console.log(username);
+
+        const sql = `SELECT * FROM customer WHERE username_gith=$1`
+        
+        try {
+            const result = await pool.query(sql,[username])
+            console.log(result.rows);
+            return result.rows[0]
+        } catch (error) {
+            console.error(error);
+        }
+
+        },
+
+        
+
         async destroy (userId){
         const sql = `DELETE FROM customer WHERE id=$1`
         try {
@@ -98,8 +115,8 @@ const userDatamapper = {
 
         async verificationLink (id) {
             
-            const result = await pool.query(`SELECT validationlink,email
-            FROM public."user" where id = '${id}'`);
+            const result = await pool.query(`SELECT validation_link,email
+            FROM public."customer" where id = '${id}'`);
             return result.rows[0]
         },
     
@@ -107,7 +124,7 @@ const userDatamapper = {
         async deleteLinkEmail (id) {
             
 
-            sql=`UPDATE public."user" SET validationlink =' ' WHERE id=$1`;
+            sql=`UPDATE public."customer" SET validation_link =' ' WHERE id=$1`;
             values=id;
             const result = await pool.query(sql,[values]);
             return 
@@ -116,7 +133,7 @@ const userDatamapper = {
 
         async updatesStatus (id) {
             console.log(id);
-            sql=`UPDATE public."user" SET validate ='true' WHERE id=$1`;
+            sql=`UPDATE public."customer" SET validate ='true' WHERE id=$1`;
             values=id;
             const result = await pool.query(sql,[values]);
             console.log('voilivoilou')

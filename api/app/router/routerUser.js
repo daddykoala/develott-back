@@ -7,6 +7,7 @@ const userController = require('../controller/userController');
 const { handleRefreshToken } = require('../controller/refreshTokenController');
 const refreshTokenController = (require('../controller/refreshTokenController'))
 const logoutController = (require('../controller/logoutController'))
+const passport = require("passport")
 
 //validation des données
 const { createProject, updateUser, createUser, updateProject } = require('../validator/schema/index');
@@ -14,10 +15,15 @@ const { createValidator } = require('express-joi-validation');
 const validate = createValidator() 
 
 
+
+
+
+
+
 //GET
-userRouter.get('/',(_, res)=>{
-    res.setHeader('Content-Type', 'application/json')
-    res.send("votre feature validtion d'email est terminée")
+userRouter.get('/auth',(_, res)=>{
+    console.log("123");
+    res.render("index")
 });
 userRouter.get('/users',userController.fetchAllUser);
 userRouter.get('/user/verify/:id/:verificationLink', userController.checkVerificationLink)

@@ -21,7 +21,7 @@ const userController = {
 
         const user = await userDatamapper.foundUserBymail(data.email);
         
-        const message = `http://localhost:5000/v1/user/verify/${user.id}/${verificationLink}` 
+        const message = `http://localhost:3001/v1/user/verify/${user.id}/${verificationLink}` 
 
         await postMail(data.email, message)
         res.status(200).json(result)
@@ -49,7 +49,7 @@ const userController = {
       const updated = await userDatamapper.updatesStatus(userId);
       
 
-      res.status(200).redirect("http://localhost:5000/v1/")
+      res.status(200).redirect("http://localhost:3001/v1/")
     },
       
 

@@ -23,12 +23,15 @@ app.use(cookieParser());
 app.use(cors(corsOptions));
 
 //test
-
+app.set('view engine', 'ejs');
+app.set('views', 'app/public');
+app.use(express.static('/app/public'));
 app.use(router);
 
-const SERVER_PORT = process.env.SERVER_PORT || 5000;
 
-app.listen(SERVER_PORT, () => {console.log(`Server running on http://localhost:${SERVER_PORT}`)});
+const SERVER_PORT = process.env.SERVER_PORT || 3001 ;
+
+//app.listen(SERVER_PORT, () => {console.log(`Server running on http://localhost:${SERVER_PORT}`)});
 
 
-// app.listen(SERVER_PORT, () => {console.log('Server running on http://localhost:3001/api-docs')});
+app.listen(SERVER_PORT, () => {console.log('Server running on http://localhost:3001/v1/auth')});
