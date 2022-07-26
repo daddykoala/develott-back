@@ -27,6 +27,11 @@ userRouter.get('/user/:email',userController.fetchOneUserBymail);
 userRouter.get('/home',authenticateToken, (_, res) => {
     res.send('Vous êtes bien connecté')
 })
+
+userRouter.get("/homes", (_, res) => {
+    console.log("123");
+    res.send("index");
+});
 //token
 
 //POST
