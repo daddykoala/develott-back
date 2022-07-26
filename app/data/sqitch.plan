@@ -1,0 +1,7 @@
+%syntax-version=1.0.0
+%project=develott
+
+1.init 2022-07-26T11:50:36Z Etudiant O'clock <student@teleporter> # initialisation des tables
+2.regex 2022-07-26T11:51:14Z Etudiant O'clock <student@teleporter> # add regex
+3.index 2022-07-26T11:51:31Z Etudiant O'clock <student@teleporter> # add index
+4.data 2022-07-26T11:51:42Z Etudiant O'clock <student@teleporter> # add data
