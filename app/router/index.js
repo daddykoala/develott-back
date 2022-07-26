@@ -7,6 +7,8 @@ const router = express.Router();
 const userRouter = require("./routerUser");
 const projectRouter = require("./routerProject");
 
+router.user("/home", "welcome to my kingdom")
+
 // gersion de l'api
 router.use("/v1", userRouter);
 router.use("/v1",projectRouter);
