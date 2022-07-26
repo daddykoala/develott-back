@@ -20,6 +20,7 @@ const { createValidator } = require("express-joi-validation");
 const validate = createValidator();
 
 //GET
+
 userRouter.get("/auth", (_, res) => {
 	console.log("123");
 	res.render("index");
