@@ -10,7 +10,7 @@ projectRouter.get(
 	"/projects",
 	projectController.fetchAllProject
 );
-projectRouter.get("/project/:id(\\d+)", projectController.fetchOneProject);
+projectRouter.get("/project", projectController.fetchOneProject);
 
 //POST
 projectRouter.post("/project", projectController.creatProject);

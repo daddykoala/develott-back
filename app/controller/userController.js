@@ -19,14 +19,13 @@ const userController = {
 		const result = await userDatamapper.createUser(data, verificationLink);
 		const user = await userDatamapper.foundUserBymail(data.email);
 		const message = `http://localhost:3001/v1/user/verify/${user.id}/${verificationLink}`;
-
 		await postMail(data.email, message);
 		res.status(200).json(result);
 	},
 
 	async checkVerificationLink(req, res) {
 		const data = req.params;
-		const userId = data.id;
+		const userId = req.params.id;
 		const userVerificationLink = data.verificationLink;
 
 		//TODO check dans base si l'email (userId) existe ET le lien de vérification
@@ -52,12 +51,10 @@ const userController = {
 
 		const verificationLink = crypto.randomBytes(32).toString("hex");
 		const user = await userDatamapper.foundUserBymail(email);
-
 		const updateLink = await userDatamapper.updatesValidationLink(
 			verificationLink,
 			user.id
 		);
-
 		const message = `http://localhost:3001/v1/user/verifyPassword/${user.id}/${verificationLink}`;
 
 		await resetPasswordMail(email, message);
@@ -107,7 +104,7 @@ const userController = {
 	},
 
 	async fetchOneUserById(req, res) {
-		const userId = parseInt(req.params.id, 10);
+		const userId = req.body.id;
 		try {
 			const foundUserById = await userDatamapper.foundUserById(userId);
 			return res.json(foundUserById);
@@ -127,7 +124,7 @@ const userController = {
 	},
 
 	async deleteUser(req, res) {
-		const userId = parseInt(req.params.id, 10);
+		const userId = req.body.id;
 		try {
 			const destroy = await userDatamapper.destroy(userId);
 			return res.json(destroy);
@@ -138,7 +135,7 @@ const userController = {
 
 	async updateUser(req, res) {
 		const body = req.body;
-		const userId = parseInt(req.params.id, 10);
+		const userId = body.id;
 		try {
 			const update = await userDatamapper.update(body, userId);
 			return res.json(update);
