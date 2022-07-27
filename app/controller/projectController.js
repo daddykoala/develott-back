@@ -44,6 +44,17 @@ const projectController ={
         } catch (error) {
             console.error(error);
         };
-    }
+    },
+
+    async updateProject(req, res) {
+		const body = req.body;
+		const projectId = body.id;
+		try {
+			const update = await userDatamapper.update(body, projectId);
+			return res.json(update);
+		} catch (error) {
+			console.error(error);
+		}
+	},
 };
 module.exports = projectController ;

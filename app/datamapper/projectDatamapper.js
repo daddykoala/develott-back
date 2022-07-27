@@ -51,15 +51,22 @@ const projectDatamapper = {
     };
     },
 
-    async update (){
-    const sql = 'UPDATE project SET'
-    try {
-        const result = await pool.query(sql);
-        return result.rows[0];
-    } catch (error) {
-        console.error(error);
-    };
-    }
+    async update(body, projectId) {
+		const fields = Object.keys(body).map(
+			(prop, index) => `"${prop}" = $${index + 1}`
+		);
+		const values = Object.values(body);
+		const savedPost = await pool.query(
+			`
+                    UPDATE customer SET
+                        ${fields}
+                    WHERE id = $${fields.length + 1}
+                    RETURNING *
+                `,
+			[...values, projectId]
+		);
+		return savedPost.rows[0];
+	},
 
 
 };

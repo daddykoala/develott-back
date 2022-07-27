@@ -11,15 +11,16 @@ projectRouter.get(
 	"/projects",
 	projectController.fetchAllProject
 );
-projectRouter.get("/project", projectController.fetchOneProject);
+projectRouter.get("/project/id(\\d+)", projectController.fetchOneProject);
 
 //POST
 projectRouter.post("/project", projectController.creatProject);
 
 //DELETE
-projectRouter.delete("/project/:id(\\d+)", projectController.deleteProject);
+projectRouter.delete("/project/id(\\d+)", projectController.deleteProject);
 
 //PATCH
+projectRouter.patch("/project/id(\\d+)", projectController.updateProject);
 
 module.exports = projectRouter;
 
