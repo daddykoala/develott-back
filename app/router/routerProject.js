@@ -8,7 +8,6 @@ const { authenticateToken } = require("../service/jsonwebToken");
 //GET
 projectRouter.get(
 	"/projects",
-	authenticateToken,
 	projectController.fetchAllProject
 );
 projectRouter.get("/project/:id(\\d+)", projectController.fetchOneProject);

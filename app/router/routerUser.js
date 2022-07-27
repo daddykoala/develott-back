@@ -25,7 +25,8 @@ userRouter.get("/auth", (_, res) => {
 	console.log("123");
 	res.render("index");
 });
-userRouter.get("/users", userController.fetchAllUser);
+;
+
 userRouter.get(
 	"/user/verify/:id/:verificationLink",
 	userController.checkVerificationLink
@@ -40,18 +41,12 @@ userRouter.get("/user/:email", userController.fetchOneUserBymail);
 userRouter.get("/home", authenticateToken, (_, res) => {
 	res.send("Vous êtes bien connecté");
 });
-//token
 
-//POST
-/**
- * POST /post
- * @tags Articles
- * @descrition lamain dans mon slip
- * @parameters bla bla bla
- *
- */
+userRouter.get("/users", userController.fetchAllUser)
 userRouter.get("/user/refreshToken", refreshTokenController.handleRefreshToken);
 userRouter.get("/user/logout", logoutController.handleLogout);
+
+//POST
 userRouter.post(
 	"/user/create",
 	validate.body(createUser),
