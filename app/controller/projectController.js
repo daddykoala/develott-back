@@ -13,7 +13,9 @@ const projectController ={
     },
     
     async fetchOneProject(req, res){
+
         const projectId = req.body.id;
+
         try {
             const oneProject = await projectDatamapper.oneProject(projectId);
             return res.json(oneProject)
@@ -33,7 +35,9 @@ const projectController ={
     },
 
     async deleteProject (req, res) {
+
         const projectId = req.body.id;
+
         try {
             const destroy = await projectDatamapper.destroy(projectId);
             return res.json(destroy);

@@ -1,3 +1,4 @@
+
 require("dotenv").config();
 const express = require("express");
 const app = express();
@@ -12,8 +13,10 @@ const passport = require("passport");
 const expressJsDocSwagger = require("express-jsdoc-swagger");
 const { options } = require("./app/service/optionDocSwagger");
 
+
 //receptionner le cookies
 const cookieParser = require("cookie-parser");
+
 
 //variable d'environnement
 expressJsDocSwagger(app)(options);
@@ -43,10 +46,9 @@ app.set("views", "app/public");
 app.use(express.static("/app/public"));
 app.use(router);
 
-const SERVER_PORT = process.env.SERVER_PORT;
+const PORT = process.env.PORT || 5000;
 
-//app.listen(SERVER_PORT, () => {console.log(`Server running on http://localhost:${SERVER_PORT}`)});
+app.listen(PORT, () => {console.log(`Server running on http://localhost:${PORT}`)});
 
-app.listen(SERVER_PORT, () => {
-	console.log("Server running on http://localhost:3001/");
-});
+
+// app.listen(SERVER_PORT, () => {console.log(`Server running on http://localhost:${SERVER_PORT}/api-docs`)});

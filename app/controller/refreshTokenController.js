@@ -17,7 +17,9 @@ const handleRefreshToken = (req, res) => {
     }    
 
     const accessToken = generateAccessToken(user)
+
     res.json({ user :user.user , accessToken })   
+
 });
 
   

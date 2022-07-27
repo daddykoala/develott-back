@@ -1,3 +1,4 @@
+
 const pool = require("../db/connect");
 const bcrypt = require("bcrypt");
 const { getJobId } = require("./jobDatamapper");
