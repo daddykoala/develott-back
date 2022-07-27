@@ -1,0 +1,7 @@
+%syntax-version=1.0.0
+%project=develott_sqitch
+
+01_init 2022-07-20T03:08:27Z Etudiant O'clock <student@teleporter> # creat tables
+02_regex 2022-07-20T03:25:47Z Etudiant O'clock <student@teleporter> # add regex
+03_index 2022-07-20T03:26:18Z Etudiant O'clock <student@teleporter> # add index
+04_data 2022-07-20T03:26:44Z Etudiant O'clock <student@teleporter> # add data

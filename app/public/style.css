@@ -1,0 +1,218 @@
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 300;
+    src: local('Open Sans Light'), local('OpenSans-Light'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff) format('woff');
+  }
+  @font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Open Sans'), local('OpenSans'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+  }
+  @font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/MTP_ySUJH_bn48VBG8sNSnhCUOGz7vYGh680lGh-uXM.woff) format('woff');
+  }
+  
+  
+  body{
+    background:#121212;
+  }
+  
+  h1,h2,h3,p,body{
+    color:#343434;
+    font-family: 'Open Sans', sans-serif;
+  }
+  
+  h1,h2,h3,a{
+    text-decoration:none;
+    color:#212121;
+    font-weight:300;
+  }
+  a{
+    font-weight:600;
+  }
+  *{
+     box-sizing:border-box; 
+  }
+  
+  .login{
+    max-width:320px;
+    max-height:320px;
+    height:auto;
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    margin:auto;
+  }
+  
+  #extras{
+   padding:5px;
+  }
+  
+  .widget{
+    text-align:center;
+    padding:10px;
+    background:#fff;
+    border-radius:0px;
+    margin:10px 0;
+    box-shadow:0px 0px 0px 4px rgba(0,0,0,0.3);
+  }
+  
+  hr{
+    border:0;
+    margin:20px 5px;
+    border-top:1px solid #d2c2c6;
+  }
+  .form-control{
+    margin:0px 10px;
+    margin-bottom:-15px;
+  }
+  .custom-control{
+    border:1px solid #d2c2c6;
+    font-size:18px;
+    padding:8px 12px;
+    margin-bottom:15px;
+    transition:all 72ms;
+    font-family:'Open Sans';
+  }
+  
+  input.custom-control:hover{
+    border-color:#34495e;
+  }
+  
+  input.custom-control:focus{
+    border-color:#2c3e50;
+  }
+  
+  
+  button.custom-control{
+   background:#fff;
+  }
+  button.custom-control:hover{
+    color:#fff;
+    background:#34495e;
+  }
+  button.custom-control:active{
+    color:#fff;
+    background:#2c3e50;
+  }
+  
+  .form-control > .custom-control{
+    width:100%;
+  }
+  
+  .slant-square{
+      position:relative;
+      color:#434A54;
+  }
+  
+  .slant-square::after,.slant-square::before{
+      position:absolute;
+      top:-1.2em;
+      left:-1.15em;
+      width:2.4em;
+      height:2.4em;
+      line-height:2.4em;
+      font-weight:600;
+      content:attr(data-text);
+      text-align:center;
+  }
+  
+  .slant-square::before{
+      content:' ';
+      background:#FFF;
+      color:inherit;
+      border-radius:0.46em;
+      -webkit-transform:rotateZ(45deg);
+  }
+  
+  .mid-splitter-horizontal{
+    left:50%;
+    top:-2.4em;
+  }
+  
+  .socials{
+    margin:20px 0;
+    font-size:32px;
+  }
+  
+  .socials > a{
+    vertical-align:middle;
+    margin:0 0.2em;
+    background:#323232;
+    color:#fff;
+    display:inline-block;
+    width:60px;
+    height:60px;
+    border-radius:80px;
+    box-shadow:0px 0px 0px 0px rgba(0,0,0,0.3);
+    transition:box-shadow 100ms,background 75ms,color 82ms;
+    text-align:center;
+  }
+  
+  .socials > a[data-social-service=se]{
+      background:#e67e22;
+  }
+  
+  
+  .socials > a[data-social-service=gh]{
+      background:#ecf0f1;
+      color:#000;
+  }
+  
+  .socials > a[data-social-service=goog]{
+      background:#e74c3c;
+  }
+  
+  
+  .socials > a:hover{
+    box-shadow:0px 0px 0px 4px rgba(0,0,0,0.3);
+    background:#34495e;
+    color:#fff;
+    transform:rotateZ(5deg);
+  }
+  
+  .socials > a:active{
+    box-shadow:0px 0px 0px 0px rgba(0,0,0,0.3);
+    background:#0c1e30;
+  }
+  
+  .socials > a > i{
+    line-height:60px;
+  }
+  
+  .lg-splitter{
+    margin:2.4em 5px;
+  }
+  .tabs{
+    margin:-10px;
+  }
+  .tabs > .tab-heads{
+    display:table;
+    background:#fff;
+    width:100%;
+  }
+  .tabs > .content{
+    padding:0 10px;
+  }
+  .tab-heads > .tab-head{
+    display:table-cell;
+    color:#fff;
+    padding:10px;
+    background:#2c3e50;
+    font-size:20px;
+  }
+  .tab-heads > .tab-head:hover{
+    background:#34495e;
+  }
+  .tab-heads > .active,.tab-heads > .active:hover{
+    font-size:28px;
+    background:#fff;
+    color:#000;
+  }
