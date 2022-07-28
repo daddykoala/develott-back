@@ -19,7 +19,7 @@ const userController = {
 		//TODO créer l'utilisateur en bdd + la verificationLink
 		const result = await userDatamapper.createUser(data, verificationLink);
 		const user = await userDatamapper.foundUserBymail(data.email);
-		const message = `http://localhost:3001/v1/user/verify/${user.id}/${verificationLink}`;
+		const message = `https://develott.herokuapp.com/v1/user/verify/${user.id}/${verificationLink}`;
 		await postMail(data.email, message);
 		res.status(200).json(result);
 	},
@@ -56,7 +56,7 @@ const userController = {
 			verificationLink,
 			user.id
 		);
-		const message = `http://localhost:3001/v1/user/verifyPassword/${user.id}/${verificationLink}`;
+		const message = `https://develott.herokuapp.com/v1/user/verifyPassword/${user.id}/${verificationLink}`;
 
 		await resetPasswordMail(email, message);
 		res.status(200).json("ok");
@@ -80,7 +80,7 @@ const userController = {
 		//TODO update l'utilisateur : on supprime le verificationLink + on passe Verified à true
 		const valideleted = await userDatamapper.deleteLinkEmail(userId);
 
-		res.status(200).redirect(`http://localhost:3000/newpassword/${userId}`);
+		res.status(200).redirect(`https://develott.herokuapp.com/newpassword/${userId}`);
 	},
 
 	async updatePassword(req, res) {
