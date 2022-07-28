@@ -56,6 +56,7 @@ userRouter.post(
 userRouter.post("/user/login", userController.logIn);
 userRouter.post("/user/forgotPassword", userController.createResetPasswordLink);
 userRouter.post("/user/newPassword", userController.updatePassword);
+userRouter.post("/user/techno", userController.postTechnoByCustomer);
 
 //PATCH
 userRouter.patch("/user/id(\\d+)", authenticateToken, userController.updateUser);

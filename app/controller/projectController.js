@@ -23,6 +23,18 @@ const projectController ={
             console.error(error);
         };
     },
+
+    async oneProjectByCustomerConnected(req, res){
+
+        const projectId = req.params.id;
+
+        try {
+            const oneProjectByCustomerConnected = await projectDatamapper.oneProjectByCustomerConnected(projectId);
+            return res.json(oneProjectByCustomerConnected)
+        } catch (error) {
+            console.error(error);
+        };
+    },
     
     async creatProject (req, res) {
         const body = req.body
@@ -56,5 +68,14 @@ const projectController ={
 			console.error(error);
 		}
 	},
+
+    async fetchAllProjectHome(_,res) {
+        try {
+            const allProject = await projectDatamapper.allProjectLink();
+            return res.json(allProject);
+        } catch (error) {
+            console.error(error);
+        }
+    },
 };
 module.exports = projectController ;

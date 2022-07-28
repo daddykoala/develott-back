@@ -179,5 +179,16 @@ const userController = {
 			}
 		});
 	},
+
+	async postTechnoByCustomer(req, res) {
+		const body = req.body;
+		try {
+			const pickTechnoHasCustomer = await userDatamapper.pickTechnoHasCustomer(body);
+			return res.json(pickTechnoHasCustomer);
+		} catch (error) {
+			console.error(error);
+		}
+	}
+	
 };
 module.exports = userController;

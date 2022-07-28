@@ -7,11 +7,10 @@ const projectController = require("../controller/projectController");
 const { authenticateToken } = require("../service/jsonwebToken");
 
 //GET
-projectRouter.get(
-	"/projects", 
-	projectController.fetchAllProject
-);
-projectRouter.get("/project/:id(\\d+)", authenticateToken, projectController.fetchOneProject);
+projectRouter.get("/homeproject",projectController.fetchAllProjectHome);
+projectRouter.get("/projects",projectController.fetchAllProject);
+projectRouter.get("/project/guest/:id(\\d+)", authenticateToken, projectController.fetchOneProject);
+projectRouter.get("/project/:id(\\d+)", projectController.oneProjectByCustomerConnected);
 
 //POST
 projectRouter.post("/project", authenticateToken, projectController.creatProject);
