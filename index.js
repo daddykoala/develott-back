@@ -40,10 +40,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-//test
-app.set("view engine", "ejs");
-app.set("views", "app/public");
-app.use(express.static("/app/public"));
+
 app.use(router);
 
 const PORT = process.env.PORT || 5000;
