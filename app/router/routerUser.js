@@ -36,8 +36,8 @@ userRouter.get(
 	"/user/verifyPassword/:id/:verificationLink",
 	userController.checkPasswordResetLink
 );
-userRouter.get("/user/id(\\d+)", userController.fetchOneUserById);
-userRouter.get("/user/email", userController.fetchOneUserBymail);
+userRouter.get("/user/findById/:id(\\d+)", userController.fetchOneUserById);
+userRouter.get("/user/findByEmail/:email", userController.fetchOneUserBymail);
 
 userRouter.get("/home", authenticateToken, (_, res) => {
 	res.send("Vous êtes bien connecté");
@@ -61,6 +61,6 @@ userRouter.post("/user/newPassword", userController.updatePassword);
 userRouter.patch("/user/id(\\d+)", userController.updateUser);
 
 //DELETE
-userRouter.delete("/user/id(\\d+)", userController.deleteUser);
+userRouter.delete("/user/:id(\\d+)", userController.deleteUser);
 
 module.exports = userRouter;

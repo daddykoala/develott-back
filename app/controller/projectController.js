@@ -14,7 +14,7 @@ const projectController ={
     
     async fetchOneProject(req, res){
 
-        const projectId = req.body.id;
+        const projectId = parseInt(req.params.id, 10);
 
         try {
             const oneProject = await projectDatamapper.oneProject(projectId);
@@ -36,7 +36,7 @@ const projectController ={
 
     async deleteProject (req, res) {
 
-        const projectId = req.body.id;
+        const projectId = parseInt(req.params.id, 10);
 
         try {
             const destroy = await projectDatamapper.destroy(projectId);
