@@ -36,8 +36,8 @@ userRouter.get(
 	"/user/verifyPassword/:id/:verificationLink",
 	userController.checkPasswordResetLink
 );
-userRouter.get("/user/findById/:id(\\d+)", userController.fetchOneUserById);
-userRouter.get("/user/findByEmail/:email", userController.fetchOneUserBymail);
+userRouter.get("/user/findById/:id(\\d+)", authenticateToken, userController.fetchOneUserById);
+userRouter.get("/user/findByEmail/:email", authenticateToken, userController.fetchOneUserBymail);
 
 userRouter.get("/home", authenticateToken, (_, res) => {
 	res.send("Vous êtes bien connecté");
@@ -45,7 +45,7 @@ userRouter.get("/home", authenticateToken, (_, res) => {
 
 userRouter.get("/users", userController.fetchAllUser)
 userRouter.get("/user/refreshToken", refreshTokenController.handleRefreshToken);
-userRouter.get("/user/logout", logoutController.handleLogout);
+userRouter.get("/user/logout", authenticateToken, logoutController.handleLogout);
 
 //POST
 userRouter.post(
@@ -58,9 +58,9 @@ userRouter.post("/user/forgotPassword", userController.createResetPasswordLink);
 userRouter.post("/user/newPassword", userController.updatePassword);
 
 //PATCH
-userRouter.patch("/user/id(\\d+)", userController.updateUser);
+userRouter.patch("/user/id(\\d+)", authenticateToken, userController.updateUser);
 
 //DELETE
-userRouter.delete("/user/:id(\\d+)", userController.deleteUser);
+userRouter.delete("/user/:id(\\d+)", authenticateToken, userController.deleteUser);
 
 module.exports = userRouter;
