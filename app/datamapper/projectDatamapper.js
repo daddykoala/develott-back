@@ -27,7 +27,7 @@ const projectDatamapper = {
     async oneProjectByCustomerConnected(projectId){
 
         const sql = `SELECT * FROM public.v_project WHERE id=$1`;
-        const sql2 =`SELECT customer_id, role_id, project_id, role, firstname, lastname, job_id, job, techno_name w FROM public.v_equipe where project_id=$1`;
+        const sql2 =`SELECT customer_id, role_id, project_id, role, firstname, lastname, job_id, job, techno_name FROM public.v_equipe where project_id=$1`;
         try {
             const result = await pool.query(sql,[projectId]);
             const project = result.rows[0];
