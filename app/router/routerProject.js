@@ -4,6 +4,7 @@ const projectRouter = express.Router();
 
 //import module
 const projectController = require("../controller/projectController");
+const jobController = require("../controller/projectController");
 const { authenticateToken } = require("../service/jsonwebToken");
 
 //GET
@@ -14,6 +15,7 @@ projectRouter.get("/project/:id(\\d+)", projectController.oneProjectByCustomerCo
 
 //POST
 projectRouter.post("/project", authenticateToken, projectController.creatProject);
+projectRouter.post("/project/:id(\\d+)/job", jobController.updateJob);
 
 //DELETE
 projectRouter.delete("/project/:id(\\d+)", authenticateToken, projectController.deleteProject);
