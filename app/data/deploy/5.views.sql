@@ -31,8 +31,6 @@ CREATE OR REPLACE VIEW public.v_customer
      JOIN job ON job.id = customer.job_id
   GROUP BY customer.id, customer.firstname, customer.lastname, customer.password, customer.email, job.name, customer.charte, customer.city, customer.description, customer.profil_picture, customer.is_active, customer.validate, customer.username_gith, customer.url_github, customer.url_gitlab, customer.url_portfolio, customer.url_linkedin, customer.job_id, customer.validation_link;
 
-ALTER TABLE public.v_customer
-    OWNER TO develott;
 
 CREATE OR REPLACE VIEW public.v_equipe
  AS
@@ -52,9 +50,6 @@ CREATE OR REPLACE VIEW public.v_equipe
      FULL JOIN customer_has_techno ON customer_has_techno.customer_id = customer.id
      LEFT JOIN techno ON techno.id = customer_has_techno.techno_id
   GROUP BY customer_has_project_role.customer_id, customer_has_project_role.role_id, customer_has_project_role.project_id, role.name, customer.firstname, customer.lastname, customer.job_id, job.name;
-
-ALTER TABLE public.v_equipe
-    OWNER TO develott;
 
 
 CREATE OR REPLACE VIEW public.v_project
@@ -98,7 +93,4 @@ CREATE OR REPLACE VIEW public.v_project
                     customer.profil_picture
                    FROM customer) customer_admin ON customer_has_project_role.customer_id = customer_admin.id
           WHERE customer_has_project_role.role_id = 1) r_customer ON r_customer.project_id = project.id;
-
-ALTER TABLE public.v_project
-    OWNER TO develott;
 COMMIT;
