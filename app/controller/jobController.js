@@ -2,7 +2,7 @@ const jobDatamapper = require('../datamapper/jobDatamapper');
 
 const jobController ={
 
-    async updateJob (req,res) {
+    async addJob (req,res) {
         const projectId= req.params.id;
         const jobName = req.body.job
         console.log('ici 2');
