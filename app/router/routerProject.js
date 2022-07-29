@@ -5,7 +5,7 @@ const jobController = express.Router();
 
 //import module
 const projectController = require("../controller/projectController");
-const jobController = require("../controller/projectController");
+const jobController = require("../controller/jobController");
 const { authenticateToken } = require("../service/jsonwebToken");
 
 //GET
