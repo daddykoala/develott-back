@@ -145,6 +145,7 @@ const userDatamapper = {
 
 		return;
 	},
+
 	async updatePassword(newPassword, id) {
 		console.log(newPassword, id);
 		const encryptedPassword = await bcrypt.hash(newPassword, 10);
@@ -155,6 +156,21 @@ const userDatamapper = {
 
 		return;
 	},
+
+	async pickTechnoHasCustomer(body){
+	
+		const sql =`INSERT INTO customer_has_techno(customer_id, techno_id) VALUES($1,$2);`;
+		const customer_id = body.customer_id;
+		const techno_id = body.techno_id;
+		values=[customer_id,techno_id];
+	try {
+		const result = await pool.query(sql, values);
+		console.log(result);
+		return result.rows[0];
+	} catch (error) {
+		console.error(error);
+	};	
+	}
 };
 
 module.exports = userDatamapper;

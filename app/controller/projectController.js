@@ -14,11 +14,23 @@ const projectController ={
     
     async fetchOneProject(req, res){
 
-        const projectId = req.body.id;
+        const projectId = parseInt(req.params.id, 10);
 
         try {
             const oneProject = await projectDatamapper.oneProject(projectId);
             return res.json(oneProject)
+        } catch (error) {
+            console.error(error);
+        };
+    },
+
+    async oneProjectByCustomerConnected(req, res){
+
+        const projectId = req.params.id;
+
+        try {
+            const oneProjectByCustomerConnected = await projectDatamapper.oneProjectByCustomerConnected(projectId);
+            return res.json(oneProjectByCustomerConnected)
         } catch (error) {
             console.error(error);
         };
@@ -36,7 +48,7 @@ const projectController ={
 
     async deleteProject (req, res) {
 
-        const projectId = req.body.id;
+        const projectId = parseInt(req.params.id, 10);
 
         try {
             const destroy = await projectDatamapper.destroy(projectId);
@@ -56,5 +68,14 @@ const projectController ={
 			console.error(error);
 		}
 	},
+
+    async fetchAllProjectHome(_,res) {
+        try {
+            const allProject = await projectDatamapper.allProjectLink();
+            return res.json(allProject);
+        } catch (error) {
+            console.error(error);
+        }
+    },
 };
 module.exports = projectController ;

@@ -105,7 +105,7 @@ const userController = {
 	},
 
 	async fetchOneUserById(req, res) {
-		const userId = req.body.id;
+		const userId = parseInt(req.params.id, 10);
 		try {
 			const foundUserById = await userDatamapper.foundUserById(userId);
 			return res.json(foundUserById);
@@ -125,7 +125,7 @@ const userController = {
 	},
 
 	async deleteUser(req, res) {
-		const userId = req.body.id;
+		const userId = parseInt(req.params.id, 10);
 		try {
 			const destroy = await userDatamapper.destroy(userId);
 			return res.json(destroy);
@@ -170,14 +170,25 @@ const userController = {
 
 				//? Est-ce qu'on stocke le refreshToken en bdd ?
 
-				res.cookie("jwt", refreshToken, {
-					httpOnly: true,
-					maxAge: 24 * 60 * 60 * 1000,
-				});
-				//res.cookie("jwt", refreshToken, {httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 })
+				// res.cookie("jwt", refreshToken, {
+				// 	httpOnly: true,
+				// 	maxAge: 24 * 60 * 60 * 1000,
+				// });
+				res.cookie("jwt", refreshToken, {httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 })
 				res.status(200).json({ accessToken, foundUser });
 			}
 		});
 	},
+
+	async postTechnoByCustomer(req, res) {
+		const body = req.body;
+		try {
+			const pickTechnoHasCustomer = await userDatamapper.pickTechnoHasCustomer(body);
+			return res.json(pickTechnoHasCustomer);
+		} catch (error) {
+			console.error(error);
+		}
+	}
+	
 };
 module.exports = userController;
