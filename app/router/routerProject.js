@@ -1,7 +1,7 @@
 
 const express = require("express");
 const projectRouter = express.Router();
-const jobController = express.Router();
+
 
 //import module
 const projectController = require("../controller/projectController");
