@@ -15,7 +15,7 @@ const jobController ={
         } catch (error) {
             console.error(error);
         };
-    },
+    }
 
 };
 module.exports = jobController;
