@@ -324,7 +324,7 @@ userRouter.post(
 	"/user/forgotPassword", userController.createResetPasswordLink);
 
 userRouter.post(
-		/**
+	/**
 	* POST /user/login
 	* @summary Customer
 	* @description Connexion au compte utilisateur

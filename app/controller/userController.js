@@ -152,15 +152,15 @@ const userController = {
 		const password = req.body.password;
 		console.log(email);
 		const foundUser = await userDatamapper.foundUserBymail(email);
-	try {
-
+		
 		if (foundUser.email = null || undefined ) {
-            res.status(401).send("le mail n'existe pas ")
-        }
+			res.status(401).send("le mail n'existe pas ");
+        };
 		if (foundUser.email !== email) {
 			res.status(401).send("invalid credentials");
 			return;
-		}
+		};
+	try {
 		bcrypt.compare(password, foundUser.password, function (err, result) {
 			if (result == false) {
 				res.status(401).send("code invalide");
