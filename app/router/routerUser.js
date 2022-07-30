@@ -21,6 +21,7 @@ const { createValidator } = require("express-joi-validation");
 const validate = createValidator();
 
 // swagger endpoint => https://develott.herokuapp.com/api-docs/
+
 /*******************
 **AUTHENTIFICATION**              
 *******************/
@@ -415,8 +416,5 @@ userRouter.delete(
 	* @return {string} 500 - Description Global
 	*/"/user/:id(\\d+)", authenticateToken, userController.deleteUser);
 
-
-
-
-
+	
 module.exports = userRouter;
