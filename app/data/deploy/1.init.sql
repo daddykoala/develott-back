@@ -66,9 +66,7 @@ CREATE TABLE IF NOT EXISTS project
     start_date TIMESTAMPTZ NOT NULL DEFAULT NOW() ,
     end_date TIMESTAMPTZ,
     url_slack_server TEXT COLLATE pg_catalog."default",
-    url_github_repo TEXT COLLATE pg_catalog."default",
-    url_github_projet TEXT COLLATE pg_catalog."default",
-    url_trello TEXT COLLATE pg_catalog."default",
+     TEXT COLLATE pg_catalog."default",
     CONSTRAINT project_pkey PRIMARY KEY (id),
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW() ,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
