@@ -55,7 +55,7 @@ const userDatamapper = {
 	},
 
 	async foundUserById(userId) {
-		const sql = "SELECT * FROM customer WHERE id=$1";
+		const sql = "SELECT * FROM public.v_customer WHERE id=$1";
 		try {
 			const result = await pool.query(sql, [userId]);
 			return result.rows[0];
@@ -67,9 +67,10 @@ const userDatamapper = {
 	async foundUserBymail(email) {
 		console.log(email);
 
-		const sql = `SELECT * FROM customer WHERE email = '${email}'`;
+		const sql = `SELECT * FROM public.v_customer WHERE email =$1`;
+
 		try {
-			const result = await pool.query(sql);
+			const result = await pool.query(sql,[email]);
 			return result.rows[0];
 		} catch (error) {
 			console.error(error);

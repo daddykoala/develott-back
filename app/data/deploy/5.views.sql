@@ -3,6 +3,26 @@
 BEGIN;
 
 
+CREATE OR REPLACE VIEW public.v_equipe
+ AS
+ SELECT customer_has_project_role.customer_id,
+    customer_has_project_role.role_id,
+    customer_has_project_role.project_id,
+    role.name AS role,
+    customer.firstname,
+    customer.lastname,
+    customer.profil_picture,
+    customer.job_id,
+    job.name AS job,
+    array_agg(techno.name) AS techno_name
+   FROM customer_has_project_role
+     JOIN role ON customer_has_project_role.role_id = role.id
+     JOIN customer ON customer_has_project_role.customer_id = customer.id
+     JOIN job ON job.id = customer.job_id
+     FULL JOIN customer_has_techno ON customer_has_techno.customer_id = customer.id
+     LEFT JOIN techno ON techno.id = customer_has_techno.techno_id
+  GROUP BY customer_has_project_role.customer_id, customer_has_project_role.role_id, customer_has_project_role.project_id, role.name, customer.firstname, customer.profil_picture, customer.lastname, customer.job_id, job.name;
+
 CREATE OR REPLACE VIEW public.v_customer
  AS
  SELECT customer.id,
@@ -26,30 +46,10 @@ CREATE OR REPLACE VIEW public.v_customer
     customer.job_id,
     customer.validation_link
    FROM customer
-     FULL JOIN customer_has_techno ON customer_has_techno.techno_id = customer_has_techno.techno_id
-     JOIN techno ON techno.id = customer_has_techno.techno_id
+     FULL JOIN customer_has_techno ON customer_has_techno.customer_id = customer.id
+     FULL JOIN techno ON techno.id = customer_has_techno.techno_id
      JOIN job ON job.id = customer.job_id
   GROUP BY customer.id, customer.firstname, customer.lastname, customer.password, customer.email, job.name, customer.charte, customer.city, customer.description, customer.profil_picture, customer.is_active, customer.validate, customer.username_gith, customer.url_github, customer.url_gitlab, customer.url_portfolio, customer.url_linkedin, customer.job_id, customer.validation_link;
-
-
-CREATE OR REPLACE VIEW public.v_equipe
- AS
- SELECT customer_has_project_role.customer_id,
-    customer_has_project_role.role_id,
-    customer_has_project_role.project_id,
-    role.name AS role,
-    customer.firstname,
-    customer.lastname,
-    customer.job_id,
-    job.name AS job,
-    array_agg(techno.name) AS techno_name
-   FROM customer_has_project_role
-     JOIN role ON customer_has_project_role.role_id = role.id
-     JOIN customer ON customer_has_project_role.customer_id = customer.id
-     JOIN job ON job.id = customer.job_id
-     FULL JOIN customer_has_techno ON customer_has_techno.customer_id = customer.id
-     LEFT JOIN techno ON techno.id = customer_has_techno.techno_id
-  GROUP BY customer_has_project_role.customer_id, customer_has_project_role.role_id, customer_has_project_role.project_id, role.name, customer.firstname, customer.lastname, customer.job_id, job.name;
 
 
 CREATE OR REPLACE VIEW public.v_project

@@ -31,6 +31,7 @@ userRouter.get(
 	userController.checkVerificationLink);
 userRouter.get(
 	"/user/verifyPassword/:id/:verificationLink",
+
 	userController.checkPasswordResetLink);
 userRouter.get("/user/refreshToken", refreshTokenController.handleRefreshToken);
 userRouter.get("/user/logout", authenticateToken, logoutController.handleLogout);
@@ -416,5 +417,6 @@ userRouter.delete(
 	* @return {string} 500 - Description Global
 	*/"/user/:id(\\d+)", authenticateToken, userController.deleteUser);
 
-	
+
+
 module.exports = userRouter;

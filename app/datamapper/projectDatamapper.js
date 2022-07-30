@@ -5,7 +5,7 @@ const pool = require('../db/connect');
 const projectDatamapper = {
 
     async allProject (){
-        const sql = 'SELECT * FROM project';
+        const sql = 'SELECT id, project, excerpt, picture, start_date, techno, job, role_id, firstname, lastname, c_profil_picture FROM public.v_project;';
         try {
             const result = await pool.query(sql);
             return result.rows;
@@ -34,7 +34,7 @@ const projectDatamapper = {
 
 
             const result2 = await pool.query(sql2,[projectId]);
-            const teams = result2.rows[0];
+            const teams = result2.rows;
 
         return {project,teams};
         } catch (error) {
@@ -85,19 +85,21 @@ const projectDatamapper = {
         };
     },
 
-    async update(body, projectId) {
+    async update(body,id) {
+
+
 		const fields = Object.keys(body).map(
 			(prop, index) => `"${prop}" = $${index + 1}`
 		);
 		const values = Object.values(body);
 		const savedPost = await pool.query(
 			`
-                    UPDATE customer SET
+                    UPDATE project SET
                         ${fields}
-                    WHERE id = $${fields.length + 1}
+                    WHERE id = ${id}
                     RETURNING *
                 `,
-			[...values, projectId]
+			[...values]
 		);
 		return savedPost.rows[0];
 	},

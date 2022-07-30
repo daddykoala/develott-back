@@ -60,9 +60,9 @@ const projectController ={
 
     async updateProject(req, res) {
 		const body = req.body;
-		const projectId = body.id;
+		const projectId = req.params.id;
 		try {
-			const update = await userDatamapper.update(body, projectId);
+			const update = await projectDatamapper.update(body, projectId);
 			return res.json(update);
 		} catch (error) {
 			console.error(error);
