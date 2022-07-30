@@ -34,7 +34,7 @@ const projectDatamapper = {
 
 
             const result2 = await pool.query(sql2,[projectId]);
-            const teams = result2.rows[0];
+            const teams = result2.rows;
 
         return {project,teams};
         } catch (error) {
