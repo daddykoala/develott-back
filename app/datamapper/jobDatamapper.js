@@ -12,7 +12,8 @@ const jobDatamapper = {
          async addJob (projectId, jobId) {
             const sql ='INSERT INTO public.project_has_job (project_id, job_id)VALUES($1,$2)';
             try {
-                await pool.query(sql,[projectId,jobId]);
+                const result = await pool.query(sql,[projectId,jobId]);
+                return result.rows[0];
             } catch (error) {
                 console.error(error);
             };
