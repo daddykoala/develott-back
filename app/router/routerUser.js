@@ -44,7 +44,7 @@ userRouter.get("/home", authenticateToken, (_, res) => {
 });
 
 userRouter.get("/users", userController.fetchAllUser)
-userRouter.get("/user/refreshToken", refreshTokenController.handleRefreshToken);
+userRouter.get("/user/refreshToken", authenticateToken, refreshTokenController.handleRefreshToken);
 userRouter.get("/user/logout", authenticateToken, logoutController.handleLogout);
 
 //POST
@@ -56,12 +56,12 @@ userRouter.post(
 userRouter.post("/user/login", userController.logIn);
 userRouter.post("/user/forgotPassword", userController.createResetPasswordLink);
 userRouter.post("/user/newPassword", userController.updatePassword);
-userRouter.post("/user/techno", userController.postTechnoByCustomer);
+
 
 //PATCH
-userRouter.patch("/user/id(\\d+)", authenticateToken, userController.updateUser);
+userRouter.patch("/user/id(\\d+)/update", authenticateToken, userController.updateUser);
 
 //DELETE
-userRouter.delete("/user/:id(\\d+)", authenticateToken, userController.deleteUser);
+userRouter.delete("/user/:id(\\d+)/delete", authenticateToken, userController.deleteUser);
 
 module.exports = userRouter;

@@ -10,8 +10,8 @@ const { authenticateToken } = require("../service/jsonwebToken");
 
 
 //GET
-projectRouter.get("/homeproject",projectController.fetchAllProjectHome);
-projectRouter.get("/projects",projectController.fetchAllProject);
+projectRouter.get("/homeproject",projectController.fetchAllProject);
+projectRouter.get("/projects",projectController.fetchAllProjectHome);
 projectRouter.get("/project/guest/:id(\\d+)", authenticateToken, projectController.fetchOneProject);
 projectRouter.get("/project/:id(\\d+)", projectController.oneProjectByCustomerConnected);
 
@@ -21,10 +21,10 @@ projectRouter.post("/project", authenticateToken, projectController.creatProject
 
 
 //DELETE
-projectRouter.delete("/project/:id(\\d+)", authenticateToken, projectController.deleteProject);
+projectRouter.delete("/project/:id(\\d+)/delete", authenticateToken, projectController.deleteProject);
 
 //PATCH
-projectRouter.patch("/project/id(\\d+)", authenticateToken, projectController.updateProject);
+projectRouter.patch("/project/:id(\\d+)/update",  projectController.updateProject);
 
 module.exports = projectRouter;
 

@@ -85,19 +85,21 @@ const projectDatamapper = {
         };
     },
 
-    async update(body, projectId) {
+    async update(body,id) {
+
+
 		const fields = Object.keys(body).map(
 			(prop, index) => `"${prop}" = $${index + 1}`
 		);
 		const values = Object.values(body);
 		const savedPost = await pool.query(
 			`
-                    UPDATE customer SET
+                    UPDATE project SET
                         ${fields}
-                    WHERE id = $${fields.length + 1}
+                    WHERE id = ${id}
                     RETURNING *
                 `,
-			[...values, projectId]
+			[...values]
 		);
 		return savedPost.rows[0];
 	},

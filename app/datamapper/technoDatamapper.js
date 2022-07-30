@@ -9,14 +9,44 @@ const technoDatamapper = {
             return result.rows[0];
          },
 
-         async addTechno (projectId, technoId) {
+         async addTechnoProject (projectId, technoId) {
             const sql ='INSERT INTO public.project_has_techno (project_id, techno_id)VALUES($1,$2)';
             try {
                 await pool.query(sql,[projectId,technoId]);
             } catch (error) {
                 console.error(error);
             };
-        }
+        },
+
+        async deleteTechnoProject (projectId, technoId) {
+            const sql ='DELETE FROM public.project_has_techno WHERE project_id=$1 AND techno_id=$2';
+            try {
+                await pool.query(sql,[projectId,technoId]);
+            } catch (error) {
+                console.error(error);
+            };
+        },
+
+        async addTechnoUser (customerId, technoId) {
+            console.log(customerId,technoId);
+            
+            const sql ='INSERT INTO public.customer_has_techno (customer_id, techno_id)VALUES($1,$2)';
+            try {
+                await pool.query(sql,[customerId,technoId]);
+            } catch (error) {
+                console.error(error);
+            };
+        },
+
+        async deleteTechnoUser (projectId, technoId) {
+            const sql ='DELETE FROM public.customer_has_techno WHERE customer_id=$1 AND techno_id=$2';
+            try {
+                await pool.query(sql,[projectId,technoId]);
+            } catch (error) {
+                console.error(error);
+            };
+        },
+
     };
 
 module.exports = technoDatamapper ;
