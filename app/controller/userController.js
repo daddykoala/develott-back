@@ -152,7 +152,8 @@ const userController = {
 		const password = req.body.password;
 		console.log(email);
 		const foundUser = await userDatamapper.foundUserBymail(email);
-
+	try {
+		
 		if (foundUser.email !== email) {
 			res.status(401).send("invalid credentials");
 			return;
@@ -174,10 +175,14 @@ const userController = {
 				// 	httpOnly: true,
 				// 	maxAge: 24 * 60 * 60 * 1000,
 				// });
-				res.cookie("jwt", refreshToken, {httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 })
+				res.cookie("jwt", refreshToken, {httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
 				res.status(200).json({ accessToken, foundUser });
-			}
+			};
 		});
+
+	} catch (error) {
+		console.error(error);
+	};
 	},
 
 	async postTechnoByCustomer(req, res) {
