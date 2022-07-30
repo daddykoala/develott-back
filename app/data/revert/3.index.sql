@@ -2,6 +2,6 @@
 
 BEGIN;
 
--- XXX Add DDLs here.
+DROP INDEX index_project, index_techno, index_job
 
 COMMIT;
