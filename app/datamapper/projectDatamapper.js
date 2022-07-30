@@ -5,7 +5,7 @@ const pool = require('../db/connect');
 const projectDatamapper = {
 
     async allProject (){
-        const sql = 'SELECT * FROM project';
+        const sql = 'SELECT id, project, excerpt, picture, start_date, techno, job, role_id, firstname, lastname, c_profil_picture FROM public.v_project;';
         try {
             const result = await pool.query(sql);
             return result.rows;
