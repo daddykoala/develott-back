@@ -153,7 +153,7 @@ const userController = {
 		console.log(email);
 		const foundUser = await userDatamapper.foundUserBymail(email);
 		
-		if (foundUser.email = null || undefined ) {
+		if (foundUser.email === null || foundUser.email === undefined ) {
 			res.status(401).send("le mail n'existe pas ");
         };
 		if (foundUser.email !== email) {
