@@ -11,6 +11,10 @@ const resetPasswordMail = require("../service/nodemailerPasswordService.js");
 const { update } = require("../datamapper/userDatamapper");
 
 const userController = {
+	/**
+	 * creer un utilisateur
+	 * @param {string} data
+	 */
 	async create(req, res) {
 		const data = req.body;
 		console.log(data);
