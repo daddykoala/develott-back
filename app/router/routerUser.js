@@ -21,6 +21,7 @@ const { createValidator } = require("express-joi-validation");
 const validate = createValidator();
 
 // swagger endpoint => https://develott.herokuapp.com/api-docs/
+
 /*******************
 **AUTHENTIFICATION**              
 *******************/
@@ -324,7 +325,7 @@ userRouter.post(
 	"/user/forgotPassword", userController.createResetPasswordLink);
 
 userRouter.post(
-		/**
+	/**
 	* POST /user/login
 	* @summary Customer
 	* @description Connexion au compte utilisateur
@@ -415,5 +416,7 @@ userRouter.delete(
 	* {"Error 500": "message 01"}
 	* @return {string} 500 - Description Global
 	*/"/user/:id(\\d+)", authenticateToken, userController.deleteUser);
+
+
 
 module.exports = userRouter;
