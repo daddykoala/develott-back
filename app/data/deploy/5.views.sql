@@ -30,7 +30,7 @@ CREATE OR REPLACE VIEW public.v_customer
     customer.lastname,
     customer.password,
     customer.email,
-    array_agg(techno.name) AS techno,
+    array_agg(distinct techno.name) AS techno,
     job.name AS job,
     customer.charte,
     customer.city,
@@ -49,6 +49,7 @@ CREATE OR REPLACE VIEW public.v_customer
      FULL JOIN customer_has_techno ON customer_has_techno.customer_id = customer.id
      FULL JOIN techno ON techno.id = customer_has_techno.techno_id
      JOIN job ON job.id = customer.job_id
+     WHERE (customer.charte='true' or customer.charte='false')
   GROUP BY customer.id, customer.firstname, customer.lastname, customer.password, customer.email, job.name, customer.charte, customer.city, customer.description, customer.profil_picture, customer.is_active, customer.validate, customer.username_gith, customer.url_github, customer.url_gitlab, customer.url_portfolio, customer.url_linkedin, customer.job_id, customer.validation_link;
 
 
