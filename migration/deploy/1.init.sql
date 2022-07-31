@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS customer
     job_id INT ,
     CONSTRAINT customer_pkey PRIMARY KEY (id),
     CONSTRAINT customer_job_id_fkey FOREIGN KEY (job_id)
-    REFERENCES job (id) MATCH SIMPLE,
+    REFERENCES public.job (id) MATCH SIMPLE,
     validation_link TEXT ,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW() ,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP

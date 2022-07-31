@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS customer
     job_id INT ,
     CONSTRAINT customer_pkey PRIMARY KEY (id),
     CONSTRAINT customer_job_id_fkey FOREIGN KEY (job_id)
-    REFERENCES job (id) MATCH SIMPLE,
+    REFERENCES public.job (id) MATCH SIMPLE,
     validation_link TEXT ,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW() ,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
@@ -65,8 +65,10 @@ CREATE TABLE IF NOT EXISTS project
     picture_project TEXT COLLATE pg_catalog."default",
     start_date TIMESTAMPTZ NOT NULL DEFAULT NOW() ,
     end_date TIMESTAMPTZ,
-    url_slack_server TEXT COLLATE pg_catalog."default",
-     TEXT COLLATE pg_catalog."default",
+    url_slack_server text COLLATE pg_catalog."default",
+    url_github_repo text COLLATE pg_catalog."default",
+    url_github_projet text COLLATE pg_catalog."default",
+    url_trello text COLLATE pg_catalog."default",
     CONSTRAINT project_pkey PRIMARY KEY (id),
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW() ,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
@@ -125,7 +127,6 @@ CREATE TABLE IF NOT EXISTS customer_has_project_role
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW() ,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY ("customer_id", "role_id", "project_id")
-
  );
 
 COMMIT;
