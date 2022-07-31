@@ -152,11 +152,13 @@ const userController = {
 		const password = req.body.password;
 		console.log(email);
 		const foundUser = await userDatamapper.foundUserBymail(email);
+
 		
 	try {
 		if (foundUser.email === null || foundUser.email === undefined ) {
 			res.status(401).send("le mail n'existe pas ");
         };
+
 		if (foundUser.email !== email) {
 			res.status(401).send("invalid credentials");
 			
