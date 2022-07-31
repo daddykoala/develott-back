@@ -153,18 +153,17 @@ const userController = {
 		console.log(email);
 		const foundUser = await userDatamapper.foundUserBymail(email);
 		
-		if (foundUser.email = null || undefined ) {
+	try {
+		if (foundUser.email === null || foundUser.email === undefined ) {
 			res.status(401).send("le mail n'existe pas ");
         };
 		if (foundUser.email !== email) {
 			res.status(401).send("invalid credentials");
-			return;
+			
 		};
-	try {
 		bcrypt.compare(password, foundUser.password, function (err, result) {
 			if (result == false) {
 				res.status(401).send("code invalide");
-				return;
 			}
 			if (result == true) {
 				//*création du JWT

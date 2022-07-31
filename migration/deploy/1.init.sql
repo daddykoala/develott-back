@@ -128,5 +128,4 @@ CREATE TABLE IF NOT EXISTS customer_has_project_role
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY ("customer_id", "role_id", "project_id")
  );
-
 COMMIT;
