@@ -64,6 +64,7 @@ const projectDatamapper = {
             name : body.name,
             exerpt : body.exerpt,
             description : body.description,
+            picture_project: body.picture_project,
             start_date : body.start_date,
             end_date : body.end_date
         };
