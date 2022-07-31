@@ -59,7 +59,7 @@ const projectDatamapper = {
     },
 
     async create (body){
-        const sql =  `INSERT INTO project (name, exerpt, description, start_date, end_date)VALUES($1, $2, $3, $4, $5)`;
+        const sql =  `INSERT INTO project (name, exerpt, description,picture_project, start_date, end_date)VALUES($1, $2, $3, $4, $5)`;
         body = { 
             name : body.name,
             exerpt : body.exerpt,

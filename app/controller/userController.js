@@ -80,7 +80,7 @@ const userController = {
 		//TODO update l'utilisateur : on supprime le verificationLink + on passe Verified à true
 		const valideleted = await userDatamapper.deleteLinkEmail(userId);
 
-		res.status(200).redirect(`https://develott.herokuapp.com/newpassword/${userId}`);
+		res.status(200).redirect(`https:localhost3000/newpassword/${userId}`);
 	},
 
 	async updatePassword(req, res) {
@@ -153,6 +153,9 @@ const userController = {
 		console.log(email);
 		const foundUser = await userDatamapper.foundUserBymail(email);
 
+		if (foundUser.email = null || undefined ) {
+			res.status(401).send("le mail n'existe pas ")
+		}
 		if (foundUser.email !== email) {
 			res.status(401).send("invalid credentials");
 			return;
