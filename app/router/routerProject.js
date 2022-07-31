@@ -23,10 +23,10 @@ projectRouter.post("/project", authenticateToken, projectController.creatProject
 
 
 //DELETE
-projectRouter.delete("/project/:id(\\d+)/delete", authenticateToken, projectController.deleteProject);
+projectRouter.delete("/project/:id(\\d+)", authenticateToken, projectController.deleteProject);
 
 //PATCH
-projectRouter.patch("/project/:id(\\d+)/update", authenticateToken,  projectController.updateProject);
+projectRouter.patch("/project/:id(\\d+)//", authenticateToken,  projectController.updateProject);
 
 module.exports = projectRouter;
 
