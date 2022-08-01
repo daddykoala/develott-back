@@ -12,20 +12,74 @@ const {
 //ROUTER API
 const CLIENT_URL = "http://localhost:3000/projets";
 
+
+/*******************
+**       GET      **              
+*******************/
+
 gitRouter.get(
-	"/auth/github",
-	passport.authenticate("github", { scope: ["profile"] })
+	/**
+	* GET /v1/auth/github
+	* @summary Authentification avec github
+	* @description Authentification avec github
+	* @tags Git
+	* @param {number} request.id.required 
+	* 
+	* @returns {string} 200 - Description
+	* @example response - 200 - success response - application/json
+	*
+	* @example response - 400 - Intitulé 01
+ 	* {"Error 400": "Demande erroné"}
+	* @return {string} 400 - Description Global
+	* 
+	* @example response - 500 - Intitulé 01
+	* {"Error 500": "le serveur a du mal à répondre"}
+	* @return {string} 500 - Description Global
+	*/
+	"/auth/github",passport.authenticate("github", { scope: ["profile"] })
 );
 
 gitRouter.get(
-	"/auth/github/callback",
-	passport.authenticate("github", {
-		successRedirect: CLIENT_URL,
-		failureRedirect: "/login/failed",
-	})
-);
+	/**
+	* GET /v1/auth/github/callback
+	* @summary callback de l'authentification avec github
+	* @description callback de l'authentification avec github
+	* @tags Git
+	* @param {number} request.id.required 
+	* 
+	* @returns {string} 200 - Description
+	* @example response - 200 - success response - application/json
+	*
+	* @example response - 400 - Intitulé 01
+ 	* {"Error 400": "Demande erroné"}
+	* @return {string} 400 - Description Global
+	* 
+	* @example response - 500 - Intitulé 01
+	* {"Error 500": "le serveur a du mal à répondre"}
+	* @return {string} 500 - Description Global
+	*/
+	"/auth/github/callback",passport.authenticate("github", {	successRedirect: CLIENT_URL,failureRedirect: "/login/failed",}));
 
-gitRouter.get("/login/success", async (req, res) => {
+gitRouter.get(
+	/**
+	* GET /v1/login/success
+	* @summary Connexion avec github succes
+	* @description Connexion avec github succes
+	* @tags Git
+	* @param {number} request.id.required 
+	* 
+	* @returns {string} 200 - Description
+	* @example response - 200 - success response - application/json
+	*
+	* @example response - 400 - Intitulé 01
+ 	* {"Error 400": "Demande erroné"}
+	* @return {string} 400 - Description Global
+	* 
+	* @example response - 500 - Intitulé 01
+	* {"Error 500": "le serveur a du mal à répondre"}
+	* @return {string} 500 - Description Global
+	*/
+	"/login/success", async (req, res) => {
 	if (req.user) {
 		const foundUser = await foundByGithubUsername(req.user._json.login);
 		console.log("ici", req.user);
@@ -48,7 +102,27 @@ gitRouter.get("/login/success", async (req, res) => {
 		res.status(403).json({ message: "no user" });
 	}
 });
-gitRouter.get("/login/failed", (_, res) => {
+
+gitRouter.get(
+	/**
+	* GET /v1/login/failed
+	* @summary Fail pour la connexion avec github
+	* @description Fail pour la connexion avec github
+	* @tags Git
+	* @param {number} request.id.required 
+	* 
+	* @returns {string} 200 - Description
+	* @example response - 200 - success response - application/json
+	*
+	* @example response - 400 - Intitulé 01
+ 	* {"Error 400": "Demande erroné"}
+	* @return {string} 400 - Description Global
+	* 
+	* @example response - 500 - Intitulé 01
+	* {"Error 500": "le serveur a du mal à répondre"}
+	* @return {string} 500 - Description Global
+	*/
+	"/login/failed", (_, res) => {
 	res.status(401).json({
 		success: false,
 		message: "failure",

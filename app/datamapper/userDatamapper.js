@@ -1,7 +1,27 @@
-
 const pool = require("../db/connect");
 const bcrypt = require("bcrypt");
-const { getJobId } = require("./jobDatamapper");
+
+/**
+ * @typedef {*} customer
+ * @property {number} id
+ * @property {string} firstname
+ * @property {string} lastname
+ * @property {string} password
+ * @property {string} email
+ * @property {boolean} charte
+ * @property {string} city
+ * @property {string} description
+ * @property {string} profil_picture
+ * @property {string} is_active
+ * @property {string} validate
+ * @property {string} username_gith
+ * @property {string} url_github
+ * @property {string} url_gitlab
+ * @property {string} url_portfolio
+ * @property {string} url_linkedin
+ * @property {number} job_id
+ * @property {string} validation_link
+ */
 
 const userDatamapper = {
 	async createUser(req, validationlink, res) {

@@ -1,6 +1,19 @@
 const pool = require('../db/connect');
 
-
+/**
+ * @typedef {*} project
+ * @property {number} id
+ * @property {string} name
+ * @property {string} exerpt
+ * @property {string} description
+ * @property {string} picture_project
+ * @property {number} start_date
+ * @property {number} end_date
+ * @property {string} url_slack_server
+ * @property {string} url_github_repo
+ * @property {string} url_github_projet
+ * @property {string} url_trello
+ */
 
 const projectDatamapper = {
 
