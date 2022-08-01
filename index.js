@@ -23,6 +23,7 @@ const cookieParser = require("cookie-parser");
 
 //variable d'environnement
 expressJsDocSwagger(app)(options);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());

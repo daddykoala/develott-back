@@ -52,12 +52,17 @@ const projectController ={
     },
     
     async creatProject (req, res) {
-        const body = req.body
+        const body = req.body;
+        let timestamp = Date.now();
+        var date = new Date(timestamp);
+        console.log(date);
+
         try {
             const exist = await projectDatamapper.verif(body.name)
             if(exist){
-                res.json({"message":"Ce nom existe déja"})
+                throw new Error("Ce nom de projet est déjâ pris.")
             }
+
             const result = await projectDatamapper.create(body);
             if (result === null || result === undefined){
                 return res.status(404).json({ message: "This project does not exists !"});
@@ -69,6 +74,7 @@ const projectController ={
             return res.status(500).json({ message: "Database Error", error: error});
         };
     },
+
 
     async deleteProject (req, res) {
 

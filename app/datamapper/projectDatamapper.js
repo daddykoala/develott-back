@@ -92,8 +92,11 @@ const projectDatamapper = {
     },
 
     async create (body){
-        const sql =  `INSERT INTO project (name, exerpt, description,picture_project, start_date, end_date)VALUES($1, $2, $3, $4, $5,$6 )`;
+        const sql =  `INSERT INTO project (name, exerpt, description,picture_project, start_date, end_date)VALUES($1, $2, $3, $4, $5 ,$6 )RETURNING id`;
+        const sql2 = `INSERT INTO customer_has_project_role ( role_id, customer_id, project_id) VALUES($1,$2,$3)`;
+        
         body = { 
+            customer_id: body.userId,
             name : body.name,
             exerpt : body.exerpt,
             description : body.description,
@@ -101,10 +104,17 @@ const projectDatamapper = {
             start_date : body.start_date,
             end_date : body.end_date
         };
+
         try {
-        const result = await pool.query(sql, [body.name, body.exerpt, body.description, body.start_date, body.end_date]);
-        await pool.query('INSERT INTO customer_has_project_role (customer_id,project')
-        return result.rows[0];
+            const result = await pool.query(sql, [body.name, body.exerpt, body.description,body.picture_projet, body.start_date, body.end_date]);
+            
+            const roleId=1;
+            const projectId = result.rows[0]
+            
+            const customerId = body.customer_id
+            const result2 = await pool.query(sql2,[ roleId, customerId, projectId.id])
+            
+            return ;
         } catch (error) {
         console.error(error);
         };
@@ -138,6 +148,13 @@ const projectDatamapper = {
 		);
 		return savedPost.rows[0];
 	},
+
+    async verif(name) {
+        const sql = `SELECT project.name FROM public.project where name=$1`
+        
+        const result =await pool.query(sql,[name])
+        return result.rows[0]
+    }
 
 
 };
