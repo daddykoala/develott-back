@@ -12,12 +12,13 @@ try {
  *******************/
     
 
-roleRouter.get('/role',roleController.getAllRole)
+roleRouter.get('/role',roleController.getAllRole);
 
 /*******************
  **      POST    **              
  *******************/
- roleRouter.post('/project/:id/addrole',roleController.addRoleCustomer)
+roleRouter.post('/project/:id/addparticipantrole',roleController.addRoleCustomer);
+roleRouter.post('/project/:id/addroletoproject',roleController.addRoleToproject);
 
 /*******************
  **      DELETE      **              
