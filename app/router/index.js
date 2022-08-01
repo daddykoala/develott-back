@@ -3,6 +3,8 @@ const router = express.Router();
 
 //todo middleware gestion de la 404 implementer ici
 
+// swagger endpoint => https://develott.herokuapp.com/api-docs/
+
 //variable de nos modules
 const userRouter = require("./routerUser");
 const projectRouter = require("./routerProject");
