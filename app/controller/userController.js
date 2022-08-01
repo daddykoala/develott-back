@@ -21,13 +21,25 @@ const userController = {
 		const verificationLink = crypto.randomBytes(32).toString("hex");
 
 		//TODO créer l'utilisateur en bdd + la verificationLink
-		const result = await userDatamapper.createUser(data, verificationLink);
-		const user = await userDatamapper.foundUserBymail(data.email);
-		const message = `https://develott.herokuapp.com/v1/user/verify/${user.id}/${verificationLink}`;
-		await postMail(data.email, message);
-		res.status(200).json(result);
+		try {
+			const result = await userDatamapper.createUser(data, verificationLink);
+			const user = await userDatamapper.foundUserBymail(data.email);
+			const message = `https://develott.herokuapp.com/v1/user/verify/${user.id}/${verificationLink}`;
+			await postMail(data.email, message);
+			if (result === null || result === undefined){
+				return res.status(404).json({ message: "This job does not exists !"});
+			};
+			res.status(200).json(result);
+			
+		} catch (error) {
+			
+			console.error(error);
+			return res.status(500).json({ message: "Database Error", error: error});
+		};
 	},
+	
 
+	
 	async checkVerificationLink(req, res) {
 		const data = req.params;
 		const userId = req.params.id;
@@ -101,52 +113,82 @@ const userController = {
 
 	async fetchAllUser(_, res) {
 		try {
-			const allUser = await userDatamapper.allUser();
-			return res.json(allUser);
-		} catch (error) {
-			console.error(error);
-		}
+			const result = await userDatamapper.allUser();
+			if (result === null || result === undefined){
+				return res.status(404).json({ message: "This job does not exists !"});
+            };
+			
+            return res.json(result);
+
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: "Database Error", error: error});
+        };
 	},
 
 	async fetchOneUserById(req, res) {
 		const userId = parseInt(req.params.id, 10);
 		try {
-			const foundUserById = await userDatamapper.foundUserById(userId);
-			return res.json(foundUserById);
-		} catch (error) {
-			console.error(error);
-		}
+			const result = await userDatamapper.foundUserById(userId);
+			if (result === null || result === undefined){
+				return res.status(404).json({ message: "This job does not exists !"});
+            };
+			
+            return res.json(result);
+
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: "Database Error", error: error});
+        };
 	},
 
 	async fetchOneUserBymail(req, res) {
 		const userMail = req.params.email;
 		try {
-			const foundUserBymail = await userDatamapper.foundUserBymail(userMail);
-			return res.json(foundUserBymail);
-		} catch (error) {
-			console.error(error);
-		}
+			const result = await userDatamapper.foundUserBymail(userMail);
+			if (result === null || result === undefined){
+				return res.status(404).json({ message: "This job does not exists !"});
+            };
+			
+            return res.json(result);
+
+        } catch (error) {
+            console.error(error, "hello nom de zeus");
+            return res.status(500).json({ message: "Database Error", error: error});
+        };
 	},
 
 	async deleteUser(req, res) {
 		const userId = parseInt(req.params.id, 10);
 		try {
-			const destroy = await userDatamapper.destroy(userId);
-			return res.json(destroy);
-		} catch (error) {
-			console.error(error);
-		}
+			const result = await userDatamapper.destroy(userId);
+			if (result === null || result === undefined){
+				return res.status(404).json({ message: "This job does not exists !"});
+            };
+			
+            return res.json(result);
+
+        } catch (error) {
+            console.error(error, "hello nom de zeus");
+            return res.status(500).json({ message: "Database Error", error: error});
+        };
 	},
 
 	async updateUser(req, res) {
 		const body = req.body;
 		const userId = body.id;
 		try {
-			const update = await userDatamapper.update(body, userId);
-			return res.json(update);
-		} catch (error) {
-			console.error(error);
-		}
+			const result = await userDatamapper.update(body, userId);
+			if (result === null || result === undefined){
+				return res.status(404).json({ message: "This job does not exists !"});
+            };
+			
+            return res.json(result);
+
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: "Database Error", error: error});
+        };
 	},
 
 	//la generation de token
@@ -196,11 +238,17 @@ const userController = {
 	async postTechnoByCustomer(req, res) {
 		const body = req.body;
 		try {
-			const pickTechnoHasCustomer = await userDatamapper.pickTechnoHasCustomer(body);
-			return res.json(pickTechnoHasCustomer);
-		} catch (error) {
-			console.error(error);
-		}
+			const result = await userDatamapper.pickTechnoHasCustomer(body);
+			if (result === null || result === undefined){
+				return res.status(404).json({ message: "This job does not exists !"});
+            };
+			
+            return res.json(result);
+
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: "Database Error", error: error});
+        };
 	}
 	
 };

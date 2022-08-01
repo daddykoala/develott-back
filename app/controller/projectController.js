@@ -37,14 +37,24 @@ const projectController ={
     },
     
     async creatProject (req, res) {
-        const body = req.body
+        const body = req.body;
+        let timestamp = Date.now();
+        var date = new Date(timestamp);
+        console.log(date);
+
         try {
+            const exist = await projectDatamapper.verif(body.name)
+            if(exist){
+                throw new Error("Ce nom de projet est déjâ pris.")
+            }
             const create = await projectDatamapper.create(body);
-            return res.json(create);
+            return res.json( {"message":"votre projet est crée"} ).status(200);
+
         } catch (error) {
-            console.error(error);
-        };
-    },
+                console.error(error);
+            };
+        },
+
 
     async deleteProject (req, res) {
 

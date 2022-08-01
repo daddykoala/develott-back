@@ -5,10 +5,13 @@ const app = express();
 const router = require("./app/router/index");
 const cors = require("cors");
 const corsOptions = require("./app/service/corsOptions");
+const errorController = require("./app/service/errorHandlers/errorHandlers")
+
 //passeport.js
 const session = require("express-session");
 const passportSetup = require("./app/service/passport");
 const passport = require("passport");
+
 //documentation API
 const expressJsDocSwagger = require("express-jsdoc-swagger");
 const { options } = require("./app/service/optionDocSwagger");
@@ -20,10 +23,12 @@ const cookieParser = require("cookie-parser");
 
 //variable d'environnement
 expressJsDocSwagger(app)(options);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors(corsOptions));
+
 
 //Passport.js
 app.use(
