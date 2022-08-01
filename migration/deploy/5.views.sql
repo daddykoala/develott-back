@@ -2,7 +2,6 @@
 
 BEGIN;
 
-
 CREATE OR REPLACE VIEW public.v_equipe
  AS
  SELECT customer_has_project_role.customer_id,
@@ -23,7 +22,6 @@ CREATE OR REPLACE VIEW public.v_equipe
      LEFT JOIN techno ON techno.id = customer_has_techno.techno_id
   GROUP BY customer_has_project_role.customer_id, customer_has_project_role.role_id, customer_has_project_role.project_id, role.name, customer.firstname, customer.profil_picture, customer.lastname, customer.job_id, job.name;
 
-
 CREATE OR REPLACE VIEW public.v_customer
  AS
  SELECT customer.id,
@@ -31,7 +29,7 @@ CREATE OR REPLACE VIEW public.v_customer
     customer.lastname,
     customer.password,
     customer.email,
-    array_agg(distinct techno.name) AS techno,
+    array_agg(techno.name) AS techno,
     job.name AS job,
     customer.charte,
     customer.city,
@@ -49,8 +47,7 @@ CREATE OR REPLACE VIEW public.v_customer
    FROM customer
      FULL JOIN customer_has_techno ON customer_has_techno.customer_id = customer.id
      FULL JOIN techno ON techno.id = customer_has_techno.techno_id
-     FULL JOIN job ON job.id = customer.job_id
-     WHERE (customer.charte='true' or customer.charte='false')
+     JOIN job ON job.id = customer.job_id
   GROUP BY customer.id, customer.firstname, customer.lastname, customer.password, customer.email, job.name, customer.charte, customer.city, customer.description, customer.profil_picture, customer.is_active, customer.validate, customer.username_gith, customer.url_github, customer.url_gitlab, customer.url_portfolio, customer.url_linkedin, customer.job_id, customer.validation_link;
 
 
@@ -62,7 +59,6 @@ CREATE OR REPLACE VIEW public.v_project
     project.description,
     project.picture_project AS picture,
     project.start_date,
-    project.end_date,
     ph_techno.techno,
     ph_job.job,
     r_customer.role_id,
@@ -96,5 +92,4 @@ CREATE OR REPLACE VIEW public.v_project
                     customer.profil_picture
                    FROM customer) customer_admin ON customer_has_project_role.customer_id = customer_admin.id
           WHERE customer_has_project_role.role_id = 1) r_customer ON r_customer.project_id = project.id;
-
 COMMIT;

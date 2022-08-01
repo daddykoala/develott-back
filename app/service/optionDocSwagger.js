@@ -20,6 +20,12 @@ const options = {
     swaggerUIPath: "/api-docs" ,
     baseDir: __dirname,
     filesPattern: "../**/*.js",
+    servers: [
+        {
+          url: 'http://http://localhost:3002/api-docs/',
+          description: 'Development server develott',
+        },
+      ],
 };
 
 

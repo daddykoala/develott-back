@@ -2,6 +2,6 @@
 
 BEGIN;
 
-DROP INDEX index_project, index_techno, index_job
+-- XXX Add DDLs here.
 
 COMMIT;

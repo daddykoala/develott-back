@@ -11,6 +11,10 @@ const resetPasswordMail = require("../service/nodemailerPasswordService.js");
 const { update } = require("../datamapper/userDatamapper");
 
 const userController = {
+	/**
+	 * creer un utilisateur
+	 * @param {string} data
+	 */
 	async create(req, res) {
 		const data = req.body;
 		console.log(data);
@@ -153,17 +157,19 @@ const userController = {
 		console.log(email);
 		const foundUser = await userDatamapper.foundUserBymail(email);
 
-		if (foundUser.email = null || undefined ) {
-			res.status(401).send("le mail n'existe pas ")
-		}
+		
+	try {
+		if (foundUser.email === null || foundUser.email === undefined ) {
+			res.status(401).send("le mail n'existe pas ");
+        };
+
 		if (foundUser.email !== email) {
 			res.status(401).send("invalid credentials");
-			return;
-		}
+			
+		};
 		bcrypt.compare(password, foundUser.password, function (err, result) {
 			if (result == false) {
 				res.status(401).send("code invalide");
-				return;
 			}
 			if (result == true) {
 				//*création du JWT
@@ -177,10 +183,14 @@ const userController = {
 				// 	httpOnly: true,
 				// 	maxAge: 24 * 60 * 60 * 1000,
 				// });
-				res.cookie("jwt", refreshToken, {httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 })
+				res.cookie("jwt", refreshToken, {httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
 				res.status(200).json({ accessToken, foundUser });
-			}
+			};
 		});
+
+	} catch (error) {
+		console.error(error);
+	};
 	},
 
 	async postTechnoByCustomer(req, res) {

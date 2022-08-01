@@ -2,6 +2,6 @@
 
 BEGIN;
 
-DROP DOMAIN project, email;
+-- XXX Add DDLs here.
 
 COMMIT;

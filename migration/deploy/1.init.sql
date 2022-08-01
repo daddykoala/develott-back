@@ -18,11 +18,11 @@ CREATE TABLE IF NOT EXISTS customer
     lastname TEXT COLLATE pg_catalog."default" NOT NULL,
     password TEXT COLLATE pg_catalog."default" NOT NULL,
     email TEXT COLLATE pg_catalog."default" NOT NULL UNIQUE,
-    charte BOOLEAN DEFAULT 'false',
+    charte BOOLEAN,
     city TEXT COLLATE pg_catalog."default",
     description TEXT COLLATE pg_catalog."default",
     profil_picture TEXT COLLATE pg_catalog."default",
-    is_active BOOLEAN DEFAULT 'false' ,
+    is_active BOOLEAN ,
     validate BOOLEAN DEFAULT 'false',
     username_gith TEXT COLLATE pg_catalog."default",
     url_github TEXT COLLATE pg_catalog."default",
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS customer
     CONSTRAINT customer_pkey PRIMARY KEY (id),
     CONSTRAINT customer_job_id_fkey FOREIGN KEY (job_id)
     REFERENCES public.job (id) MATCH SIMPLE,
-    validation_link TEXT COLLATE pg_catalog."default",
+    validation_link TEXT ,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW() ,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
@@ -128,5 +128,4 @@ CREATE TABLE IF NOT EXISTS customer_has_project_role
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY ("customer_id", "role_id", "project_id")
  );
-
 COMMIT;
