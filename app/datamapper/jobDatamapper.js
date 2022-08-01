@@ -27,11 +27,12 @@ const jobDatamapper = {
             };
         },
 
-        async deleteJobProject (projectId, jobId) {
-            console.log(projectId,jobId);
-            const sql ='DELETE FROM public.project_has_job WHERE project_id=$1 AND job_id=$2';
+        async deleteJobProject (id) {
+           
+            
+            const sql ='DELETE FROM public.project_has_job WHERE id=$1';
             try {
-                await pool.query(sql,[projectId,jobId]);
+                await pool.query(sql,[id]);
             } catch (error) {
                 console.error(error);
             };

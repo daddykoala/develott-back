@@ -56,7 +56,7 @@ projectRouter.get(
 		 */
     "/homeproject",projectController.fetchAllProject);
 
-projectRouter.get("/projects",projectController.fetchAllProjectHome);
+projectRouter.get("/projects",authenticateToken,projectController.fetchAllProjectHome);
 
 projectRouter.get(
          /**
@@ -126,7 +126,7 @@ projectRouter.get(
 	 	 * {"Error 500": "le serveur a du mal à répondre"}
 		 * @return {string} 500 - Description Global
 		 */
-    "/project/:id(\\d+)",authenticateToken, projectController.oneProjectByCustomerConnected);
+    "/project/:id(\\d+)", authenticateToken,projectController.oneProjectByCustomerConnected);
 
 /*******************
 **      POST     **              
@@ -222,6 +222,10 @@ projectRouter.delete(
 		 */
     "/project/:id(\\d+)", authenticateToken, projectController.deleteProject);
 
+
+
+//PATCH
+projectRouter.patch("/project/:id(\\d+)", authenticateToken,  projectController.updateProject);
 
 
 module.exports = projectRouter;
