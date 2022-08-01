@@ -50,6 +50,8 @@ const projectDatamapper = {
 
         const sql = `SELECT * FROM public.v_project WHERE id=$1`;
         const sql2 =`SELECT customer_id, role_id, project_id, role, firstname, lastname, job_id, job, techno_name FROM public.v_equipe where project_id=$1`;
+        const sql3 =`SELECT job, id_project_has_job, job_id, project_id FROM public.v_project_has_job WHERE project_id=$1`
+
         try {
             const result = await pool.query(sql,[projectId]);
             const project = result.rows[0];
@@ -58,7 +60,10 @@ const projectDatamapper = {
             const result2 = await pool.query(sql2,[projectId]);
             const teams = result2.rows;
 
-        return {project,teams};
+            const result3 = await pool.query(sql3,[projectId]);
+            const jobByProject = result3.rows;
+
+        return {project,teams,jobByProject};
         } catch (error) {
             console.error(error);
         };

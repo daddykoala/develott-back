@@ -24,6 +24,8 @@ const roleDatamapper={
         await pool.query(sql,values);
     },
 
+//retirer 
+
 
 
 }

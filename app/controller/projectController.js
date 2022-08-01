@@ -41,7 +41,7 @@ const projectController ={
         try {
             const exist = await projectDatamapper.verif(body.name)
             if(exist){
-                res.json({"message":"Cenom existe déja"})
+                res.json({"message":"Ce nom existe déja"})
             }
             const create = await projectDatamapper.create(body);
             return res.json(create);
