@@ -126,6 +126,6 @@ jobRouter.delete(
 	 	 * {"Error 500": "le serveur a du mal à répondre"}
 		 * @return {string} 500 - Description Global
 		 */
-    "/project/:id(\\d+)/deletejob",jobController.deleteJobProject);
+    "/project/:id(\\d+)/deletejob",authenticateToken,jobController.deleteJobProject);
 
 module.exports = jobRouter ;

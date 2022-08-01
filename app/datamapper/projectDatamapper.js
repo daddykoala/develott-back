@@ -19,9 +19,18 @@ const projectDatamapper = {
 
     async allProject (){
         const sql = 'SELECT id, project, excerpt, picture, start_date, techno, job, role_id, firstname, lastname, c_profil_picture FROM public.v_project;';
+        const sql2 ='SELECT * FROM public.v_project_has_job'
+
+
         try {
             const result = await pool.query(sql);
-            return result.rows;
+            const project=result.rows
+
+
+            const result2 = await pool.query(sql2);
+            const jobByProject=result.rows
+
+            return { project,jobByProject };
         } catch (error) {
             console.error(error);
         };
@@ -58,6 +67,8 @@ const projectDatamapper = {
     async allProjectLink (){
         const sql = 'SELECT id, project, excerpt, picture, start_date, techno, job, role_id, firstname, lastname, c_profil_picture FROM public.v_project';
         const sql2='SELECT customer_id, role_id, project_id, role, firstname, lastname, job_id, job, techno_name FROM public.v_equipe';
+        const sql3 ='SELECT * FROM public.v_project_has_job'
+
         try {
         const result = await pool.query(sql);
         const projects = result.rows;
@@ -65,7 +76,11 @@ const projectDatamapper = {
         const result2 = await pool.query(sql2);
         const teams = result2.rows;
 
-        return {projects,teams};
+        const result3 = await pool.query(sql3);
+        const jobByProject=result3.rows
+            
+
+        return {projects,teams,jobByProject};
         } catch (error) {
         console.error(error);
         };
