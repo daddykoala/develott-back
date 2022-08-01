@@ -55,7 +55,7 @@ const technoController ={
         try {
             
             const technoFinded = await technoDatamapper.getTechnoId(technoName);
-            const allProject = await technoDatamapper.deleteTechnoUser (projectId ,technoFinded.id);
+            const allProject = await technoDatamapper.deleteTechnoProject (projectId ,technoFinded.id);
             return res.json(allProject);
 
         } catch (error) {

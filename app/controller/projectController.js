@@ -39,6 +39,10 @@ const projectController ={
     async creatProject (req, res) {
         const body = req.body
         try {
+            const exist = await projectDatamapper.verif(body.name)
+            if(exist){
+                res.json({"message":"Cenom existe déja"})
+            }
             const create = await projectDatamapper.create(body);
             return res.json(create);
         } catch (error) {
