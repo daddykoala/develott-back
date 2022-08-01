@@ -451,7 +451,8 @@ userRouter.delete(
 	* @example response - 500 - Intitulé 01
 	* {"Error 500": "le serveur a du mal à répondre"}
 	* @return {string} 500 - Description Global
-	*/"/user/:id(\\d+)", authenticateToken, userController.deleteUser);
+	*/
+	"/user/:id(\\d+)", authenticateToken, userController.deleteUser);
 
 
 

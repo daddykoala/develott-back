@@ -24,7 +24,7 @@ projectRouter.get(
 		 * @returns {string} 200 - Description
 		 * @example response - 200 - success response - application/json
 		 * {
-            "id": 1,
+            "id": "1",
             "project": "Learn(Err)",
             "excerpt": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
             "picture": " ",
@@ -41,7 +41,7 @@ projectRouter.get(
             "Developpeur(se) Back-End",
             "Developpeur(se) Mobile "
             ],
-            "role_id": 1,
+            "role_id": "1",
             "firstname": "Abraham",
             "lastname": "Noel",
             "c_profil_picture": " "
