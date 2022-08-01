@@ -17,8 +17,7 @@ roleRouter.get('/role',roleController.getAllRole)
 /*******************
  **      POST    **              
  *******************/
-
-
+ roleRouter.post('/project/:id/addrole',roleController.addRoleCustomer)
 
 /*******************
  **      DELETE      **              

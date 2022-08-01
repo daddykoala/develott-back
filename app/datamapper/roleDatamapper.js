@@ -9,12 +9,14 @@ const roleDatamapper={
         return result.rows
     },
 
-    // async addRoleCustomer (roleId,projectId,customerId) {
+    async addRoleToCustomer (roleId,projectId,customerId) {
 
-    //     sql ='UPDATE public.customer_has_project_role SET role_id=$1 WHERE project_id=$2 and customer_id=$3';
-    //     values=[roleId,projectId,customerId];
-    //     await pool.query(sql,values)
-    // }
+        sql ='UPDATE public.customer_has_project_role SET role_id=$1 WHERE project_id=$2 and customer_id=$3';
+        values=[roleId,projectId,customerId];
+        await pool.query(sql,values)
+    }
+
+    
 }
 
 module.exports = roleDatamapper;

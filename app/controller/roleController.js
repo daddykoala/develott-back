@@ -7,9 +7,19 @@ const roleController={
         const result = await roleDatamapper.allRole();
         return res.json(result)
     
-    }
+    },
 
-//     async addRoleCustomer (roleId,projectId) {
+    async addRoleCustomer (req,res) {
+
+        const roleId =req.body.role_id;
+        const projectId=req.params.id;
+        const customerId=req.body.customer_id;
+        console.log(roleId,projectId,customerId);
+
+        const result = await roleDatamapper.addRoleToCustomer(roleId,projectId,customerId);
+        return res.json(result)
+    }
+        
 
 
 }
