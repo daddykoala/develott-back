@@ -12,6 +12,11 @@ const {
 //ROUTER API
 const CLIENT_URL = "http://localhost:3000/projets";
 
+
+/*******************
+**       GET      **              
+*******************/
+
 gitRouter.get(
 	"/auth/github",
 	passport.authenticate("github", { scope: ["profile"] })

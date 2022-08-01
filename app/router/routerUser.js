@@ -20,21 +20,9 @@ const {
 const { createValidator } = require("express-joi-validation");
 const validate = createValidator();
 
+
 // swagger endpoint => https://develott.herokuapp.com/api-docs/
 
-/*******************
-**AUTHENTIFICATION**              
-*******************/
-
-userRouter.get(
-	"/user/verify/:id/:verificationLink",
-	userController.checkVerificationLink);
-userRouter.get(
-	"/user/verifyPassword/:id/:verificationLink",
-
-	userController.checkPasswordResetLink);
-userRouter.get("/user/refreshToken", refreshTokenController.handleRefreshToken);
-userRouter.get("/user/logout", authenticateToken, logoutController.handleLogout);
 
 /*******************
 **      GET      **              
@@ -43,7 +31,7 @@ userRouter.get("/user/logout", authenticateToken, logoutController.handleLogout)
 userRouter.get(	
 	/**
 	 * GET /v1/users
-	 * @summary Customer
+	 * @summary Récupére tout les utilisateurs
 	 * @description Récupére tout les utilisateurs
 	 * @tags Customer
 	 * 
@@ -80,15 +68,14 @@ userRouter.get(
 	 */
 	"/users", userController.fetchAllUser)
 
-
 userRouter.get(
 		/**
 		 * GET /v1/user/findByEmail/:email
-		 * @summary Customer
+		 * @summary Récupére un utilisateur par son email
 		 * @description Récupére un utilisateur par son email
 		 * @tags Customer
-		 * @param {InputPost} request.email.required 
-		 * 
+		 * @param {string} request.email.required 
+		 * @param {InputPost} request.body.required 
 		 * @returns {string} 200 - Description
 		 * @example response - 200 - success response - application/json
 		 * {
@@ -124,10 +111,10 @@ userRouter.get(
 userRouter.get(
 		/**
 		 * GET /v1/user/findById/:id
-		 * @summary Customer
+		 * @summary Récupére un utilisateur par son id
 		 * @description Récupére un utilisateur par son id
 		 * @tags Customer
-		 * @param {InputPost} request.id.required 
+		 * @param {number} request.id.required 
 		 * 
 		 * @returns {string} 200 - Description
 		 * @example response - 200 - success response - application/json
@@ -163,8 +150,8 @@ userRouter.get(
 
 userRouter.get(
 	/**
-	 * GET /home
-	 * @summary Customer
+	 * GET /v1/home
+	 * @summary Validation de connexion
 	 * @description Validation de connexion
 	 * @tags Customer
 	 * 
@@ -183,8 +170,8 @@ userRouter.get(
 
 userRouter.get(
 	/**
-	 * GET /user/logout
-	 * @summary Customer
+	 * GET /v1/user/logout
+	 * @summary Déconnexion session utilisateur
 	 * @description Déconnexion session utilisateur
 	 * @tags Customer
 	 * 
@@ -192,14 +179,83 @@ userRouter.get(
 	 * @example response - 200 - success response - application/json
 	 * 
 	 *@example response - 400 - Intitulé 01
-	 * {"Error 400": "message 01"}
+	 * {"Error 400": "Demande erroné"}
 	 * @return {string} 400 - Description Global
 	 * 
 	 * @example response - 500 - Intitulé 01
-	 * {"Error 500": "message 01"}
+	 * {"Error 500": "le serveur a du mal à répondre"}
 	 * @return {string} 500 - Description Global
 	 */
 	"/user/logout", authenticateToken, logoutController.handleLogout);
+
+userRouter.get(
+		/**
+		 * GET /v1/user/verify/:id/:verificationLink
+		 * @summary Valide l'email d'un utilisateur
+		 * @description Valide l'email d'un utilisateur
+		 * @tags Customer
+		 * @param {sting} request.body.required 
+		 * @param {string} request.email.required 
+		 * @param {number} request.id.required 
+		 * 
+		 * @returns {string} 200 - Description
+		 * @example response - 200 - success response - application/json
+		 * {
+			"id":"1",
+			"validation_link":	"pTilwRoKc!4hNzLI",
+			"email":	"Eubert.Marchand@yahoo.fr"
+		* }
+		 *@example response - 400 - Intitulé 01
+ 		 * {"Error 400": "Demande erroné"}
+		 * @return {string} 400 - Description Global
+		 * 
+		 * @example response - 500 - Intitulé 01
+	 	 * {"Error 500": "le serveur a du mal à répondre"}
+		 * @return {string} 500 - Description Global
+		 */
+	"/user/verify/:id/:verificationLink",userController.checkVerificationLink);
+
+userRouter.get(
+	/**
+	 * GET /v1/user/refreshToken
+	 * @summary Validation de refresh token
+	 * @description Validation de refresh token
+	 * @tags Customer
+	 * 
+	 * @returns {string} 200 - Description
+	 * @example response - 200 - success response - application/json
+	 * 
+	 *@example response - 400 - Intitulé 01
+ 	 * {"Error 400": "Demande erroné"}
+	 * @return {string} 400 - Description Global
+	 * 
+	 * @example response - 500 - Intitulé 01
+	 * {"Error 500": "le serveur a du mal à répondre"}
+	 * @return {string} 500 - Description Global
+	 */
+	"/user/refreshToken", refreshTokenController.handleRefreshToken);
+
+userRouter.get(
+	/**
+	 * GET /v1/user/verifyPassword/:id/:verificationLink
+	 * @summary Validation de connexion
+	 * @description Validation de connexion
+	 * @tags Customer
+	 * @param {string} json
+	 * @param {number} request.id.required
+	 * 
+	 * @returns {string} 200 - Description
+	 * @example response - 200 - success response - application/json
+	 * 
+	 *@example response - 400 - Intitulé 01
+ 	 * {"Error 400": "Demande erroné"}
+	 * @return {string} 400 - Description Global
+	 * 
+	 * @example response - 500 - Intitulé 01
+	 * {"Error 500": "le serveur a du mal à répondre"}
+	 * @return {string} 500 - Description Global
+	 */
+	"/user/verifyPassword/:id/:verificationLink",userController.checkPasswordResetLink);
 
 /*******************
 **      POST      **              
@@ -208,10 +264,10 @@ userRouter.get(
 userRouter.post(
 /**
  * POST /v1/user/create
- * @summary Customer
+ * @summary Crée un utilisateur
  * @description Crée un utilisateur
  * @tags Customer
- * @param {InputPost} request.body.required 
+ * @param {string} request.body.required 
  * 
  * @return {string} 200 - Description Global
  * @example response - 200 - success response - application/json
@@ -235,10 +291,10 @@ userRouter.post(
 userRouter.post(
 	/**
 	 * GET /v1/user/newPassword
-	 * @summary Customer
+	 * @summary Modifie le password de l'utilisateur
 	 * @description Modifie le password de l'utilisateur
 	 * @tags Customer
-	 * @param {InputPost} request.body.required 
+	 * @param {string} request.body.required 
 	 * 
 	 * @returns {string} 200 - Description
 	 * @example response - 200 - success response - application/json
@@ -258,10 +314,11 @@ userRouter.post(
 userRouter.post(
 		/**
 		 * POST /v1/user/techno
-		 * @summary Customer
+		 * @summary Ajout une techno à un utilisateur
 		 * @description Ajout une techno à un utilisateur
 		 * @tags Customer
-		 * @param {InputPost} request.body.required 
+		 * @param {string} request.body.required 
+		 * @param {number} request.id.required 
 		 * 
 		 * @return {string} 200 - Description Global
 		 * @example response - 200 - success response - application/json
@@ -283,10 +340,10 @@ userRouter.post(
 userRouter.post(
 		/**
  * POST /v1/user/forgotPassword
- * @summary Customer
+ * @summary Réinitialiser le password de l'utilisateur 
  * @description Réinitialiser le password de l'utilisateur 
  * @tags Customer
- * @param {InputPost} request.body.required 
+ * @param {string} request.body.required 
  * 
  * @return {string} 200 - Description Global
  * @example response - 200 - success response - application/json
@@ -308,10 +365,10 @@ userRouter.post(
 userRouter.post(
 	/**
 	* POST /v1/user/login
-	* @summary Customer
+	* @summary Connexion au compte utilisateur
 	* @description Connexion au compte utilisateur
 	* @tags Customer
-	* @param {InputPost} request.body.required 
+	* @param {string} request.body.required 
 	* 
 	* @returns {string} 200 - Description
 	* @example response - 200 - success response - application/json
@@ -336,10 +393,11 @@ userRouter.post(
 userRouter.patch(
 	/**
 	 * PATCH /v1/user/id
-	 * @summary Customer
+	 * @summary Modifie le profil d'un utilisateur
 	 * @description Modifie le profil d'un utilisateur
 	 * @tags Customer
-	 * @param {InputPost} request.body.required 
+	 * @param {string} request.body.required 
+	 * @param {number} request.id.required 
 	 * 
 	 * @returns {string} 200 - Description
 	 * @example response - 200 - success response - application/json
@@ -370,16 +428,16 @@ userRouter.patch(
 	"/user/id(\\d+)", authenticateToken, userController.updateUser);
 
 /*******************
-**      DELETE      **              
+**      DELETE    **              
 *******************/
 
 userRouter.delete(
 	/**
 	* DELETE /v1/user/id
-	* @summary Customer
+	* @summary Supprime le profil d'un utilisateur
 	* @description Supprime le profil d'un utilisateur
 	* @tags Customer
-	* @param {InputPost} request.id.required 
+	* @param {number} request.id.required 
 	* 
 	* @returns {string} 200 - Description
 	* @example response - 200 - success response - application/json

@@ -11,22 +11,34 @@ const jobController = require("../controller/jobController");
 const { authenticateToken } = require("../service/jsonwebToken");
 
 
-//GET
+/*******************
+**       GET     **              
+*******************/
+
 projectRouter.get("/homeproject",projectController.fetchAllProject);
 projectRouter.get("/projects",projectController.fetchAllProjectHome);
 projectRouter.get("/project/guest/:id(\\d+)", authenticateToken, projectController.fetchOneProject);
 projectRouter.get("/project/:id(\\d+)", projectController.oneProjectByCustomerConnected);
 
-//POST
+/*******************
+**      POST     **              
+*******************/
+
 projectRouter.post("/project", authenticateToken, projectController.creatProject);
 
+/*******************
+**      PATCH     **              
+*******************/
 
+projectRouter.patch("/project/:id(\\d+)//", authenticateToken,  projectController.updateProject);
 
-//DELETE
+/*******************
+**      DELETE    **              
+*******************/
+
 projectRouter.delete("/project/:id(\\d+)", authenticateToken, projectController.deleteProject);
 
-//PATCH
-projectRouter.patch("/project/:id(\\d+)//", authenticateToken,  projectController.updateProject);
+
 
 module.exports = projectRouter;
 
