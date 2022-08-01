@@ -19,13 +19,11 @@ const jobController ={
     },
 
     async deleteJobProject (req,res) {
-        const projectId= req.params.id;
-        const jobName = req.body.job;
+        
+        const tableId = req.body.id_project_has_job;
+        
         try {
-            
-            const jobFinded = await jobDatamapper.getJobId(jobName);
-            
-            const result = await jobDatamapper.deleteJobProject (projectId ,jobFinded.id);
+            const result = await jobDatamapper.deleteJobProject (tableId);
             return res.json(result);
 
         } catch (error) {
