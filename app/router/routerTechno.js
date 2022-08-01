@@ -5,6 +5,24 @@ const { authenticateToken } = require("../service/jsonwebToken");
 //import module
 const technoController = require("../controller/technoController");
 
+
+
+
+/*******************
+**      GET      **              
+*******************/
+
+
+
+
+
+
+
+
+
+
+
+
 /*******************
 **      POST      **              
 *******************/
@@ -83,7 +101,7 @@ technoRouter.delete(
 	 	 * {"Error 500": "le serveur a du mal à répondre"}
 		 * @return {string} 500 - Description Global
 		 */
-    "/project/:id(\\d+)/techno",authenticateToken, technoController.deleteTechnoProject);
+    "/project/:id(\\d+)/techno", technoController.deleteTechnoProject);
 
 technoRouter.delete(
          /**
