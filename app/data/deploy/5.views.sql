@@ -62,6 +62,7 @@ CREATE OR REPLACE VIEW public.v_project
     project.description,
     project.picture_project AS picture,
     project.start_date,
+    project.end_date,
     ph_techno.techno,
     ph_job.job,
     r_customer.role_id,

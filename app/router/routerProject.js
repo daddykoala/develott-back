@@ -224,5 +224,9 @@ projectRouter.delete(
 
 
 
+//PATCH
+projectRouter.patch("/project/:id(\\d+)", authenticateToken,  projectController.updateProject);
+
+
 module.exports = projectRouter;
 
