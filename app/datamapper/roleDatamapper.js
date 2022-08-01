@@ -15,14 +15,17 @@ const roleDatamapper={
         values=[roleId,projectId,customerId];
         await pool.query(sql,values)
     },
-//postule a un projet 
-    async addRoleToproject (customerId,projectId) {
 
-        sql ='INSERT INTO public.customer_has_project_role(customer_id, role_id, project_id)VALUES ($1, 3, $2)';
-        values=[customerId,projectId];
-        await pool.query(sql,values)
+//postule a un projet 
+    async addRoleToproject (customerId,roleId,projectId) {
+
+        sql ='INSERT INTO public.customer_has_project_role(customer_id, role_id, project_id)VALUES ($1, $2, $3)';
+        values=[customerId,roleId,projectId];
+        await pool.query(sql,values);
     },
-    
+
+
+
 }
 
 module.exports = roleDatamapper;
