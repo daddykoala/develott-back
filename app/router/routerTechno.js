@@ -5,6 +5,24 @@ const { authenticateToken } = require("../service/jsonwebToken");
 //import module
 const technoController = require("../controller/technoController");
 
+
+
+
+/*******************
+**      GET      **              
+*******************/
+
+
+
+
+
+
+
+
+
+
+
+
 /*******************
 **      POST      **              
 *******************/

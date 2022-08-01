@@ -65,6 +65,7 @@ CREATE OR REPLACE VIEW public.v_project
     project.end_date,
     ph_techno.techno,
     ph_job.job,
+    ph_job.id as id_Table_job,
     r_customer.role_id,
     r_customer.firstname,
     r_customer.lastname,
@@ -76,12 +77,12 @@ CREATE OR REPLACE VIEW public.v_project
            FROM project_has_techno
              JOIN techno ON project_has_techno.techno_id = techno.id
           GROUP BY project_has_techno.project_id) ph_techno ON ph_techno.project_id = project.id
-     LEFT JOIN ( SELECT array_agg(project_has_job.job_id) AS array_agg,
+     LEFT JOIN ( SELECT project_has_job.id,array_agg(project_has_job.job_id) AS array_agg,
             project_has_job.project_id,
             array_agg(job.name) AS job
            FROM project_has_job
              JOIN job ON project_has_job.job_id = job.id
-          GROUP BY project_has_job.project_id) ph_job ON ph_job.project_id = project.id
+          GROUP BY project_has_job.id,project_has_job.project_id) ph_job ON ph_job.project_id = project.id
      LEFT JOIN ( SELECT customer_has_project_role.role_id,
             customer_has_project_role.project_id,
             role.name AS role,
@@ -96,5 +97,6 @@ CREATE OR REPLACE VIEW public.v_project
                     customer.profil_picture
                    FROM customer) customer_admin ON customer_has_project_role.customer_id = customer_admin.id
           WHERE customer_has_project_role.role_id = 1) r_customer ON r_customer.project_id = project.id;
+
 
 COMMIT;
