@@ -5,6 +5,21 @@ const jobRouter = express.Router();
 const { authenticateToken } = require("../service/jsonwebToken");
 const jobController = require("../controller/jobController");
 
+
+
+/*******************
+**      GET      **              
+*******************/
+
+
+
+
+
+
+
+
+
+
 /*******************
  **       POST     **              
  *******************/
