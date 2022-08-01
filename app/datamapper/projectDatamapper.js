@@ -98,6 +98,7 @@ const projectDatamapper = {
         };
         try {
         const result = await pool.query(sql, [body.name, body.exerpt, body.description, body.start_date, body.end_date]);
+        await pool.query('INSERT INTO customer_has_project_role (customer_id,project')
         return result.rows[0];
         } catch (error) {
         console.error(error);
