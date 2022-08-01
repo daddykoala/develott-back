@@ -27,7 +27,7 @@ const userController = {
 			const message = `https://develott.herokuapp.com/v1/user/verify/${user.id}/${verificationLink}`;
 			await postMail(data.email, message);
 			if (result === null || result === undefined){
-				return res.status(404).json({ message: "This job does not exists !"});
+				return res.status(404).json({ message: "This user does not exists !"});
 			};
 			res.status(200).json(result);
 			
@@ -56,7 +56,7 @@ const userController = {
 			const valideleted = await userDatamapper.deleteLinkEmail(userId);
 			const updated = await userDatamapper.updatesStatus(userId);
 			if( updated === nul || updated === undefined){
-				return res.status(404).json({ message: "This job does not exists !"});
+				return res.status(404).json({ message: "This user does not exists !"});
 			}
 			res.status(200).redirect("http://localhost:3000/connexion/");
 
@@ -68,7 +68,6 @@ const userController = {
 	async createResetPasswordLink(req, res) {
 		const email = req.body.email;
 		try {
-			
 			const verificationLink = crypto.randomBytes(32).toString("hex");
 			const user = await userDatamapper.foundUserBymail(email);
 			const updateLink = await userDatamapper.updatesValidationLink(
@@ -79,10 +78,9 @@ const userController = {
 	
 			const result = await resetPasswordMail(email, message);
 			if( result === nul || result === undefined){
-				return res.status(404).json({ message: "This job does not exists !"});
+				return res.status(404).json({ message: "This user does not exists !"});
 			}
 			res.status(200).json("ok");
-
 		} catch (error) {
 			return res.status(500).json({ message: "Database Error", error: error});
 		};
@@ -105,7 +103,7 @@ const userController = {
 			//TODO update l'utilisateur : on supprime le verificationLink + on passe Verified à true
 			const valideleted = await userDatamapper.deleteLinkEmail(userId);
 			if (valideleted === null || valideleted === undefined){
-				return res.status(404).json({ message: "This job does not exists !"});
+				return res.status(404).json({ message: "This user does not exists !"});
 			};
 			res.status(200).redirect(`https:localhost3000/newpassword/${userId}`);
 		} catch (error) {
@@ -133,7 +131,7 @@ const userController = {
 		try {
 			const result = await userDatamapper.allUser();
 			if (result === null || result === undefined){
-				return res.status(404).json({ message: "This job does not exists !"});
+				return res.status(404).json({ message: "This user does not exists !"});
             };
             return res.json(result);
 
@@ -148,7 +146,7 @@ const userController = {
 		try {
 			const result = await userDatamapper.foundUserById(userId);
 			if (result === null || result === undefined){
-				return res.status(404).json({ message: "This job does not exists !"});
+				return res.status(404).json({ message: "This user does not exists !"});
             };
             return res.json(result);
 
@@ -163,7 +161,7 @@ const userController = {
 		try {
 			const result = await userDatamapper.foundUserBymail(userMail);
 			if (result === null || result === undefined){
-				return res.status(404).json({ message: "This job does not exists !"});
+				return res.status(404).json({ message: "This user does not exists !"});
             };
 			
             return res.json(result);
@@ -179,7 +177,7 @@ const userController = {
 		try {
 			const result = await userDatamapper.destroy(userId);
 			if (result === null || result === undefined){
-				return res.status(404).json({ message: "This job does not exists !"});
+				return res.status(404).json({ message: "This user does not exists !"});
             };
 			
             return res.json(result);
@@ -196,7 +194,7 @@ const userController = {
 		try {
 			const result = await userDatamapper.update(body, userId);
 			if (result === null || result === undefined){
-				return res.status(404).json({ message: "This job does not exists !"});
+				return res.status(404).json({ message: "This user does not exists !"});
             };
 			
             return res.json(result);
@@ -251,7 +249,7 @@ const userController = {
 		try {
 			const result = await userDatamapper.pickTechnoHasCustomer(body);
 			if (result === null || result === undefined){
-				return res.status(404).json({ message: "This job does not exists !"});
+				return res.status(404).json({ message: "This user does not exists !"});
             };
 			
             return res.json(result);

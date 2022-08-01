@@ -9,7 +9,6 @@ const roleController={
             return res.status(404).json({ message: "This role does not exists !"});
         };
         return res.json(result);
-
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Database Error", error: error});
@@ -23,7 +22,6 @@ const roleController={
             const projectId=req.params.id;
             const customerId=req.body.customer_id;
             console.log(roleId,projectId,customerId);
-    
             const result = await roleDatamapper.addRoleToCustomer(roleId,projectId,customerId);
             if (result === null || result === undefined){
                 return res.status(404).json({ message: "This role does not exists !"});
@@ -53,7 +51,6 @@ const roleController={
                 return res.status(404).json({ message: "This role does not exists !"});
             };
             return res.json(result);
-
         } catch (error) {
             console.error(error);
             return res.status(500).json({ message: "Database Error", error: error});
