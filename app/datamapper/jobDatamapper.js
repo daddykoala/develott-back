@@ -1,5 +1,12 @@
 const pool = require('../db/connect') ;
 
+/**
+ * @typedef {*} job
+ * @property {number} id
+ * @property {string} name
+ * @property {string} description
+ */
+
 const jobDatamapper = {
     //middleware pour recuperer l'id du job
         async getJobId (jobName, res){
