@@ -9,6 +9,17 @@ const pool = require('../db/connect') ;
 
 const jobDatamapper = {
     //middleware pour recuperer l'id du job
+    async AllJob() {
+        console.log('ici');
+        sql='SELECT job.id as id, job.name FROM public.job ';
+        const result=await pool.query(sql);
+        console.log('ici');
+        return result.rows
+
+    },
+
+
+
         async getJobId (jobName, res){
             console.log(jobName);
             const result = await pool.query(`SELECT id FROM PUBLIC.JOB WHERE name = '${jobName}'`);

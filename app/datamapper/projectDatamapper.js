@@ -114,7 +114,7 @@ const projectDatamapper = {
             const customerId = body.customer_id
             const result2 = await pool.query(sql2,[ roleId, customerId, projectId.id])
             
-            return ;
+            return result.rows[0];
         } catch (error) {
         console.error(error);
         };
