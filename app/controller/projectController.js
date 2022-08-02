@@ -48,7 +48,8 @@ const projectController ={
                 throw new Error("Ce nom de projet est déjâ pris.")
             }
             const create = await projectDatamapper.create(body);
-            return res.json( {"message":"votre projet est crée"} ).status(200);
+            console.log(create);
+            return res.json(create);
 
         } catch (error) {
                 console.error(error);
