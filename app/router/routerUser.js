@@ -423,7 +423,7 @@ userRouter.patch(
 	 * {"Error 500": "le serveur a du mal à répondre"}
 	 * @return {string} 500 - Description Global
 	 */
-	"/user/id(\\d+)", authenticateToken, userController.updateUser);
+	"/user/:id(\\d+)", userController.updateUser);
 
 /*******************
 **      DELETE    **              
