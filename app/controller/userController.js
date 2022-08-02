@@ -176,7 +176,7 @@ const userController = {
 
 	async updateUser(req, res) {
 		const body = req.body;
-		const userId = body.id;
+		const userId = req.params.id;
 		try {
 			const result = await userDatamapper.update(body, userId);
 			if (result === null || result === undefined){
