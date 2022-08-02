@@ -8,7 +8,7 @@ const {
 const crypto = require("crypto");
 const postMail = require("../service/nodemailerService.js");
 const resetPasswordMail = require("../service/nodemailerPasswordService.js");
-const { update } = require("../datamapper/userDatamapper");
+const {MainError,userError} = require ('../error/customError');
 
 const userController = {
 	/**
@@ -145,10 +145,6 @@ const userController = {
 	async fetchAllUser(_, res) {
 		try {
 			const result = await userDatamapper.allUser();
-			if (result === null || result === undefined){
-				return res.status(404).json({ message: "This user does not exists !"});
-            };
-
             return res.status(200).json(result);
 
         } catch (error) {
@@ -161,15 +157,20 @@ const userController = {
 	async fetchOneUserById(req, res, next) {
 		try {
 			const userId = parseInt(req.params.id, 10);
+			if(!userId){
+				console.log('passage3')
+				throw new userError ('missing parameter');
+			}
 			const result = await userDatamapper.foundUserById(userId);
-			if (result === null || result === undefined){
-				return res.status(404).json({ message: "This user does not exists !"});
+			if (!result){
+				console.log('passage2')
+				throw new userError ('This user does not exists', 0);
             };
 			
             return res.status(200).json(result);
 
         } catch (error) {
-
+			console.log('passage1')
          next(error);
 
         };

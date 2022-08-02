@@ -3,14 +3,11 @@ const jobDatamapper = require('../datamapper/jobDatamapper');
 const jobController ={
 
 
-
     async addJobProject (req, res, next) {
         try {
             const projectId= req.params.id;
             const jobName = req.body.job
-            console.log('ici 2');
             const jobfinded = await jobDatamapper.getJobId(jobName);
-            console.log(jobfinded.id);
             const result = await jobDatamapper.addJob (projectId ,jobfinded.id);
             if (result === null || result === undefined){
                 return res.status(404).json({ message: "This job does not exists !"});

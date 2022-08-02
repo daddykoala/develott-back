@@ -5,8 +5,7 @@ const app = express();
 const router = require("./app/router/index");
 const cors = require("cors");
 const corsOptions = require("./app/service/corsOptions");
-const errorController = require("./app/error/avoirerrorHandlers")
-const manageError = require("./app/error/catchError")
+const manageError = require("./app/error/catchError");
 
 
 //passeport.js
