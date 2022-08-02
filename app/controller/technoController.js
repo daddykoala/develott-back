@@ -14,7 +14,7 @@ const technoController ={
             if (result === null || result === undefined){
                 return res.status(404).json({ message: "This techno does not exists !"});
             };
-            return res.json(result);
+            return res.status(204).json(result);
 
         } catch (error) {
             console.error(error);
@@ -31,7 +31,7 @@ const technoController ={
             if (result === null || result === undefined){
                 return res.status(404).json({ message: "This techno does not exists !"});
             };
-            return res.json(result);
+            return res.status(204).json(result);
 
         } catch (error) {
             console.error(error);
@@ -48,7 +48,7 @@ const technoController ={
             if (result === null || result === undefined){
                 return res.status(404).json({ message: "This techno does not exists !"});
             };
-            return res.json(result);
+            return res.status(204).json(result);
 
         } catch (error) {
             console.error(error);
@@ -65,7 +65,7 @@ const technoController ={
             if (result === null || result === undefined){
                 return res.status(404).json({ message: "This techno does not exists !"});
             };
-            return res.json(result);
+            return res.status(204).json(result);
 
         } catch (error) {
             console.error(error);

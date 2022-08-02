@@ -9,7 +9,7 @@ const projectController ={
             if (result === null || result === undefined){
                 return res.status(404).json({ message: "This project does not exists !"});
             };
-            return res.json(result);
+            return res.status(200).json(result);
 
         } catch (error) {
             console.error(error);
@@ -26,7 +26,7 @@ const projectController ={
             if (result === null || result === undefined){
                 return res.status(404).json({ message: "This project does not exists !"});
             };
-            return res.json(result);
+            return res.status(200).json(result);
 
         } catch (error) {
             console.error(error);
@@ -43,7 +43,7 @@ const projectController ={
             if (result === null || result === undefined){
                 return res.status(404).json({ message: "This project does not exists !"});
             };
-            return res.json(result);
+            return res.status(200).json(result);
 
         } catch (error) {
             console.error(error);
@@ -67,7 +67,7 @@ const projectController ={
             if (result === null || result === undefined){
                 return res.status(404).json({ message: "This project does not exists !"});
             };
-            return res.json(result);
+            return res.status(200).json(result);
 
         } catch (error) {
             console.error(error);
@@ -85,7 +85,7 @@ const projectController ={
             if (result === null || result === undefined){
                 return res.status(404).json({ message: "This project does not exists !"});
             };
-            return res.json(result);
+            return res.status(204).json(result);;
 
         } catch (error) {
             console.error(error);
@@ -101,7 +101,7 @@ const projectController ={
 			if (result === null || result === undefined){
                 return res.status(404).json({ message: "This project does not exists !"});
             };
-            return res.json(result);
+            return res.status(200).json(result);
 
         } catch (error) {
             console.error(error);
@@ -115,7 +115,7 @@ const projectController ={
             if (result === null || result === undefined){
                 return res.status(404).json({ message: "This project does not exists !"});
             };
-            return res.json(result);
+            return res.status(200).json(result);
 
         } catch (error) {
             console.error(error);
