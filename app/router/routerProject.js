@@ -156,7 +156,7 @@ projectRouter.post(
 	 	 * {"Error 500": "le serveur a du mal à répondre"}
 		 * @return {string} 500 - Description Global
 		 */
-    "/project", projectController.creatProject);
+    "/project",authenticateToken, projectController.creatProject);
 
 /*******************
 **      PATCH     **              

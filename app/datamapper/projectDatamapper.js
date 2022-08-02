@@ -96,6 +96,7 @@ const projectDatamapper = {
         const sql = `INSERT INTO project (name, exerpt, description, picture_project, start_date, end_date)VALUES($1, $2, $3, $4, $5, $6) RETURNING id`;
         const sql2 = `INSERT INTO customer_has_project_role ( role_id, customer_id, project_id) VALUES($1,$2,$3)`;
 
+
         const values = [
             body.name,
             body.exerpt,
@@ -108,8 +109,6 @@ const projectDatamapper = {
         try {
             const result = await pool.query(sql, values);
             const projectId = result.rows[0].id;
-
-            console.log(projectId);
             const values2 = [1, body.userId, projectId];
             const result2 = await pool.query(sql2, values2);
 
