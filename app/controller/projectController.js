@@ -62,12 +62,6 @@ const projectController ={
             if(exist){
                 throw new Error("Ce nom de projet est déjâ pris.")
             }
-
-            const result = await projectDatamapper.create(body);
-            console.log(result);
-            return res.status(200).json(result);
-
-
             const result = await projectDatamapper.create(body);
             if (result === null || result === undefined){
                 return res.status(404).json({ message: "This project does not exists !"});

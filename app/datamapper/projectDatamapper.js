@@ -18,7 +18,7 @@ const pool = require('../db/connect');
 const projectDatamapper = {
 
     async allProject (){
-        const sql = 'SELECT id, project, excerpt, picture, start_date, techno, role_id, firstname, lastname, c_profil_picture FROM public.v_project;';
+        const sql = 'SELECT id, project, excerpt, picture, start_date, techno, role_id, firstname, lastname, c_profil_picture FROM public.v_project ORDER BY id DESC;';
         const sql2 ='SELECT * FROM public.v_project_has_job'
 
 
@@ -91,33 +91,31 @@ const projectDatamapper = {
         };
     },
 
-    async create (body){
-        const sql =  `INSERT INTO project (name, exerpt, description,picture_project, start_date, end_date)VALUES($1, $2, $3, $4, $5 ,$6 )RETURNING id`;
+    async create(body) {
+        //! vérifier si project existe déjà
+        const sql = `INSERT INTO project (name, exerpt, description, picture_project, start_date, end_date)VALUES($1, $2, $3, $4, $5, $6) RETURNING id`;
         const sql2 = `INSERT INTO customer_has_project_role ( role_id, customer_id, project_id) VALUES($1,$2,$3)`;
-        
-        body = { 
-            customer_id: body.userId,
-            name : body.name,
-            exerpt : body.exerpt,
-            description : body.description,
-            picture_project: body.picture_project,
-            start_date : body.start_date,
-            end_date : body.end_date
-        };
+
+
+        const values = [
+            body.name,
+            body.exerpt,
+            body.description,
+            body.picture_project,
+            body.start_date,
+            body.end_date,
+        ];
 
         try {
-            const result = await pool.query(sql, [body.name, body.exerpt, body.description,body.picture_projet, body.start_date, body.end_date]);
-            
-            const roleId=1;
-            const projectId = result.rows[0]
-            
-            const customerId = body.customer_id
-            const result2 = await pool.query(sql2,[ roleId, customerId, projectId.id])
-            
-            return result.rows[0];
+            const result = await pool.query(sql, values);
+            const projectId = result.rows[0].id;
+            const values2 = [1, body.userId, projectId];
+            const result2 = await pool.query(sql2, values2);
+
+            return projectId;
         } catch (error) {
-        console.error(error);
-        };
+            console.error(error);
+        }
     },
 
     async destroy (projectID){
