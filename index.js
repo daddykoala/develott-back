@@ -19,7 +19,7 @@ const expressJsDocSwagger = require("express-jsdoc-swagger");
 const { options } = require("./app/service/optionDocSwagger");
 
 //nettoyer le body
-app.use(bodySanitizer)
+
 //receptionner le cookies
 const cookieParser = require("cookie-parser");
 const bodySanitizer = require("./app/service/sanitize");
