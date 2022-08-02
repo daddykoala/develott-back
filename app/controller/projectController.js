@@ -5,11 +5,16 @@ const projectDatamapper = require ('../datamapper/projectDatamapper');
 const projectController ={
     async fetchAllProject(_,res) {
         try {
-            const allProject = await projectDatamapper.allProject();
-            return res.json(allProject);
+            const result = await projectDatamapper.allProject();
+            if (result === null || result === undefined){
+                return res.status(404).json({ message: "This project does not exists !"});
+            };
+            return res.status(200).json(result);
+
         } catch (error) {
             console.error(error);
-        }
+            return res.status(500).json({ message: "Database Error", error: error});
+        };
     },
     
     async fetchOneProject(req, res){
@@ -17,10 +22,15 @@ const projectController ={
         const projectId = parseInt(req.params.id, 10);
 
         try {
-            const oneProject = await projectDatamapper.oneProject(projectId);
-            return res.json(oneProject)
+            const result = await projectDatamapper.oneProject(projectId);
+            if (result === null || result === undefined){
+                return res.status(404).json({ message: "This project does not exists !"});
+            };
+            return res.status(200).json(result);
+
         } catch (error) {
             console.error(error);
+            return res.status(500).json({ message: "Database Error", error: error});
         };
     },
 
@@ -29,10 +39,15 @@ const projectController ={
         const projectId = req.params.id;
 
         try {
-            const oneProjectByCustomerConnected = await projectDatamapper.oneProjectByCustomerConnected(projectId);
-            return res.json(oneProjectByCustomerConnected)
+            const result = await projectDatamapper.oneProjectByCustomerConnected(projectId);
+            if (result === null || result === undefined){
+                return res.status(404).json({ message: "This project does not exists !"});
+            };
+            return res.status(200).json(result);
+
         } catch (error) {
             console.error(error);
+            return res.status(500).json({ message: "Database Error", error: error});
         };
     },
     
@@ -47,13 +62,18 @@ const projectController ={
             if(exist){
                 throw new Error("Ce nom de projet est déjâ pris.")
             }
-            const create = await projectDatamapper.create(body);
-            return res.json( {"message":"votre projet est crée"} ).status(200);
+
+            const result = await projectDatamapper.create(body);
+            if (result === null || result === undefined){
+                return res.status(404).json({ message: "This project does not exists !"});
+            };
+            return res.status(200).json(result);
 
         } catch (error) {
-                console.error(error);
-            };
-        },
+            console.error(error);
+            return res.status(500).json({ message: "Database Error", error: error});
+        };
+    },
 
 
     async deleteProject (req, res) {
@@ -61,10 +81,15 @@ const projectController ={
         const projectId = parseInt(req.params.id, 10);
 
         try {
-            const destroy = await projectDatamapper.destroy(projectId);
-            return res.json(destroy);
+            const result = await projectDatamapper.destroy(projectId);
+            if (result === null || result === undefined){
+                return res.status(404).json({ message: "This project does not exists !"});
+            };
+            return res.status(204).json(result);;
+
         } catch (error) {
             console.error(error);
+            return res.status(500).json({ message: "Database Error", error: error});
         };
     },
 
@@ -72,20 +97,30 @@ const projectController ={
 		const body = req.body;
 		const projectId = req.params.id;
 		try {
-			const update = await projectDatamapper.update(body, projectId);
-			return res.json(update);
-		} catch (error) {
-			console.error(error);
-		}
+			const result = await projectDatamapper.update(body, projectId);
+			if (result === null || result === undefined){
+                return res.status(404).json({ message: "This project does not exists !"});
+            };
+            return res.status(200).json(result);
+
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: "Database Error", error: error});
+        };
 	},
 
     async fetchAllProjectHome(_,res) {
         try {
-            const allProject = await projectDatamapper.allProjectLink();
-            return res.json(allProject);
+            const result = await projectDatamapper.allProjectLink();
+            if (result === null || result === undefined){
+                return res.status(404).json({ message: "This project does not exists !"});
+            };
+            return res.status(200).json(result);
+
         } catch (error) {
             console.error(error);
-        }
+            return res.status(500).json({ message: "Database Error", error: error});
+        };
     },
 };
 module.exports = projectController ;

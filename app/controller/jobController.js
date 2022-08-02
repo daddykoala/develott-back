@@ -17,7 +17,7 @@ const jobController ={
                 return res.status(404).json({ message: "This job does not exists !"});
             };
 
-            return res.json(result);
+            return res.status(204).json(result);
 
         } catch (error) {
             console.error(error);
@@ -36,7 +36,7 @@ const jobController ={
             if (result === null || result === undefined){
                 return res.status(404).json({ message: "This job does not exists !"});
             };
-            return res.json(result);
+            return res.status(204).json(result);
 
         } catch (error) {
             console.error(error);
@@ -56,7 +56,7 @@ const jobController ={
                 return res.status(404).json({ message: "This job does not exists !"});
             };
 
-            return res.json(result);
+            return res.status(204).json(result);;
 
         } catch (error) {
             console.error(error);
@@ -73,7 +73,7 @@ const jobController ={
                 return res.status(404).json({ message: "This job does not exists !"});
             };
 
-            return res.json(result);
+            return res.status(204).json(result);
 
         } catch (error) {
             console.error(error);
