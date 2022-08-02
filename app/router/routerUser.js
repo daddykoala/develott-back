@@ -21,8 +21,6 @@ const { createValidator } = require("express-joi-validation");
 const validate = createValidator();
 
 
-// swagger endpoint => https://develott.herokuapp.com/api-docs/
-
 
 /*******************
 **      GET      **              
