@@ -7,6 +7,8 @@ const cors = require("cors");
 const corsOptions = require("./app/service/corsOptions");
 const errorController = require("./app/service/errorHandlers/errorHandlers")
 
+
+
 //passeport.js
 const session = require("express-session");
 const passportSetup = require("./app/service/passport");
@@ -16,14 +18,17 @@ const passport = require("passport");
 const expressJsDocSwagger = require("express-jsdoc-swagger");
 const { options } = require("./app/service/optionDocSwagger");
 
-
+//nettoyer le body
+app.use(bodySanitizer)
 //receptionner le cookies
 const cookieParser = require("cookie-parser");
+const bodySanitizer = require("./app/service/sanitize");
 
 
 //variable d'environnement
 expressJsDocSwagger(app)(options);
 
+app.use(bodySanitizer)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
