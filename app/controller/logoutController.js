@@ -5,7 +5,6 @@ const handleLogout = (req, res, next) => {
 
   const cookies = req.cookies;
   try {
-    
     if(!cookies?.jwt) {
       return res.sendStatus(204);
     }
@@ -17,7 +16,9 @@ const handleLogout = (req, res, next) => {
     res.sendStatus(204);
 
   } catch (error) {
+
     next(error);
+    
   };
 };
 

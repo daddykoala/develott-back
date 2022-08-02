@@ -8,12 +8,14 @@ const roleController={
         if (result === null || result === undefined){
             return res.status(404).json({ message: "This role does not exists !"});
         };
+
         return res.status(200).json(result);
+        
     } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: "Database Error", error: error});
+
+        next(error);
+
     };
-    
     },
 
     async addRoleCustomer (req, res, next) {
@@ -26,10 +28,13 @@ const roleController={
             if (result === null || result === undefined){
                 return res.status(404).json({ message: "This role does not exists !"});
             };
+
             return res.status(204).json(result);
 
         } catch (error) {
+
         next(error);
+
         };
     },
     /**
@@ -49,9 +54,13 @@ const roleController={
             if (result === null || result === undefined){
                 return res.status(404).json({ message: "This role does not exists !"});
             };
+
             return res.status(204).json(result);
+
         } catch (error) {
+
         next(error);
+
         };
     },
 

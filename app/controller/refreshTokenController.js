@@ -3,10 +3,8 @@ const { generateAccessToken } = require('../service/jsonwebToken');
 
 
 const handleRefreshToken = (req, res, next) => {
-
-  const cookies = req.cookies
   try {
-
+    const cookies = req.cookies
     if(!cookies?.jwt) {
       return res.sendStatus(401);
     }
@@ -17,10 +15,14 @@ const handleRefreshToken = (req, res, next) => {
           return res.status(403).json({ message: "This is forbiden !"});
       }    
       const accessToken = generateAccessToken(user)
-      res.json({ user :user.user , accessToken })   
+
+      return res.status(204).json({ user :user.user , accessToken })  
+
   });
   } catch (error) {
+
     next(error);
+
   };
   
 };

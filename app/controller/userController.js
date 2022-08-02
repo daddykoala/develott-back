@@ -29,21 +29,22 @@ const userController = {
 			if (result === null || result === undefined){
 				return res.status(404).json({ message: "This user does not exists !"});
 			};
+			
 			res.status(200).json(result);
 			
 		} catch (error) {
-        console.error(error.message);
-        console.error(error.statusCode);
-        return res.status(error.statusCode || 500).json({ message: error.message, error: error});
+
+			next(error);
+
 		};
 	},
 	
 	
 	async checkVerificationLink(req, res, next) {
-		const data = req.params;
-		const userId = req.params.id;
-		const userVerificationLink = data.verificationLink;
 		try {
+			const data = req.params;
+			const userId = req.params.id;
+			const userVerificationLink = data.verificationLink;
 			//TODO check dans base si l'email (userId) existe ET le lien de vérification
 			//si utilisateur n'existe pas : res.status(400).send("Lien invalide")
 			const result = await userDatamapper.verificationLink(
@@ -59,18 +60,19 @@ const userController = {
 			if( updated === nul || updated === undefined){
 				return res.status(404).json({ message: "This user does not exists !"});
 			}
+
 			res.status(200).redirect("http://localhost:3000/connexion/");
 
 		} catch (error) {
-        console.error(error.message);
-        console.error(error.statusCode);
-        return res.status(error.statusCode || 500).json({ message: error.message, error: error});
+
+			next(error);
+
 		};
 	},
 
 	async createResetPasswordLink(req, res, next) {
-		const email = req.body.email;
 		try {
+			const email = req.body.email;
 			const verificationLink = crypto.randomBytes(32).toString("hex");
 			const user = await userDatamapper.foundUserBymail(email);
 			const updateLink = await userDatamapper.updatesValidationLink(
@@ -83,19 +85,21 @@ const userController = {
 			if( result === nul || result === undefined){
 				return res.status(404).json({ message: "This user does not exists !"});
 			}
+
 			res.status(200).json("ok");
+
 		} catch (error) {
-        console.error(error.message);
-        console.error(error.statusCode);
-        return res.status(error.statusCode || 500).json({ message: error.message, error: error});
+
+			next(error);
+
 		};
 	},
 
 	async checkPasswordResetLink(req, res, next) {
-		const data = req.params;
-		const userId = data.id;
-		const userVerificationLink = data.verificationLink;
 		try {
+			const data = req.params;
+			const userId = data.id;
+			const userVerificationLink = data.verificationLink;
 			//TODO check dans base si l'email (userId) existe ET le lien de vérification
 			//si utilisateur n'existe pas : res.status(400).send("Lien invalide")
 			const result = await userDatamapper.verificationLink(
@@ -110,28 +114,30 @@ const userController = {
 			if (valideleted === null || valideleted === undefined){
 				return res.status(404).json({ message: "This user does not exists !"});
 			};
+
 			res.status(200).redirect(`https:localhost3000/newpassword/${userId}`);
+
 		} catch (error) {
-        console.error(error.message);
-        console.error(error.statusCode);
-        return res.status(error.statusCode || 500).json({ message: error.message, error: error});
+
+			next(error);
+
 		};
 	},
 
 	async updatePassword(req, res, next) {
-		const newPassword = req.body.password;
-		const userId = Number(req.body.userId);
-		console.log(req.body);
 		try {
+			const newPassword = req.body.password;
+			const userId = Number(req.body.userId);
+			console.log(req.body);
 			const resetPassword = await userDatamapper.updatePassword(
 				newPassword,
 				userId
 			);
 			res.sendStatus(200);
 		} catch (error) {
-        console.error(error.message);
-        console.error(error.statusCode);
-        return res.status(error.statusCode || 500).json({ message: error.message, error: error});
+
+			next(error);
+
 		};
 	},
 
@@ -142,30 +148,36 @@ const userController = {
 			if (result === null || result === undefined){
 				return res.status(404).json({ message: "This user does not exists !"});
             };
+
             return res.status(200).json(result);
 
         } catch (error) {
+
          next(error);
+
         };
 	},
 
 	async fetchOneUserById(req, res, next) {
-		const userId = parseInt(req.params.id, 10);
 		try {
+			const userId = parseInt(req.params.id, 10);
 			const result = await userDatamapper.foundUserById(userId);
 			if (result === null || result === undefined){
 				return res.status(404).json({ message: "This user does not exists !"});
             };
+			
             return res.status(200).json(result);
 
         } catch (error) {
+
          next(error);
+
         };
 	},
 
 	async fetchOneUserBymail(req, res, next) {
-		const userMail = req.params.email;
 		try {
+			const userMail = req.params.email;
 			const result = await userDatamapper.foundUserBymail(userMail);
 			if (result === null || result === undefined){
 				return res.status(404).json({ message: "This user does not exists !"});
@@ -174,14 +186,15 @@ const userController = {
             return res.status(200).json(result);
 
         } catch (error) {
-            console.error(error, "hello nom de zeus");
+
             next(error);
+
         };
 	},
 
 	async deleteUser(req, res, next) {
-		const userId = parseInt(req.params.id, 10);
 		try {
+			const userId = parseInt(req.params.id, 10);
 			const result = await userDatamapper.destroy(userId);
 			if (result === null || result === undefined){
 				return res.status(404).json({ message: "This user does not exists !"});
@@ -190,15 +203,16 @@ const userController = {
             return res.status(204).json(result);
 
         } catch (error) {
-            console.error(error, "hello nom de zeus");
+
             next(error);
+
         };
 	},
 
 	async updateUser(req, res, next) {
-		const body = req.body;
-		const userId = body.id;
 		try {
+			const body = req.body;
+			const userId = body.id;
 			const result = await userDatamapper.update(body, userId);
 			if (result === null || result === undefined){
 				return res.status(404).json({ message: "This user does not exists !"});
@@ -207,52 +221,58 @@ const userController = {
             return res.status(204).json(result);
 
         } catch (error) {
+
          next(error);
+
         };
 	},
 
 	//la generation de token
 
 	async logIn(req, res, next) {
-		const email = req.body.email;
-		const password = req.body.password;
-		console.log(email);
-		const foundUser = await userDatamapper.foundUserBymail(email);
-	try {
-		if (foundUser.email === null || foundUser.email === undefined ) {
-			res.status(401).send("le mail n'existe pas ");
-        };
-		if (foundUser.email !== email) {
-			res.status(401).send("invalid credentials");
-		};
-		bcrypt.compare(password, foundUser.password, function (err, result) {
-			if (result == false) {
-				res.status(401).send("code invalide");
-			}
-			if (result == true) {
-				//*création du JWT
-				const accessToken = generateAccessToken(foundUser.email);
-				//* création du refreshToken
-				const refreshToken = generateRefreshToken(foundUser.email);
+		try {
+			const email = req.body.email;
+			const password = req.body.password;
+			console.log(email);
+			const foundUser = await userDatamapper.foundUserBymail(email);
+			if (foundUser.email === null || foundUser.email === undefined ) {
+				res.status(401).send("le mail n'existe pas ");
+			};
+			if (foundUser.email !== email) {
+				res.status(401).send("invalid credentials");
+			};
+			bcrypt.compare(password, foundUser.password, function (err, result) {
+				if (result == false) {
+					res.status(401).send("code invalide");
+				}
+				if (result == true) {
+					//*création du JWT
+					const accessToken = generateAccessToken(foundUser.email);
+					//* création du refreshToken
+					const refreshToken = generateRefreshToken(foundUser.email);
 
-				//? Est-ce qu'on stocke le refreshToken en bdd ?
+					//? Est-ce qu'on stocke le refreshToken en bdd ?
 
-				// res.cookie("jwt", refreshToken, {
-				// 	httpOnly: true,
-				// 	maxAge: 24 * 60 * 60 * 1000,
-				// });
-				res.cookie("jwt", refreshToken, {httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
-				res.status(200).json({ accessToken, foundUser });
+					// res.cookie("jwt", refreshToken, {
+					// 	httpOnly: true,
+					// 	maxAge: 24 * 60 * 60 * 1000,
+					// });
+					res.cookie("jwt", refreshToken, {httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
+
+					res.status(200).json({ accessToken, foundUser });
+
 			};
 		});
 	} catch (error) {
+
 		next(error);
+
 	};
 	},
 
 	async postTechnoByCustomer(req, res, next) {
-		const body = req.body;
 		try {
+			const body = req.body;
 			const result = await userDatamapper.pickTechnoHasCustomer(body);
 			if (result === null || result === undefined){
 				return res.status(404).json({ message: "This user does not exists !"});
@@ -261,7 +281,9 @@ const userController = {
             return res.status(204).json(result);
 
         } catch (error) {
+
          next(error);
+		 
         };
 	}
 	
