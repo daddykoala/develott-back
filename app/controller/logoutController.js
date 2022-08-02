@@ -1,7 +1,7 @@
  const { generateAccessToken } = require('../service/jsonwebToken');
 
 
-const handleLogout = (req, res) => {
+const handleLogout = (req, res, next) => {
 
   const cookies = req.cookies;
   try {
@@ -17,8 +17,7 @@ const handleLogout = (req, res) => {
     res.sendStatus(204);
 
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Database Error", error: error});
+    next(error);
   };
 };
 

@@ -3,7 +3,7 @@ const projectDatamapper = require ('../datamapper/projectDatamapper');
 
 
 const projectController ={
-    async fetchAllProject(_,res) {
+    async fetchAllProject(_,res, next) {
         try {
             const result = await projectDatamapper.allProject();
             if (result === null || result === undefined){
@@ -12,12 +12,11 @@ const projectController ={
             return res.status(200).json(result);
 
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: "Database Error", error: error});
+        next(error);
         };
     },
     
-    async fetchOneProject(req, res){
+    async fetchOneProject(req, res, next){
 
         const projectId = parseInt(req.params.id, 10);
 
@@ -29,12 +28,11 @@ const projectController ={
             return res.status(200).json(result);
 
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: "Database Error", error: error});
+        next(error);
         };
     },
 
-    async oneProjectByCustomerConnected(req, res){
+    async oneProjectByCustomerConnected(req, res, next){
 
         const projectId = req.params.id;
 
@@ -46,12 +44,11 @@ const projectController ={
             return res.status(200).json(result);
 
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: "Database Error", error: error});
+        next(error);
         };
     },
     
-    async creatProject (req, res) {
+    async creatProject (req, res, next) {
         const body = req.body;
         let timestamp = Date.now();
         var date = new Date(timestamp);
@@ -70,13 +67,12 @@ const projectController ={
             return res.status(200).json(result);
 
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: "Database Error", error: error});
+        next(error);
         };
     },
 
 
-    async deleteProject (req, res) {
+    async deleteProject (req, res, next) {
 
         const projectId = parseInt(req.params.id, 10);
 
@@ -88,12 +84,11 @@ const projectController ={
             return res.status(204).json(result);;
 
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: "Database Error", error: error});
+        next(error);
         };
     },
 
-    async updateProject(req, res) {
+    async updateProject(req, res, next) {
 		const body = req.body;
 		const projectId = req.params.id;
 		try {
@@ -104,12 +99,11 @@ const projectController ={
             return res.status(200).json(result);
 
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: "Database Error", error: error});
+        next(error);
         };
 	},
 
-    async fetchAllProjectHome(_,res) {
+    async fetchAllProjectHome(_,res, next) {
         try {
             const result = await projectDatamapper.allProjectLink();
             if (result === null || result === undefined){
@@ -118,8 +112,7 @@ const projectController ={
             return res.status(200).json(result);
 
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: "Database Error", error: error});
+        next(error);
         };
     },
 };

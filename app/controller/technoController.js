@@ -3,7 +3,7 @@ const technoDatamapper = require('../datamapper/technoDatamapper');
 
 const technoController ={
 
-    async addTechnoProject (req,res) {
+    async addTechnoProject (req, res, next) {
         const projectId= req.params.id;
         const technoName = req.body.techno
         
@@ -17,12 +17,11 @@ const technoController ={
             return res.status(204).json(result);
 
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: "Database Error", error: error});
+        next(error);
         };
     },
 
-    async deleteTechnoUser (req,res) {
+    async deleteTechnoUser (req, res, next) {
         const projectId= req.params.id;
         const technoName = req.body.techno
         try {
@@ -34,12 +33,11 @@ const technoController ={
             return res.status(204).json(result);
 
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: "Database Error", error: error});
+        next(error);
         };
     },
 
-    async addTechnoUser (req,res) {
+    async addTechnoUser (req, res, next) {
         const UserId= req.params.id;
         const technoName = req.body.techno
         try {
@@ -51,12 +49,11 @@ const technoController ={
             return res.status(204).json(result);
 
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: "Database Error", error: error});
+        next(error);
         };
     },
 
-    async deleteTechnoProject (req,res) {
+    async deleteTechnoProject (req, res, next) {
         const projectId= req.params.id;
         const technoName = req.body.techno
         try {
@@ -68,8 +65,7 @@ const technoController ={
             return res.status(204).json(result);
 
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: "Database Error", error: error});
+        next(error);
         };
     },
 };

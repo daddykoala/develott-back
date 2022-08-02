@@ -2,7 +2,7 @@ const roleDatamapper =require('../datamapper/roleDatamapper');
 
 const roleController={
 
-    async getAllRole(req,res) {
+    async getAllRole(_, res, next) {
     try {
         const result = await roleDatamapper.allRole();
         if (result === null || result === undefined){
@@ -16,7 +16,7 @@ const roleController={
     
     },
 
-    async addRoleCustomer (req,res) {
+    async addRoleCustomer (req, res, next) {
         try {
             const roleId =req.body.role_id;
             const projectId=req.params.id;
@@ -29,8 +29,7 @@ const roleController={
             return res.status(204).json(result);
 
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: "Database Error", error: error});
+        next(error);
         };
     },
     /**
@@ -39,7 +38,7 @@ const roleController={
      * @param {*} res 
      * @returns 
      */
-    async addRoleToproject (req,res) {
+    async addRoleToproject (req, res, next) {
         try {
             const projectId=req.params.id;
             const customerId=req.body.customer_id;
@@ -52,8 +51,7 @@ const roleController={
             };
             return res.status(204).json(result);
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: "Database Error", error: error});
+        next(error);
         };
     },
 

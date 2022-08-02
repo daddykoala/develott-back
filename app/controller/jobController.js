@@ -4,7 +4,7 @@ const jobController ={
 
 
 
-    async addJobProject (req,res) {
+    async addJobProject (req, res, next) {
         const projectId= req.params.id;
         const jobName = req.body.job
         console.log('ici 2');
@@ -20,12 +20,11 @@ const jobController ={
             return res.status(204).json(result);
 
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: "Database Error", error: error});
+        next(error);
         };
     },
 
-    async deleteJobProject (req,res) {
+    async deleteJobProject (req, res, next) {
         
         const tableId = req.body.id_project_has_job;
         
@@ -39,13 +38,12 @@ const jobController ={
             return res.status(204).json(result);
 
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: "Database Error", error: error});
+        next(error);
         };
     },
         
 
-    async addJobUser (req,res) {
+    async addJobUser (req, res, next) {
         const userId= req.params.id;
         const jobName = req.body.job
         console.log('ici 2');
@@ -59,12 +57,11 @@ const jobController ={
             return res.status(204).json(result);;
 
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: "Database Error", error: error});
+        next(error);
         };
     },
 
-    async deleteJobUser (req,res) {
+    async deleteJobUser (req, res, next) {
         const userId= req.params.id;
         
         try {
@@ -76,8 +73,7 @@ const jobController ={
             return res.status(204).json(result);
 
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: "Database Error", error: error});
+            next(error);
         };
     }
 

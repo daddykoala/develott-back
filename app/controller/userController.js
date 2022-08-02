@@ -15,7 +15,7 @@ const userController = {
 	 * creer un utilisateur
 	 * @param {string} data
 	 */
-	async create(req, res) {
+	async create(req, res, next) {
 		const data = req.body;
 		console.log(data);
 		const verificationLink = crypto.randomBytes(32).toString("hex");
@@ -32,13 +32,14 @@ const userController = {
 			res.status(200).json(result);
 			
 		} catch (error) {
-			console.error(error);
-			return res.status(500).json({ message: "Database Error", error: error});
+        console.error(error.message);
+        console.error(error.statusCode);
+        return res.status(error.statusCode || 500).json({ message: error.message, error: error});
 		};
 	},
 	
 	
-	async checkVerificationLink(req, res) {
+	async checkVerificationLink(req, res, next) {
 		const data = req.params;
 		const userId = req.params.id;
 		const userVerificationLink = data.verificationLink;
@@ -61,11 +62,13 @@ const userController = {
 			res.status(200).redirect("http://localhost:3000/connexion/");
 
 		} catch (error) {
-			return res.status(500).json({ message: "Database Error", error: error});
+        console.error(error.message);
+        console.error(error.statusCode);
+        return res.status(error.statusCode || 500).json({ message: error.message, error: error});
 		};
 	},
 
-	async createResetPasswordLink(req, res) {
+	async createResetPasswordLink(req, res, next) {
 		const email = req.body.email;
 		try {
 			const verificationLink = crypto.randomBytes(32).toString("hex");
@@ -82,11 +85,13 @@ const userController = {
 			}
 			res.status(200).json("ok");
 		} catch (error) {
-			return res.status(500).json({ message: "Database Error", error: error});
+        console.error(error.message);
+        console.error(error.statusCode);
+        return res.status(error.statusCode || 500).json({ message: error.message, error: error});
 		};
 	},
 
-	async checkPasswordResetLink(req, res) {
+	async checkPasswordResetLink(req, res, next) {
 		const data = req.params;
 		const userId = data.id;
 		const userVerificationLink = data.verificationLink;
@@ -107,11 +112,13 @@ const userController = {
 			};
 			res.status(200).redirect(`https:localhost3000/newpassword/${userId}`);
 		} catch (error) {
-			return res.status(500).json({ message: "Database Error", error: error});
+        console.error(error.message);
+        console.error(error.statusCode);
+        return res.status(error.statusCode || 500).json({ message: error.message, error: error});
 		};
 	},
 
-	async updatePassword(req, res) {
+	async updatePassword(req, res, next) {
 		const newPassword = req.body.password;
 		const userId = Number(req.body.userId);
 		console.log(req.body);
@@ -122,7 +129,9 @@ const userController = {
 			);
 			res.sendStatus(200);
 		} catch (error) {
-			return res.status(500).json({ message: "Database Error", error: error});
+        console.error(error.message);
+        console.error(error.statusCode);
+        return res.status(error.statusCode || 500).json({ message: error.message, error: error});
 		};
 	},
 
@@ -136,12 +145,11 @@ const userController = {
             return res.status(200).json(result);
 
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: "Database Error", error: error});
+         next(error);
         };
 	},
 
-	async fetchOneUserById(req, res) {
+	async fetchOneUserById(req, res, next) {
 		const userId = parseInt(req.params.id, 10);
 		try {
 			const result = await userDatamapper.foundUserById(userId);
@@ -151,12 +159,11 @@ const userController = {
             return res.status(200).json(result);
 
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: "Database Error", error: error});
+         next(error);
         };
 	},
 
-	async fetchOneUserBymail(req, res) {
+	async fetchOneUserBymail(req, res, next) {
 		const userMail = req.params.email;
 		try {
 			const result = await userDatamapper.foundUserBymail(userMail);
@@ -168,11 +175,11 @@ const userController = {
 
         } catch (error) {
             console.error(error, "hello nom de zeus");
-            return res.status(500).json({ message: "Database Error", error: error});
+            next(error);
         };
 	},
 
-	async deleteUser(req, res) {
+	async deleteUser(req, res, next) {
 		const userId = parseInt(req.params.id, 10);
 		try {
 			const result = await userDatamapper.destroy(userId);
@@ -184,11 +191,11 @@ const userController = {
 
         } catch (error) {
             console.error(error, "hello nom de zeus");
-            return res.status(500).json({ message: "Database Error", error: error});
+            next(error);
         };
 	},
 
-	async updateUser(req, res) {
+	async updateUser(req, res, next) {
 		const body = req.body;
 		const userId = body.id;
 		try {
@@ -200,14 +207,13 @@ const userController = {
             return res.status(204).json(result);
 
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: "Database Error", error: error});
+         next(error);
         };
 	},
 
 	//la generation de token
 
-	async logIn(req, res) {
+	async logIn(req, res, next) {
 		const email = req.body.email;
 		const password = req.body.password;
 		console.log(email);
@@ -240,11 +246,11 @@ const userController = {
 			};
 		});
 	} catch (error) {
-		return res.status(500).json({ message: "Database Error", error: error});
+		next(error);
 	};
 	},
 
-	async postTechnoByCustomer(req, res) {
+	async postTechnoByCustomer(req, res, next) {
 		const body = req.body;
 		try {
 			const result = await userDatamapper.pickTechnoHasCustomer(body);
@@ -255,8 +261,7 @@ const userController = {
             return res.status(204).json(result);
 
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: "Database Error", error: error});
+         next(error);
         };
 	}
 	

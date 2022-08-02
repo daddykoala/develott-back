@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const { generateAccessToken } = require('../service/jsonwebToken');
 
 
-const handleRefreshToken = (req, res) => {
+const handleRefreshToken = (req, res, next) => {
 
   const cookies = req.cookies
   try {
@@ -20,8 +20,7 @@ const handleRefreshToken = (req, res) => {
       res.json({ user :user.user , accessToken })   
   });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Database Error", error: error});
+    next(error);
   };
   
 };
