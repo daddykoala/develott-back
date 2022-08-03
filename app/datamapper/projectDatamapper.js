@@ -19,7 +19,8 @@ const projectDatamapper = {
 
     async allProject (){
         const sql = 'SELECT id, project, excerpt, picture, start_date, techno, role_id, firstname, lastname, c_profil_picture FROM public.v_project ORDER BY id DESC;';
-        const sql2 ='SELECT * FROM public.v_project_has_job'
+        const sql2 ='SELECT * FROM public.v_project_has_job';
+        
 
 
         try {
