@@ -49,7 +49,7 @@ const projectDatamapper = {
     async oneProjectByCustomerConnected(projectId){
 
         const sql = `SELECT * FROM public.v_project WHERE id=$1`;
-        const sql2 =`SELECT customer_id, role_id, project_id, role, firstname, lastname, job_id, job, techno_name FROM public.v_equipe where project_id=$1`;
+        const sql2 =`SELECT customer_id, role_id, project_id, role, firstname, lastname, profil_picture, job_id, job, techno_name FROM public.v_equipe where project_id=$1`;
         const sql3 =`SELECT job, id_project_has_job, job_id, project_id FROM public.v_project_has_job WHERE project_id=$1`
 
         try {
@@ -71,7 +71,7 @@ const projectDatamapper = {
 
     async allProjectLink (){
         const sql = 'SELECT id, project, excerpt, picture, start_date, techno, role_id, firstname, lastname, c_profil_picture FROM public.v_project';
-        const sql2='SELECT customer_id, role_id, project_id, role, firstname, lastname, job_id, job, techno_name FROM public.v_equipe';
+        const sql2='SELECT customer_id, role_id, project_id, role, firstname, lastname, profil_picture, job_id, job, techno_name FROM public.v_equipe';
         const sql3 ='SELECT * FROM public.v_project_has_job'
 
         try {
