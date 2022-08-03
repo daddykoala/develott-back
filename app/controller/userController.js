@@ -226,6 +226,10 @@ const userController = {
 	},
 
 	async updateUser(req, res) {
+
+		const body = req.body;
+		const userId = req.params.id;
+
 		try {
 			const body = req.body;
 			const userId = body.id;

@@ -1,6 +1,24 @@
 const jobDatamapper = require('../datamapper/jobDatamapper');
+const pool = require('../db/connect');
 
 const jobController ={
+
+    async getAllJob(_,res) {
+console.log('ici');
+        try {
+            const result = await jobDatamapper.AllJob();
+            if (result === null || result === undefined){
+                return res.status(401).json({ "message": "nous n'arrivons pas à acceder a la liste des jobs !"});
+
+            }
+            
+            return res.json(result)
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: "Database Error", error: error});
+        }
+
+    },
 
 
     async addJobProject (req, res) {
@@ -15,8 +33,10 @@ const jobController ={
                 throw new MainError('This job does not exists', req, res, 400);
             };
             const result = await jobDatamapper.addJob (projectId ,jobfinded.id);
+
             if (!result){
                 throw new MainError('This job was not adding', req, res, 404);
+
             };
             return res.status(204).json(result);
         } catch (error) {

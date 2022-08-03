@@ -12,7 +12,7 @@ const jobController = require("../controller/jobController");
 *******************/
 
 
-
+jobRouter.get("/jobs",jobController.getAllJob)
 
 
 

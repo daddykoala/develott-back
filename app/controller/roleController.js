@@ -31,6 +31,25 @@ const roleController={
                 throw new MainError('This role was not adding', req, res, 404);
             };
             return res.status(200).json(result);
+
+
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: "Database Error", error: error});
+        };
+    },
+
+    async deleteRoleCustomer (req,res) {
+        try {
+            const roleId =req.body.role_id;
+            const projectId=req.params.id;
+            const customerId=req.body.customer_id;
+            
+            const result = await roleDatamapper.deleteRoleToCustomer(customerId,roleId,projectId);
+            
+            return res.json({message:"rôle supprimé",status:204});
+
+
         } catch (error) {
         console.error(error);
         };

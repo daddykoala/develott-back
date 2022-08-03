@@ -26,6 +26,15 @@ const roleDatamapper={
 
 //retirer 
 
+async deleteRoleToCustomer (customerId,roleId,projectId,res) {
+
+    sql ='DELETE FROM customer_has_project_role WHERE customer_id=$1 AND role_id=$2 AND project_id =$3 ';
+    values=[customerId,roleId,projectId];
+    await pool.query(sql,values);
+    
+
+},
+
 
 
 }

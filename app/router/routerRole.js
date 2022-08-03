@@ -17,16 +17,20 @@ roleRouter.get('/role',roleController.getAllRole);
 /*******************
  **      POST    **              
  *******************/
-roleRouter.post('/project/:id/addparticipantrole',roleController.addRoleCustomer);
+
 roleRouter.post('/project/:id/addroletoproject',roleController.addRoleToproject);
 
 /*******************
  **      DELETE      **              
  *******************/
+roleRouter.delete('/project/:id/deleterolecustomer',roleController.deleteRoleCustomer);
 
 /*******************
  **      PATCH      **              
  *******************/
+
+roleRouter.patch('/project/:id/updateparticipantrole',roleController.addRoleCustomer);
+
 } catch (error) {
 
 }
