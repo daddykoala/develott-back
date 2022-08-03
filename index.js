@@ -5,7 +5,8 @@ const app = express();
 const router = require("./app/router/index");
 const cors = require("cors");
 const corsOptions = require("./app/service/corsOptions");
-const errorController = require("./app/service/errorHandlers/errorHandlers")
+const MainError = require ('./app/error/customError');
+
 
 
 
@@ -52,6 +53,11 @@ app.use(passport.session());
 
 
 app.use(router);
+
+
+app.use((req, res)=>{
+	throw new MainError ('Page non trouvé', req, res, 404);
+});
 
 const PORT = process.env.PORT || 5000;
 

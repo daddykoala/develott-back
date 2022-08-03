@@ -24,15 +24,22 @@ const bcrypt = require("bcrypt");
  */
 
 const userDatamapper = {
+
+	async checkUserExist(email){
+
+		const userExist = await pool.query(`SELECT email, password, id
+		FROM public."customer" where email = '${email}'`);
+
+		return userExist.rows[0]
+	},
+
+
 	async createUser(req, validationlink, res) {
 		//todo creer la requete imbriquer pour chopper le job_id
 		//     console.log(req.body);
 		//     const job_id = await getJobId(req.job_name)
 		//     console.log('lllooo',job_id);
 		//todo vérifier que le user n'existe pas deja
-
-		const userExist = await pool.query(`SELECT email, password, id
-        FROM public."customer" where email = '${req.email}'`);
 
 		if (userExist.email === req.email) {
 			res.status(401).send("un utilisateur est déjâ enregistré avec cet email");
@@ -76,12 +83,8 @@ const userDatamapper = {
 
 	async foundUserById(userId) {
 		const sql = "SELECT * FROM public.v_customer WHERE id=$1";
-		try {
 			const result = await pool.query(sql, [userId]);
 			return result.rows[0];
-		} catch (error) {
-			console.error(error);
-		}
 	},
 
 	async foundUserBymail(email) {
