@@ -8,9 +8,6 @@ const searchController={
         try {
             const body = req.body;
             const result = await searchDatamapper.searchFilter(body);
-            if (result === null || result === undefined){
-                return res.status(404).json({ message: "This project does not exists try with other filter !"});
-            };
             return res.status(200).json(result);
 
         } catch (error) {
@@ -20,44 +17,37 @@ const searchController={
 
     async fetchAllProjectByAsc(req,res) {
         try {
-            const startDate =req.body.startDate
+            const startDate =req.body.startDate;
+            if (!startDate){
+                throw new MainError('missing parameter', req, res, 400);
+            };
             const result = await searchDatamapper.projectsByAsc(startDate);
-            if(!startDate){
-                res.status(204).json({message:"il n'y a pas de projets prevu à partir de cette date "})
-            }
-            return res.json(result)
+            return res.status(200).json(result);
         } catch (error) {
             console.error(error);
-        }
+        };
     },
 
     async fetchAllProjectByDesc(req,res) {
         try {
-            const endDate = req.body.endDate
-            if(!endDate){
-                res.status(204).json({message:"il n'y a pas de projets prevu à partir de cette date "})
-            }
+            const endDate = req.body.endDate;
             const result = await searchDatamapper.projectsByAsc(endDate);
+            return res.status(200).json(result);
         } catch (error) {
             console.error(error);
-        }
-        return result.rows
+        };
     },
 
     async fetchAllProjectBetweenDate(req,res) {
         try {
-            const endDate = req.body.endDate
-            if(!endDate){
-                res.status(204).json({message:"il n'y a pas de projets prevu à partir de cette date "})
-            }
+            const endDate = req.body.endDate;
             const result = await searchDatamapper.projectsByDesc(endDate);
             return res.status(200).json(result);
         } catch (error) {
             console.error(error);
-        }
-        return result.rows
+        };
     },
 
-}
+};
 
 module.exports = searchController;
