@@ -16,22 +16,27 @@ const userController = {
 	 * @param {string} data
 	 */
 	async create(req, res) {
-		const data = req.body;
-		console.log(data);
-		const verificationLink = crypto.randomBytes(32).toString("hex");
-
-		//TODO créer l'utilisateur en bdd + la verificationLink
 		try {
+			const data = req.body;
+			console.log(data);
+			const checkUserExist = await userDatamapper.checkUserExist(data.emai)
+			if (checkUserExist === data.email){
+				throw new MainError('This email already use', req, res, 409);};
+			const verificationLink = crypto.randomBytes(32).toString("hex");
+			if (!verificationLink){
+				throw new MainError('Link does not exists', req, res, 400);	};
+		//TODO créer l'utilisateur en bdd + la verificationLink
 			const result = await userDatamapper.createUser(data, verificationLink);
+			if (!result) {
+				throw new MainError('Lien invalide', req, res, 400);};
 			const user = await userDatamapper.foundUserBymail(data.email);
+			if (!user) {
+				throw new MainError('This user does not exists', req, res, 400);};
 			const message = `https://develott.herokuapp.com/v1/user/verify/${user.id}/${verificationLink}`;
 			await postMail(data.email, message);
-			if (result === null || result === undefined){
-				return res.status(404).json({ message: "This user does not exists !"});
-			};
-			
+			if (!result){
+				throw new MainError('This message has not been sended', req, res, 404);};
 			res.status(200).json(result);
-			
 		} catch (error) {
          console.error(error);
         };
@@ -42,7 +47,13 @@ const userController = {
 		try {
 			const data = req.params;
 			const userId = req.params.id;
+			if (!userId){
+				throw new MainError('missing parameter', req, res, 400);
+            };
 			const userVerificationLink = data.verificationLink;
+			if (!verificationLink){
+				throw new MainError('Invalid link', req, res, 400);
+            };
 			//TODO check dans base si l'email (userId) existe ET le lien de vérification
 			//si utilisateur n'existe pas : res.status(400).send("Lien invalide")
 			const result = await userDatamapper.verificationLink(
@@ -50,17 +61,15 @@ const userController = {
 				userVerificationLink
 			);
 			if (!result) {
-				res.status(400).send("Lien invalide");
-			}
+				throw new MainError('Lien invalide', req, res, 404);
+			};
 			//TODO update l'utilisateur : on supprime le verificationLink + on passe Verified à true
 			const valideleted = await userDatamapper.deleteLinkEmail(userId);
 			const updated = await userDatamapper.updatesStatus(userId);
 			if( updated === nul || updated === undefined){
 				return res.status(404).json({ message: "This user does not exists !"});
-			}
-
+			};
 			res.status(200).redirect("http://localhost:3000/connexion/");
-
 		} catch (error) {
          console.error(error);
         };
@@ -69,21 +78,31 @@ const userController = {
 	async createResetPasswordLink(req, res) {
 		try {
 			const email = req.body.email;
+			if (!email){
+				throw new MainError('missing parameter', req, res, 400);
+            };
 			const verificationLink = crypto.randomBytes(32).toString("hex");
+			if (!verificationLink){
+				throw new MainError('Invalid link', req, res, 400);
+            };
 			const user = await userDatamapper.foundUserBymail(email);
+			if (!user){
+				throw new MainError('This user does not exists', req, res, 400);
+            };
 			const updateLink = await userDatamapper.updatesValidationLink(
 				verificationLink,
 				user.id
 			);
+			if (!updateLink){
+				throw new MainError('Link not uptdate', req, res, 400);
+            };
 			const message = `https://develott.herokuapp.com/v1/user/verifyPassword/${user.id}/${verificationLink}`;
 	
 			const result = await resetPasswordMail(email, message);
-			if( result === nul || result === undefined){
-				return res.status(404).json({ message: "This user does not exists !"});
+			if(!result){
+				throw new MainError('email didn\'t send', req, res, 404);
 			}
-
 			res.status(200).json("ok");
-
 		} catch (error) {
          console.error(error);
         };
@@ -93,7 +112,13 @@ const userController = {
 		try {
 			const data = req.params;
 			const userId = data.id;
+			if (!userId){
+				throw new MainError('missing parameter', req, res, 400);
+            };
 			const userVerificationLink = data.verificationLink;
+			if (!userVerificationLink) {
+				throw new MainError('Lien invalide', req, res, 400);
+			};
 			//TODO check dans base si l'email (userId) existe ET le lien de vérification
 			//si utilisateur n'existe pas : res.status(400).send("Lien invalide")
 			const result = await userDatamapper.verificationLink(
@@ -101,12 +126,12 @@ const userController = {
 				userVerificationLink
 			);
 			if (!result) {
-				res.status(400).send("Lien invalide");
-			}
+				throw new MainError('Lien invalide', req, res, 404);
+			};
 			//TODO update l'utilisateur : on supprime le verificationLink + on passe Verified à true
 			const valideleted = await userDatamapper.deleteLinkEmail(userId);
-			if (valideleted === null || valideleted === undefined){
-				return res.status(404).json({ message: "This user does not exists !"});
+			if (!valideleted){
+				throw new MainError('The link has not been deleted', req, res, 400);
 			};
 
 			res.status(200).redirect(`https:localhost3000/newpassword/${userId}`);
@@ -129,7 +154,7 @@ const userController = {
 				userId
 			);
 			if (!resetPassword){
-				throw new MainError('something wrong', req, res, 404);
+				throw new MainError('missing reset', req, res, 404);
             };
 			res.sendStatus(200);
 		} catch (error) {
@@ -232,14 +257,14 @@ const userController = {
 			console.log(email);
 			const foundUser = await userDatamapper.foundUserBymail(email);
 			if (!foundUser.email) {
-				throw new MainError('le mail n\'existe pas', req, res, 401);
+				throw new MainError('le mail n\'existe pas', req, res, 400);
 			};
 			if (foundUser.email !== email) {
-				throw new MainError('invalid credentials', req, res, 401);
+				throw new MainError('invalid credentials', req, res, 400);
 			};
 			bcrypt.compare(password, foundUser.password, function (err, result) {
 				if (result == false) {
-					throw new MainError('code invalide', req, res, 401);
+					throw new MainError('code invalide', req, res, 404);
 				}
 				if (result == true) {
 					//*création du JWT
@@ -267,7 +292,7 @@ const userController = {
 			const body = req.body;
 			const result = await userDatamapper.pickTechnoHasCustomer(body);
 			if (!result){
-				throw new MainError('This techno or user does not exists !', req, res, 401);
+				throw new MainError('This techno or user does not exists !', req, res, 404);
             };
             return res.status(204).json(result);
 		} catch (error) {

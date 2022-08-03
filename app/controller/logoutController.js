@@ -3,8 +3,11 @@
 
 const handleLogout = (req, res, next) => {
 
-  const cookies = req.cookies;
   try {
+    const cookies = req.cookies;
+    if (!cookies){
+      throw new MainError('missing parameter', req, res, 400);
+    };
     if(!cookies?.jwt) {
       return res.sendStatus(204);
     }
@@ -12,13 +15,13 @@ const handleLogout = (req, res, next) => {
     
     // res.clearCookie("jwt", refreshToken, {httpOnly: true})
     res.clearCookie("jwt", {path: '/', httpOnly: true, sameSite: 'None', secure: true })
+    if (!clearCookie){
+      throw new MainError('clearCookie doesn\'t work', req, res, 404);
+  };
     //! En prod: si https ajouter secure: true !!!!
     res.sendStatus(204);
-
   } catch (error) {
-
-    next(error);
-    
+    console.error(error); 
   };
 };
 

@@ -44,10 +44,10 @@ const technoDatamapper = {
             };
         },
 
-        async deleteTechnoUser (projectId, technoId) {
+        async deleteTechnoUser (UserId, technoId) {
             const sql ='DELETE FROM public.customer_has_techno WHERE customer_id=$1 AND techno_id=$2';
             try {
-                await pool.query(sql,[projectId,technoId]);
+                await pool.query(sql,[UserId,technoId]);
             } catch (error) {
                 console.error(error);
             };
