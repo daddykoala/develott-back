@@ -42,11 +42,21 @@ const roleController={
     async deleteRoleCustomer (req,res) {
         try {
             const roleId =req.body.role_id;
+            if (!roleId){
+                throw new MainError('missing parameter', req, res, 400);
+            };
             const projectId=req.params.id;
+            if (!projectId){
+                throw new MainError('missing parameter', req, res, 400);
+            };
             const customerId=req.body.customer_id;
-            
+            if (!customerId){
+                throw new MainError('missing parameter', req, res, 400);
+            };
             const result = await roleDatamapper.deleteRoleToCustomer(customerId,roleId,projectId);
-            
+            if (!result){
+                throw new MainError('This role was not delete', req, res, 404);
+            };
             return res.json({message:"rôle supprimé",status:204});
 
 

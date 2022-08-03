@@ -226,16 +226,12 @@ const userController = {
 	},
 
 	async updateUser(req, res) {
-
-		const body = req.body;
-		const userId = req.params.id;
-
 		try {
 			const body = req.body;
-			const userId = body.id;
-			if(!userId){
+			const userId = req.params.id;
+			if (!userId){
 				throw new MainError('missing parameter', req, res, 400);
-			}
+            };
 			const result = await userDatamapper.update(body, userId);
 			if (!result){
 				throw new MainError('This user does not exists', req, res, 404);
