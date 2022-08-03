@@ -41,23 +41,8 @@ const searchController={
 
     async fetchAllProjectByDesc(req,res) {
         const endDate = req.body.endDate
-
-        try {
-            const result = await searchDatamapper.projectsByAsc(endDate);
-            if(!endDate){
-                res.status(204).json({message:"il n'y a pas de projets prevu à partir de cette date "})
-            }
-
-        } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: "Database Error", error: error});
-        }
-        return result.rows
-
-    },
-
-    async fetchAllProjectBetweenDate(req,res) {
-        const endDate = req.body.endDate
+        console.log(req.body);
+        console.log(endDate);
 
         try {
             const result = await searchDatamapper.projectsByDesc(endDate);
@@ -65,6 +50,25 @@ const searchController={
                 res.status(204).json({message:"il n'y a pas de projets prevu à partir de cette date "})
             }
 
+            return res.json(result)
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: "Database Error", error: error});
+        }
+
+    },
+
+    async fetchAllProjectBetween(req,res) {
+        const endDate = req.body.endDate
+        const startDate = req.body.startDate
+
+        try {
+            const result = await searchDatamapper.ProjectBetweenDate(startDate,endDate);
+            if(!endDate){
+                res.status(204).json({message:"il n'y a pas de projets prevu à partir de cette date "})
+            }
+            return res.status(200).json(result)
+
         } catch (error) {
             console.error(error);
             return res.status(500).json({ message: "Database Error", error: error});
@@ -72,6 +76,7 @@ const searchController={
         return result.rows
 
     },
+
 
 }
 
