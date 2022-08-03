@@ -29,7 +29,7 @@ const roleController={
                 return res.status(404).json({ message: "This role does not exists !"});
             };
 
-            return res.status(204).json(result);
+            return res.status(200).json(result);
 
         } catch (error) {
 
@@ -55,7 +55,7 @@ const roleController={
                 return res.status(404).json({ message: "This role does not exists !"});
             };
 
-            return res.status(204).json(result);
+            return res.status(200).json(result);
 
         } catch (error) {
 

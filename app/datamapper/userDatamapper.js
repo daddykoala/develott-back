@@ -76,12 +76,8 @@ const userDatamapper = {
 
 	async foundUserById(userId) {
 		const sql = "SELECT * FROM public.v_customer WHERE id=$1";
-		try {
 			const result = await pool.query(sql, [userId]);
 			return result.rows[0];
-		} catch (error) {
-			console.error(error);
-		}
 	},
 
 	async foundUserBymail(email) {

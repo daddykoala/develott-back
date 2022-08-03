@@ -8,14 +8,14 @@ const {
 const crypto = require("crypto");
 const postMail = require("../service/nodemailerService.js");
 const resetPasswordMail = require("../service/nodemailerPasswordService.js");
-const {MainError,userError} = require ('../error/customError');
+const MainError = require ('../error/customError');
 
 const userController = {
 	/**
 	 * creer un utilisateur
 	 * @param {string} data
 	 */
-	async create(req, res, next) {
+	async create(req, res) {
 		const data = req.body;
 		console.log(data);
 		const verificationLink = crypto.randomBytes(32).toString("hex");
@@ -33,14 +33,12 @@ const userController = {
 			res.status(200).json(result);
 			
 		} catch (error) {
-
-			next(error);
-
-		};
+         console.error(error);
+        };
 	},
 	
 	
-	async checkVerificationLink(req, res, next) {
+	async checkVerificationLink(req, res) {
 		try {
 			const data = req.params;
 			const userId = req.params.id;
@@ -64,13 +62,11 @@ const userController = {
 			res.status(200).redirect("http://localhost:3000/connexion/");
 
 		} catch (error) {
-
-			next(error);
-
-		};
+         console.error(error);
+        };
 	},
 
-	async createResetPasswordLink(req, res, next) {
+	async createResetPasswordLink(req, res) {
 		try {
 			const email = req.body.email;
 			const verificationLink = crypto.randomBytes(32).toString("hex");
@@ -89,13 +85,11 @@ const userController = {
 			res.status(200).json("ok");
 
 		} catch (error) {
-
-			next(error);
-
-		};
+         console.error(error);
+        };
 	},
 
-	async checkPasswordResetLink(req, res, next) {
+	async checkPasswordResetLink(req, res) {
 		try {
 			const data = req.params;
 			const userId = data.id;
@@ -118,133 +112,134 @@ const userController = {
 			res.status(200).redirect(`https:localhost3000/newpassword/${userId}`);
 
 		} catch (error) {
-
-			next(error);
-
-		};
+         console.error(error);
+        };
 	},
 
-	async updatePassword(req, res, next) {
+	async updatePassword(req, res) {
 		try {
 			const newPassword = req.body.password;
 			const userId = Number(req.body.userId);
+			if (!userId){
+				throw new MainError('missing parameter', req, res, 400);
+            };
 			console.log(req.body);
 			const resetPassword = await userDatamapper.updatePassword(
 				newPassword,
 				userId
 			);
+			if (!resetPassword){
+				throw new MainError('something wrong', req, res, 404);
+            };
 			res.sendStatus(200);
 		} catch (error) {
-
-			next(error);
-
-		};
+         console.error(error);
+        };
 	},
 
 
 	async fetchAllUser(_, res) {
 		try {
 			const result = await userDatamapper.allUser();
+			if (!result){
+				throw new MainError('This user does not exists', req, res, 404);
+            };
             return res.status(200).json(result);
 
         } catch (error) {
-
-         next(error);
-
+         console.error(error);
         };
 	},
 
-	async fetchOneUserById(req, res, next) {
+	async fetchOneUserById(req, res) {
 		try {
 			const userId = parseInt(req.params.id, 10);
 			if(!userId){
-				console.log('passage3')
-				throw new userError ('missing parameter');
+			throw new MainError('missing parameter', req, res, 400);
 			}
 			const result = await userDatamapper.foundUserById(userId);
 			if (!result){
-				console.log('passage2')
-				throw new userError ('This user does not exists', 0);
+				throw new MainError('This user does not exists', req, res, 404);
             };
-			
             return res.status(200).json(result);
-
         } catch (error) {
-			console.log('passage1')
-         next(error);
-
+         console.error(error);
         };
 	},
 
-	async fetchOneUserBymail(req, res, next) {
+	async fetchOneUserBymail(req, res) {
 		try {
 			const userMail = req.params.email;
+			if(!userMail){
+				throw new MainError('missing parameter', req, res, 400);
+			}
 			const result = await userDatamapper.foundUserBymail(userMail);
-			if (result === null || result === undefined){
-				return res.status(404).json({ message: "This user does not exists !"});
+			if (!result){
+				throw new MainError('This user does not exists', req, res, 404);
             };
-			
             return res.status(200).json(result);
-
         } catch (error) {
-
-            next(error);
-
+            console.error(error);
         };
 	},
 
-	async deleteUser(req, res, next) {
+	async deleteUser(req, res) {
 		try {
 			const userId = parseInt(req.params.id, 10);
+			if(!userId){
+				throw new MainError('missing parameter', req, res, 400);
+			}
 			const result = await userDatamapper.destroy(userId);
-			if (result === null || result === undefined){
-				return res.status(404).json({ message: "This user does not exists !"});
+			if (!result){
+				throw new MainError('This user does not exists', req, res, 404);
             };
-			
+		
             return res.status(204).json(result);
-
         } catch (error) {
-
-            next(error);
-
+            console.error(error);
         };
 	},
 
-	async updateUser(req, res, next) {
+	async updateUser(req, res) {
 		try {
 			const body = req.body;
 			const userId = body.id;
+			if(!userId){
+				throw new MainError('missing parameter', req, res, 400);
+			}
 			const result = await userDatamapper.update(body, userId);
-			if (result === null || result === undefined){
-				return res.status(404).json({ message: "This user does not exists !"});
+			if (!result){
+				throw new MainError('This user does not exists', req, res, 404);
             };
-			
-            return res.status(204).json(result);
-
+        	return res.status(204).json(result);
         } catch (error) {
-
-         next(error);
-
+         console.error(error);
         };
 	},
 
 	//la generation de token
 
-	async logIn(req, res, next) {
+	async logIn(req, res) {
 		try {
 			const email = req.body.email;
+			if(!email){
+				throw new MainError('missing parameter', req, res, 400);
+			}
 			const password = req.body.password;
+			if(!password){
+				throw new MainError('missing parameter', req, res, 400);
+			}
 			console.log(email);
 			const foundUser = await userDatamapper.foundUserBymail(email);
-			if (foundUser.email === null || foundUser.email === undefined ) {
-				res.status(401).send("le mail n'existe pas ");
+			if (!foundUser.email) {
+				throw new MainError('le mail n\'existe pas', req, res, 401);
 			};
 			if (foundUser.email !== email) {
-				res.status(401).send("invalid credentials");
+				throw new MainError('invalid credentials', req, res, 401);
 			};
 			bcrypt.compare(password, foundUser.password, function (err, result) {
 				if (result == false) {
-					res.status(401).send("code invalide");
+					throw new MainError('code invalide', req, res, 401);
 				}
 				if (result == true) {
 					//*création du JWT
@@ -259,33 +254,25 @@ const userController = {
 					// 	maxAge: 24 * 60 * 60 * 1000,
 					// });
 					res.cookie("jwt", refreshToken, {httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
-
 					res.status(200).json({ accessToken, foundUser });
-
-			};
-		});
-	} catch (error) {
-
-		next(error);
-
+				};
+			});
+		} catch (error) {
+		console.error(error);
 	};
 	},
 
-	async postTechnoByCustomer(req, res, next) {
+	async postTechnoByCustomer(req, res) {
 		try {
 			const body = req.body;
 			const result = await userDatamapper.pickTechnoHasCustomer(body);
-			if (result === null || result === undefined){
-				return res.status(404).json({ message: "This user does not exists !"});
+			if (!result){
+				throw new MainError('This techno or user does not exists !', req, res, 401);
             };
-			
             return res.status(204).json(result);
-
-        } catch (error) {
-
-         next(error);
-		 
-        };
+		} catch (error) {
+			console.error(error);
+		   };
 	}
 	
 };
