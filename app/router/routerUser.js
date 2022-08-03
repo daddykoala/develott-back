@@ -144,7 +144,7 @@ userRouter.get(
 	 	 * {"Error 500": "le serveur a du mal à répondre"}
 		 * @return {string} 500 - Description Global
 		 */
-	"/user/findById/:id(\\d+)", authenticateToken, userController.fetchOneUserById);
+	"/user/findById/:id", authenticateToken, userController.fetchOneUserById);
 
 userRouter.get(
 	/**
