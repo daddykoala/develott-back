@@ -19,7 +19,7 @@ const handleRefreshToken = (req, res, next) => {
           throw new MainError('This is forbiden !', req, res, 403);
       }    
       const accessToken = generateAccessToken(user)
-      return res.status(204).json({ user :user.user , accessToken })  
+      return res.status(200).json({ user :user.user , accessToken })  
   });
   } catch (error) {
     console.error(error);
