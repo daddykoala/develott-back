@@ -23,8 +23,7 @@ const searchController={
                 fields.push(` project_has_techno.techno_id=$${index+1}`);
                 values.push(value);
             }
-            console.log(fields.join(" AND"));
-            console.log(values);
+            
         });
 
         const sql={
@@ -40,10 +39,10 @@ const searchController={
         GROUP BY projectId
         order by start_date DESC`,
         values}
-        console.log(sql);
+        ;
 
         const result = await pool.query(sql)
-        return result
+        return result.rows
     }   
 
 
