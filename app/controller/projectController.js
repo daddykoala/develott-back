@@ -38,9 +38,6 @@ const projectController ={
                 throw new MainError('missing parameter', req, res, 400);
             };
             const result = await projectDatamapper.oneProjectByCustomerConnected(projectId);
-            if (!result){
-                throw new MainError('This project does not exists', req, res, 404);
-            };
             return res.status(200).json(result);
         } catch (error) {
         console.error(error);
@@ -61,9 +58,6 @@ const projectController ={
                 throw new MainError('This project\'s name  was already taken', req, res, 401);
             }
             const result = await projectDatamapper.create(body);
-            if (!result){
-                throw new MainError('This project can\'t be created', req, res, 404);
-            };
             return res.status(200).json(result);
         } catch (error) {
         console.error(error);
@@ -78,9 +72,6 @@ const projectController ={
                 throw new MainError('missing parameter', req, res, 400);
             };
             const result = await projectDatamapper.destroy(projectId);
-            if (!result){
-                throw new MainError('This project can\'t be delete', req, res, 404);
-            };
             return res.status(204).json(result);;
         } catch (error) {
         console.error(error);
@@ -95,9 +86,6 @@ const projectController ={
                 throw new MainError('missing parameter', req, res, 400);
             };
 			const result = await projectDatamapper.update(body, projectId);
-			if (!result){
-                throw new MainError('This project can\'t be update', req, res, 404);
-            };
             return res.status(200).json(result);
         } catch (error) {
         console.error(error);
@@ -107,9 +95,6 @@ const projectController ={
     async fetchAllProjectHome(_,res) {
         try {
             const result = await projectDatamapper.allProjectLink();
-            if (!result){
-                throw new MainError('can\'t take all project', req, res, 404);
-            };
             return res.status(200).json(result);
     } catch (error) {
         console.error(error);

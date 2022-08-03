@@ -8,9 +8,6 @@ const jobController ={
 console.log('ici');
         try {
             const result = await jobDatamapper.AllJob();
-            if (!result){
-                throw new MainError('This job was not adding', req, res, 404);
-            };
             return res.status(200).json(result);
         } catch (error) {
             console.error(error);
@@ -29,9 +26,6 @@ console.log('ici');
                 throw new MainError('This job does not exists', req, res, 400);
             };
             const result = await jobDatamapper.addJob (projectId ,jobfinded.id);
-            if (!result){
-                throw new MainError('can\'t get all job', req, res, 404);
-            };
             return res.status(200).json(result);
         } catch (error) {
         console.error(error);
@@ -45,9 +39,6 @@ console.log('ici');
                 throw new MainError('missing parameter', req, res, 400);
             };
             const result = await jobDatamapper.deleteJobProject (tableId);
-            if (!result){
-                throw new MainError('This job was not delete', req, res, 404);
-            };
             return res.status(204).json(result);
         } catch (error) {
         console.error(error);
@@ -67,9 +58,6 @@ console.log('ici');
                 throw new MainError('This job does not exists', req, res, 400);
             };
             const result = await jobDatamapper.addJobUser (userId ,jobfinded.id);
-            if (!result){
-                throw new MainError('This job was not adding', req, res, 404);
-            };
             return res.status(200).json(result);;
         } catch (error) {
         console.error(error);
@@ -83,9 +71,6 @@ console.log('ici');
                 throw new MainError('missing parameter', req, res, 400);
             };
             const result = await jobDatamapper.deleteJobUser(userId);
-            if (!result){
-                throw new MainError('This job was not delete', req, res, 404);
-            };
             return res.status(204).json(result);
         } catch (error) {
             console.error(error);
