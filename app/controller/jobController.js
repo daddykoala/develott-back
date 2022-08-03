@@ -1,4 +1,5 @@
 const jobDatamapper = require('../datamapper/jobDatamapper');
+const MainError = require ('../error/customError');
 const pool = require('../db/connect');
 
 const jobController ={
