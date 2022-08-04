@@ -39,10 +39,6 @@ const userDatamapper = {
 		//     console.log('lllooo',job_id);
 		//todo vérifier que le user n'existe pas deja
 
-		if (userExist.email === req.email) {
-			res.status(401).send("un utilisateur est déjâ enregistré avec cet email");
-			return;
-		}
 		const encryptedPassword = await bcrypt.hash(req.password, 10);
 
 		const sql = `INSERT INTO customer( firstname, lastname, password, email, city, description, profil_picture, username_gith, url_github, url_gitlab, url_portfolio, url_linkedin, validation_link)
