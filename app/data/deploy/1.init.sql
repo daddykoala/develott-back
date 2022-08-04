@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS project_has_techno
    project_id INT NOT NULL,
    techno_id INT NOT NULL,
     CONSTRAINT techno_project_id_fkey FOREIGN KEY (project_id)
-    REFERENCES public.project (id) MATCH SIMPLE,
+    REFERENCES public.project (id) MATCH SIMPLE ON DELETE CASCADE,
     CONSTRAINT project_techno_id_fkey FOREIGN KEY (techno_id)
     REFERENCES public.techno (id) MATCH SIMPLE,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW() ,
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS project_has_job
    project_id INT NOT NULL,
    job_id INT NOT NULL,
     CONSTRAINT job_project_id_fkey FOREIGN KEY (project_id)
-    REFERENCES public.project (id) MATCH SIMPLE,
+    REFERENCES public.project (id) MATCH SIMPLE ON DELETE CASCADE,
     CONSTRAINT project_job_id_fkey FOREIGN KEY (job_id)
     REFERENCES public.job (id) MATCH SIMPLE,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW() ,
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS customer_has_techno
     CONSTRAINT techno_customer_id_fkey FOREIGN KEY (customer_id)
     REFERENCES public.customer (id) MATCH SIMPLE,
     CONSTRAINT customer_techno_id_fkey FOREIGN KEY (techno_id)
-    REFERENCES public.techno (id) MATCH SIMPLE,
+    REFERENCES public.techno (id) MATCH SIMPLE ,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW() ,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
@@ -117,13 +117,13 @@ CREATE TABLE IF NOT EXISTS customer_has_project_role
 (
    customer_id INT NOT NULL,
    CONSTRAINT customer_id_fkey FOREIGN KEY (customer_id)
-   REFERENCES public.customer (id) MATCH SIMPLE ON DELETE CASCADE,
+   REFERENCES public.customer (id) MATCH SIMPLE,
    role_id INT NOT NULL,
    CONSTRAINT role_id_fkey FOREIGN KEY (role_id)
    REFERENCES public.role (id) MATCH SIMPLE,
    project_id INT NOT NULL,
    CONSTRAINT project_id_fkey FOREIGN KEY (project_id)
-   REFERENCES public.project (id) MATCH SIMPLE,
+   REFERENCES public.project (id) MATCH SIMPLE ON DELETE CASCADE,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW() ,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY ("customer_id", "role_id", "project_id")
