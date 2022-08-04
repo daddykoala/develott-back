@@ -117,7 +117,7 @@ CREATE TABLE IF NOT EXISTS customer_has_project_role
 (
    customer_id INT NOT NULL,
    CONSTRAINT customer_id_fkey FOREIGN KEY (customer_id)
-   REFERENCES public.customer (id) MATCH SIMPLE,
+   REFERENCES public.customer (id) MATCH SIMPLE ON DELETE CASCADE,
    role_id INT NOT NULL,
    CONSTRAINT role_id_fkey FOREIGN KEY (role_id)
    REFERENCES public.role (id) MATCH SIMPLE,

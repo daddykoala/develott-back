@@ -236,10 +236,10 @@ const userController = {
 				throw new MainError('invalid credentials', req, res, 400);
 			};
 			bcrypt.compare(password, foundUser.password, function (err, result) {
-				if (result === false) {
+				if (result == false) {
 					throw new MainError('code invalide', req, res, 404);
-				}
-				if (result === true) {
+				};
+				if (result == true) {
 					//*création du JWT
 					const accessToken = generateAccessToken(foundUser.email);
 					//* création du refreshToken
