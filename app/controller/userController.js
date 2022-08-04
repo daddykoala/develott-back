@@ -228,7 +228,7 @@ const userController = {
 			}
 			console.log(email);
 			const foundUser = await userDatamapper.foundUserBymail(email);
-			if (!foundUser.email) {
+			if (!foundUser) {
 				throw new MainError('le mail n\'existe pas', req, res, 400);
 			};
 			if (foundUser.email !== email) {
