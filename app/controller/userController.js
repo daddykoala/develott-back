@@ -40,7 +40,6 @@ const userController = {
         };
 	},
 	
-	
 	async checkVerificationLink(req, res) {
 		try {
 			const data = req.params;
