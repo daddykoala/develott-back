@@ -19,7 +19,7 @@ const userController = {
 		try {
 			const data = req.body;
 			console.log(data);
-			const checkUserExist = await userDatamapper.checkUserExist(data.emai)
+			const checkUserExist = await userDatamapper.checkUserExist(data.email)
 			if (checkUserExist === data.email){
 				throw new MainError('This email already use', req, res, 409);};
 			const verificationLink = crypto.randomBytes(32).toString("hex");
