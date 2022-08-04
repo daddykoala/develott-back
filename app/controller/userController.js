@@ -231,9 +231,6 @@ const userController = {
 			if (!foundUser) {
 				throw new MainError('le mail n\'existe pas', req, res, 400);
 			};
-			if (foundUser.email !== email) {
-				throw new MainError('invalid credentials', req, res, 400);
-			};
 			bcrypt.compare(password, foundUser.password, function (err, result) {
 				if (result === false) {
 					throw new MainError('code invalide', req, res, 404);
