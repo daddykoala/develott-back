@@ -40,7 +40,6 @@ const userDatamapper = {
 		//todo vérifier que le user n'existe pas deja
 
 		const encryptedPassword = await bcrypt.hash(req.password, 10);
-
 		const sql = `INSERT INTO customer( firstname, lastname, password, email, city, description, profil_picture, username_gith, url_github, url_gitlab, url_portfolio, url_linkedin, validation_link)
             VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)RETURNING id`;
 
