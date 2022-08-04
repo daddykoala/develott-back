@@ -29,10 +29,8 @@ const userDatamapper = {
 
 		const userExist = await pool.query(`SELECT email, password, id
 		FROM public."customer" where email = '${email}'`);
-
 		return userExist.rows[0]
 	},
-
 
 	async createUser(req, validationlink, res) {
 		//todo creer la requete imbriquer pour chopper le job_id

@@ -19,7 +19,7 @@ const userController = {
 		try {
 			const data = req.body;
 			console.log(data);
-			const checkUserExist = await userDatamapper.checkUserExist(data.emai)
+			const checkUserExist = await userDatamapper.checkUserExist(data.email)
 			if (checkUserExist === data.email){
 				throw new MainError('This email already use', req, res, 409);};
 			const verificationLink = crypto.randomBytes(32).toString("hex");
@@ -34,8 +34,6 @@ const userController = {
 				throw new MainError('This user does not exists', req, res, 400);};
 			const message = `https://develott.herokuapp.com/v1/user/verify/${user.id}/${verificationLink}`;
 			await postMail(data.email, message);
-			if (!result){
-				throw new MainError('This message has not been sended', req, res, 404);};
 			res.status(200).json(result);
 		} catch (error) {
          console.error(error);
@@ -60,15 +58,9 @@ const userController = {
 				userId,
 				userVerificationLink
 			);
-			if (!result) {
-				throw new MainError('Lien invalide', req, res, 404);
-			};
 			//TODO update l'utilisateur : on supprime le verificationLink + on passe Verified à true
 			const valideleted = await userDatamapper.deleteLinkEmail(userId);
 			const updated = await userDatamapper.updatesStatus(userId);
-			if( updated === nul || updated === undefined){
-				return res.status(404).json({ message: "This user does not exists !"});
-			};
 			res.status(200).redirect("http://localhost:3000/connexion/");
 		} catch (error) {
          console.error(error);
@@ -99,9 +91,6 @@ const userController = {
 			const message = `https://develott.herokuapp.com/v1/user/verifyPassword/${user.id}/${verificationLink}`;
 	
 			const result = await resetPasswordMail(email, message);
-			if(!result){
-				throw new MainError('email didn\'t send', req, res, 404);
-			}
 			res.status(200).json("ok");
 		} catch (error) {
          console.error(error);
@@ -166,9 +155,6 @@ const userController = {
 	async fetchAllUser(_, res) {
 		try {
 			const result = await userDatamapper.allUser();
-			if (!result){
-				throw new MainError('This user does not exists', req, res, 404);
-            };
             return res.status(200).json(result);
 
         } catch (error) {
@@ -183,9 +169,6 @@ const userController = {
 			throw new MainError('missing parameter', req, res, 400);
 			}
 			const result = await userDatamapper.foundUserById(userId);
-			if (!result){
-				throw new MainError('This user does not exists', req, res, 404);
-            };
             return res.status(200).json(result);
         } catch (error) {
          console.error(error);
@@ -199,9 +182,6 @@ const userController = {
 				throw new MainError('missing parameter', req, res, 400);
 			}
 			const result = await userDatamapper.foundUserBymail(userMail);
-			if (!result){
-				throw new MainError('This user does not exists', req, res, 404);
-            };
             return res.status(200).json(result);
         } catch (error) {
             console.error(error);
@@ -215,10 +195,6 @@ const userController = {
 				throw new MainError('missing parameter', req, res, 400);
 			}
 			const result = await userDatamapper.destroy(userId);
-			if (!result){
-				throw new MainError('This user does not exists', req, res, 404);
-            };
-		
             return res.status(204).json(result);
         } catch (error) {
             console.error(error);
@@ -233,10 +209,7 @@ const userController = {
 				throw new MainError('missing parameter', req, res, 400);
             };
 			const result = await userDatamapper.update(body, userId);
-			if (!result){
-				throw new MainError('This user does not exists', req, res, 404);
-            };
-        	return res.status(204).json(result);
+        	return res.status(200).json(result);
         } catch (error) {
          console.error(error);
         };
@@ -263,10 +236,10 @@ const userController = {
 				throw new MainError('invalid credentials', req, res, 400);
 			};
 			bcrypt.compare(password, foundUser.password, function (err, result) {
-				if (result == false) {
+				if (result === false) {
 					throw new MainError('code invalide', req, res, 404);
-				}
-				if (result == true) {
+				};
+				if (result === true) {
 					//*création du JWT
 					const accessToken = generateAccessToken(foundUser.email);
 					//* création du refreshToken
@@ -291,10 +264,7 @@ const userController = {
 		try {
 			const body = req.body;
 			const result = await userDatamapper.pickTechnoHasCustomer(body);
-			if (!result){
-				throw new MainError('This techno or user does not exists !', req, res, 404);
-            };
-            return res.status(204).json(result);
+            return res.status(200).json(result);
 		} catch (error) {
 			console.error(error);
 		   };

@@ -11,9 +11,9 @@ ALTER COLUMN email TYPE email;
 
 -- ALTER TABLE project 
 -- ALTER COLUMN end_date TYPE end_date;
-CREATE DOMAIN start_date AS timestamptz CHECK (VALUE>NOW());
-ALTER TABLE project 
-ALTER COLUMN start_date TYPE start_date;
+-- CREATE DOMAIN start_date AS timestamptz CHECK (VALUE>NOW());
+-- ALTER TABLE project 
+-- ALTER COLUMN start_date TYPE start_date;
 
 
 COMMIT;

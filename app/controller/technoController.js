@@ -1,5 +1,6 @@
 
 const technoDatamapper = require('../datamapper/technoDatamapper');
+const MainError = require ('../error/customError');
 
 const technoController ={
 
@@ -15,10 +16,7 @@ const technoController ={
                 throw new MainError('This techno does not exists', req, res, 400);
             };
             const result = await technoDatamapper.addTechnoProject (projectId ,technoFinded.id);
-            if (!result){
-                throw new MainError('This techno was not adding', req, res, 404);
-            };
-            return res.status(204).json(result);
+            return res.status(200).json(result);
         } catch (error) {
         console.error(error);
         };
@@ -36,9 +34,6 @@ const technoController ={
                 throw new MainError('This techno does not exists', req, res, 400);
             };
             const result = await technoDatamapper.deleteTechnoUser (UserId ,technoFinded.id);
-            if (!result){
-                throw new MainError('This techno was not delete', req, res, 404);
-            };
             return res.status(204).json(result);
         } catch (error) {
         console.error(error);
@@ -57,10 +52,7 @@ const technoController ={
                 throw new MainError('This techno does not exists', req, res, 400);
             };
             const result = await technoDatamapper.addTechnoUser (UserId ,technoFinded.id);
-            if (!result){
-                throw new MainError('This techno was not adding', req, res, 404);
-            };
-            return res.status(204).json(result);
+            return res.status(200).json(result);
         } catch (error) {
         console.error(error);
         };
@@ -78,9 +70,6 @@ const technoController ={
                 throw new MainError('This techno does not exists', req, res, 400);
             };
             const result = await technoDatamapper.deleteTechnoProject (projectId ,technoFinded.id);
-            if (!result){
-                throw new MainError('This user was not delete', req, res, 404);
-            };
             return res.status(204).json(result);
         } catch (error) {
         console.error(error);

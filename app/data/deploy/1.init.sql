@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS project
     exerpt TEXT COLLATE pg_catalog."default" NOT NULL,
     description TEXT COLLATE pg_catalog."default" NOT NULL,
     picture_project TEXT COLLATE pg_catalog."default",
-    start_date TIMESTAMPTZ NOT NULL DEFAULT NOW() - INTERVAL 1 DAY ,
+    start_date TIMESTAMPTZ NOT NULL DEFAULT NOW() - INTERVAL '1 DAY' ,
     end_date TIMESTAMPTZ,
     url_slack_server text COLLATE pg_catalog."default",
     url_github_repo text COLLATE pg_catalog."default",
@@ -117,7 +117,7 @@ CREATE TABLE IF NOT EXISTS customer_has_project_role
 (
    customer_id INT NOT NULL,
    CONSTRAINT customer_id_fkey FOREIGN KEY (customer_id)
-   REFERENCES public.customer (id) MATCH SIMPLE,
+   REFERENCES public.customer (id) MATCH SIMPLE ON DELETE CASCADE,
    role_id INT NOT NULL,
    CONSTRAINT role_id_fkey FOREIGN KEY (role_id)
    REFERENCES public.role (id) MATCH SIMPLE,

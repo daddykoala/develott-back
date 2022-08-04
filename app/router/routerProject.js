@@ -56,7 +56,7 @@ projectRouter.get(
 		 */
     "/homeproject",projectController.fetchAllProject);
 
-projectRouter.get("/projects",authenticateToken,projectController.fetchAllProjectHome);
+projectRouter.get("/projects",projectController.fetchAllProjectHome);
 
 projectRouter.get(
          /**
