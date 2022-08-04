@@ -29,6 +29,7 @@ const searchController={
     },
 
     async fetchAllProjectByDesc(req,res) {
+
         try {
             const endDate = req.body.endDate;
             const result = await searchDatamapper.projectsByAsc(endDate);
@@ -43,11 +44,14 @@ const searchController={
             const endDate = req.body.endDate;
             const result = await searchDatamapper.projectsByDesc(endDate);
             return res.status(200).json(result);
+
         } catch (error) {
             console.error(error);
         };
     },
 
+
 };
+
 
 module.exports = searchController;
