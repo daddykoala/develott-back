@@ -48,7 +48,7 @@ const userController = {
 				throw new MainError('missing parameter', req, res, 400);
             };
 			const userVerificationLink = data.verificationLink;
-			if (!verificationLink){
+			if (!userVerificationLink){
 				throw new MainError('Invalid link', req, res, 400);
             };
 			//TODO check dans base si l'email (userId) existe ET le lien de vérification
