@@ -1,5 +1,6 @@
 const pool = require("../db/connect");
 const bcrypt = require("bcrypt");
+const { triggerAsyncId } = require("async_hooks");
 
 /**
  * @typedef {*} customer
@@ -71,107 +72,125 @@ const userDatamapper = {
 			return result.rows;
 		} catch (error) {
 			console.error(error);
-		}
+		};
 	},
 
 	async foundUserById(userId) {
 		const sql = "SELECT * FROM public.v_customer WHERE id=$1";
+		try {
 			const result = await pool.query(sql, [userId]);
 			return result.rows[0];
+		} catch (error) {
+			console.error(error);
+		};
 	},
 
 	async foundUserBymail(email) {
-		console.log(email);
-
 		const sql = `SELECT * FROM public.v_customer WHERE email =$1`;
-
 		try {
 			const result = await pool.query(sql,[email]);
 			return result.rows[0];
 		} catch (error) {
 			console.error(error);
-		}
+		};
 	},
 
 	async foundByGithubUsername(username) {
 		const sql = `SELECT * FROM customer WHERE username_gith=$1`;
-
 		try {
 			const result = await pool.query(sql, [username]);
 			return result.rows[0];
 		} catch (error) {
 			console.error(error);
-		}
+		};
 	},
 
 	async destroy(userId) {
 		const sql = `DELETE FROM customer WHERE id=$1`;
 		try {
-			const result = await pool.query(sql, [userId]);
-			return result.rows[0];
+			await pool.query(sql, [userId]);
 		} catch (error) {
 			console.error(error);
 		}
 	},
 
 	async update(body, userId) {
-		const fields = Object.keys(body).map(
-			(prop, index) => `"${prop}" = $${index + 1}`
-		);
-		const values = Object.values(body);
-		const savedPost = await pool.query(
-			`
-                    UPDATE customer SET
-                        ${fields}
-                    WHERE id = $${fields.length + 1}
-                    RETURNING *
-                `,
-			[...values, userId]
-		);
-		return savedPost.rows[0];
+		try {
+			const fields = Object.keys(body).map(
+				(prop, index) => `"${prop}" = $${index + 1}`
+			);
+			const values = Object.values(body);
+			const savedPost = await pool.query(
+				`
+						UPDATE customer SET
+							${fields}
+						WHERE id = $${fields.length + 1}
+						RETURNING *
+					`,
+				[...values, userId]
+			);
+			return savedPost.rows[0];
+		} catch (error) {
+			console.error(error);
+		};
 	},
 
 	async verificationLink(id) {
-		const result = await pool.query(`SELECT validation_link,email
-            FROM public."customer" where id = '${id}'`);
-		return result.rows[0];
+		sql = `SELECT validation_link,email	FROM public."customer" where id = '${id}'`;
+		try {
+			const result = await pool.query(sql);
+			return result.rows[0];
+			
+		} catch (error) {
+			console.error(error);
+		};
 	},
 
 	async deleteLinkEmail(id) {
 		sql = `UPDATE public."customer" SET validation_link =' ' WHERE id=$1`;
-		values = id;
-		const result = await pool.query(sql, [values]);
-		return;
+		try {
+			values = id;
+			await pool.query(sql, [values]);
+		} catch (error) {
+			console.error(error);
+		};
 	},
 
 	async updatesStatus(id) {
-		console.log(id);
 		sql = `UPDATE public."customer" SET validate ='true' WHERE id=$1`;
-		values = id;
-		const result = await pool.query(sql, [values]);
-		console.log("voilivoilou");
-		return;
+		try {
+			values = id;
+			const result = await pool.query(sql, [values]);
+			return;
+		} catch (error) {
+			console.error(error);
+		};
 	},
 
 	async updatesValidationLink(validationLink, id) {
-		console.log(id);
 		sql = `UPDATE public."customer" SET validation_link =$1 WHERE id=$2`;
-
-		const values = [validationLink, id];
-		const result = await pool.query(sql, values);
-
-		return;
+		try {
+			const values = [validationLink, id];
+			const result = await pool.query(sql, values);
+			return;
+		} catch (error) {
+			console.error(error);
+		};
 	},
 
 	async updatePassword(newPassword, id) {
-		console.log(newPassword, id);
-		const encryptedPassword = await bcrypt.hash(newPassword, 10);
-
-		sql = `UPDATE public."customer" SET password =$1 WHERE id=$2`;
-		const values = [encryptedPassword, id];
-		const result = await pool.query(sql, values);
-
-		return;
+		try {
+			console.log(newPassword, id);
+			const encryptedPassword = await bcrypt.hash(newPassword, 10);
+	
+			sql = `UPDATE public."customer" SET password =$1 WHERE id=$2`;
+			const values = [encryptedPassword, id];
+			const result = await pool.query(sql, values);
+	
+			return;
+		} catch (error) {
+			console.error(error);
+		};
 	},
 
 	async pickTechnoHasCustomer(body){

@@ -21,8 +21,6 @@ const projectDatamapper = {
         const sql = 'SELECT id, project, excerpt, picture, start_date, techno, role_id, firstname, lastname, c_profil_picture FROM public.v_project ORDER BY id DESC;';
         const sql2 ='SELECT * FROM public.v_project_has_job';
         
-
-
         try {
             const result = await pool.query(sql);
             const project=result.rows;
@@ -122,8 +120,8 @@ const projectDatamapper = {
     async destroy (projectID){
         const sql = `DELETE FROM project WHERE id=$1`;
         try {
-            const result = await pool.query(sql, [projectID]);
-            return result.rows[0];
+            await pool.query(sql, [projectID]);
+
         } catch (error) {
             console.error(error);
         };
