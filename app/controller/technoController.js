@@ -25,7 +25,7 @@ const technoController ={
     async deleteTechnoUser (req, res, next) {
         try {
             const UserId= req.params.id;
-            if (!projectId){
+            if (!UserId){
                 throw new MainError('missing parameter', req, res, 400);
             };
             const technoName = req.body.techno
