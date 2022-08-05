@@ -11,6 +11,9 @@ const technoController ={
                 throw new MainError('missing parameter', req, res, 400);
             };
             const technoName = req.body.techno
+            if (!technoName){
+                throw new MainError('missing parameter', req, res, 400);
+            };
             const technoFinded = await technoDatamapper.getTechnoId(technoName);
             if (!technoFinded){
                 throw new MainError('This techno does not exists', req, res, 400);
@@ -29,6 +32,9 @@ const technoController ={
                 throw new MainError('missing parameter', req, res, 400);
             };
             const technoName = req.body.techno
+            if (!technoName){
+                throw new MainError('missing parameter', req, res, 400);
+            };
             const technoFinded = await technoDatamapper.getTechnoId(technoName);
             if (!technoFinded){
                 throw new MainError('This techno does not exists', req, res, 400);
@@ -47,6 +53,9 @@ const technoController ={
                 throw new MainError('missing parameter', req, res, 400);
             };
             const technoName = req.body.techno
+            if (!technoName){
+                throw new MainError('missing parameter', req, res, 400);
+            };
             const technoFinded = await technoDatamapper.getTechnoId(technoName);
             if (!technoFinded){
                 throw new MainError('This techno does not exists', req, res, 400);
@@ -65,6 +74,9 @@ const technoController ={
                 throw new MainError('missing parameter', req, res, 400);
             };
             const technoName = req.body.techno
+            if (!technoName){
+                throw new MainError('missing parameter', req, res, 400);
+            };
             const technoFinded = await technoDatamapper.getTechnoId(technoName);
             if (!technoFinded){
                 throw new MainError('This techno does not exists', req, res, 400);

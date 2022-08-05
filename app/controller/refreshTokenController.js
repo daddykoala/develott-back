@@ -3,7 +3,7 @@ const { generateAccessToken } = require('../service/jsonwebToken');
 const MainError = require ('../error/customError');
 
 
-const handleRefreshToken = (req, res, next) => {
+const handleRefreshToken = (req, res) => {
   try {
     const cookies = req.cookies
     if (!cookies){

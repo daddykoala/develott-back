@@ -1,7 +1,7 @@
  const { generateAccessToken } = require('../service/jsonwebToken');
  const MainError = require ('../error/customError');
 
-const handleLogout = (req, res, next) => {
+const handleLogout = (req, res) => {
 
   try {
     const cookies = req.cookies;
