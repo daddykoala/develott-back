@@ -4,7 +4,7 @@ const MainError = require ('../error/customError');
 
 const technoController ={
 
-    async addTechnoProject (req, res, next) {
+    async addTechnoProject (req, res) {
         try {
             const projectId= req.params.id;
             if (!projectId){
@@ -22,7 +22,7 @@ const technoController ={
         };
     },
 
-    async deleteTechnoUser (req, res, next) {
+    async deleteTechnoUser (req, res) {
         try {
             const UserId= req.params.id;
             if (!UserId){
@@ -40,7 +40,7 @@ const technoController ={
         };
     },
 
-    async addTechnoUser (req, res, next) {
+    async addTechnoUser (req, res) {
         try {
             const UserId= req.params.id;
             if (!UserId){
@@ -58,7 +58,7 @@ const technoController ={
         };
     },
 
-    async deleteTechnoProject (req, res, next) {
+    async deleteTechnoProject (req, res) {
         try {
             const projectId= req.params.id;
             if (!projectId){
