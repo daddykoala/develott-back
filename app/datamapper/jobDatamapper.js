@@ -9,26 +9,29 @@ const pool = require('../db/connect') ;
 
 const jobDatamapper = {
     //middleware pour recuperer l'id du job
-    async AllJob() {
-        console.log('ici');
-        sql='SELECT job.id as id, job.name FROM public.job ';
-        const result=await pool.query(sql);
-        console.log('ici');
-        return result.rows
-
-    },
+        async AllJob() {
+            sql='SELECT job.id as id, job.name FROM public.job ';
+            try {
+                const result=await pool.query(sql);
+                return result.rows
+            } catch (error) {
+                console.error(error);
+            };
+        },
 
 
 
         async getJobId (jobName, res){
-            console.log(jobName);
-            const result = await pool.query(`SELECT id FROM PUBLIC.JOB WHERE name = '${jobName}'`);
-            console.log(result.rows[0]);
-            return result.rows[0];
+            sql = `SELECT id FROM PUBLIC.JOB WHERE name = '${jobName}'`
+            try {
+                const result = await pool.query(sql);
+                return result.rows[0];
+            } catch (error) {
+                console.error(error);
+            };
         },
 
         async addJob (projectId, jobId) {
-            
             const sql ='INSERT INTO public.project_has_job (project_id, job_id)VALUES($1,$2)';
             try {
                 const result = await pool.query(sql,[projectId,jobId]);
@@ -39,22 +42,20 @@ const jobDatamapper = {
         },
 
         async deleteJobProject (id) {
-           
-            
             const sql ='DELETE FROM public.project_has_job WHERE id=$1';
             try {
-                await pool.query(sql,[id]);
+                const result = await pool.query(sql,[id]);
+                return result.rows[0];
             } catch (error) {
                 console.error(error);
             };
         },
 
         async addJobUser (customerId, jobId) {
-            console.log(customerId,jobId);
-            
             const sql ='UPDATE public.customer SET job_id=$1 where public.customer.id=$2';
             try {
-                await pool.query(sql,[jobId,customerId]);
+                const result = await pool.query(sql,[jobId,customerId]);
+                return result.rows[0];
             } catch (error) {
                 console.error(error);
             };
@@ -63,15 +64,12 @@ const jobDatamapper = {
         async deleteJobUser (customerId) {
             const sql =`UPDATE public.customer SET job_id=null WHERE public.customer.id=$1`;
             try {
-                await pool.query(sql,[customerId]);
+                const result = await pool.query(sql,[customerId]);
+                return result.rows[0];
             } catch (error) {
                 console.error(error);
             };
         },
-
-
-
-
     };
 
 module.exports = jobDatamapper ;

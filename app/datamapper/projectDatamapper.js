@@ -25,11 +25,11 @@ const projectDatamapper = {
 
         try {
             const result = await pool.query(sql);
-            const project=result.rows
+            const project=result.rows;
 
 
             const result2 = await pool.query(sql2);
-            const jobByProject=result.rows
+            const jobByProject=result.rows;
 
             return { project,jobByProject };
         } catch (error) {
@@ -37,7 +37,7 @@ const projectDatamapper = {
         };
         },
 
-        async oneProject(projectId){
+    async oneProject(projectId){
         const sql = 'SELECT * FROM project WHERE id=$1';
         try {
             const result = await pool.query(sql, [projectId]);
@@ -51,7 +51,7 @@ const projectDatamapper = {
 
         const sql = `SELECT * FROM public.v_project WHERE id=$1`;
         const sql2 =`SELECT customer_id, role_id, project_id, role, firstname, lastname, profil_picture, job_id, job, techno_name FROM public.v_equipe where project_id=$1`;
-        const sql3 =`SELECT job, id_project_has_job, job_id, project_id FROM public.v_project_has_job WHERE project_id=$1`
+        const sql3 =`SELECT job, id_project_has_job, job_id, project_id FROM public.v_project_has_job WHERE project_id=$1`;
 
         try {
             const result = await pool.query(sql,[projectId]);
@@ -73,7 +73,7 @@ const projectDatamapper = {
     async allProjectLink (){
         const sql = 'SELECT id, project, excerpt, picture, start_date, techno, role_id, firstname, lastname, c_profil_picture FROM public.v_project';
         const sql2='SELECT customer_id, role_id, project_id, role, firstname, lastname, profil_picture, job_id, job, techno_name FROM public.v_equipe';
-        const sql3 ='SELECT * FROM public.v_project_has_job'
+        const sql3 ='SELECT * FROM public.v_project_has_job';
 
         try {
         const result = await pool.query(sql);
@@ -83,7 +83,7 @@ const projectDatamapper = {
         const teams = result2.rows;
 
         const result3 = await pool.query(sql3);
-        const jobByProject=result3.rows
+        const jobByProject=result3.rows;
             
 
         return {projects,teams,jobByProject};
@@ -122,37 +122,41 @@ const projectDatamapper = {
     async destroy (projectID){
         const sql = `DELETE FROM project WHERE id=$1`;
         try {
-        const result = await pool.query(sql, [projectID]);
-        return result.rows[0];
+            const result = await pool.query(sql, [projectID]);
+            return result.rows[0];
         } catch (error) {
-        console.error(error);
+            console.error(error);
         };
     },
 
     async update(body,id) {
-
-
-		const fields = Object.keys(body).map(
-			(prop, index) => `"${prop}" = $${index + 1}`
-		);
-		const values = Object.values(body);
-		const savedPost = await pool.query(
-			`
-                    UPDATE project SET
-                        ${fields}
-                    WHERE id = ${id}
-                    RETURNING *
-                `,
-			[...values]
-		);
-		return savedPost.rows[0];
+        try {
+            const fields = Object.keys(body).map(
+                (prop, index) => `"${prop}" = $${index + 1}`);
+            const values = Object.values(body);
+            const savedPost = await pool.query(
+                `
+                        UPDATE project SET
+                            ${fields}
+                        WHERE id = ${id}
+                        RETURNING *
+                    `,
+                [...values]
+            );
+            return savedPost.rows[0];
+        } catch (error) {
+            console.error(error);
+        };
 	},
 
     async verif(name) {
-        const sql = `SELECT project.name FROM public.project where name=$1`
-        
-        const result =await pool.query(sql,[name])
-        return result.rows[0]
+        const sql = `SELECT project.name FROM public.project where name=$1`;
+        try {
+            const result =await pool.query(sql,[name]);
+            return result.rows[0];
+        } catch (error) {
+            console.error(error);
+        };
     }
 
 
