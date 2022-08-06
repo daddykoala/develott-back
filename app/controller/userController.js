@@ -14,8 +14,11 @@ const userController = {
 	async create(req, res) {
 		try {
 			const data = req.body;
-			const checkUserExist = await userDatamapper.checkUserExist(data)
-			if (checkUserExist.email == data.email){
+			const email = data.email
+			let checkUserExist = await userDatamapper.checkUserExist(email);
+			const checkUseremail = Object.values(checkUserExist)
+			if (checkUseremail == data.email){
+				console.log('passe par la ')
 				throw new MainError('This email already use', req, res, 409);};
 			const verificationLink = crypto.randomBytes(32).toString("hex");
 			if (!verificationLink){

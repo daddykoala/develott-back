@@ -26,12 +26,12 @@ const { triggerAsyncId } = require("async_hooks");
 
 const userDatamapper = {
 
-	async checkUserExist(data){
-		const email = data.email
-		const sql = `SELECT email FROM public."customer" where email = '${email}'`;
+	async checkUserExist(email){
+		const sql = `SELECT email FROM public.customer where email = '${email}'`;
 		try {
 			const userExist = await pool.query(sql);
-			return userExist.rows[0]
+			return userExist.rows[0];
+
 		} catch (error) {
 			console.error(error);
 		};
