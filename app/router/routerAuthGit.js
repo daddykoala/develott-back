@@ -10,7 +10,7 @@ const {
 //module
 
 //ROUTER API
-const CLIENT_URL = "http://localhost:3000/projets";
+const CLIENT_URL = "https://develott-front.herokuapp.com/";
 
 
 /*******************
@@ -58,7 +58,7 @@ gitRouter.get(
 	* {"Error 500": "le serveur a du mal à répondre"}
 	* @return {string} 500 - Description Global
 	*/
-	"/auth/github/callback",passport.authenticate("github", {	successRedirect: CLIENT_URL = "https://develott-front.herokuapp.com/",failureRedirect: "/login/failed",}));
+	"/auth/github/callback",passport.authenticate("github", {	successRedirect: CLIENT_URL ,failureRedirect: "/login/failed",}));
 
 gitRouter.get(
 	/**
