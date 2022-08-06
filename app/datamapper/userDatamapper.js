@@ -26,11 +26,15 @@ const { triggerAsyncId } = require("async_hooks");
 
 const userDatamapper = {
 
-	async checkUserExist(email){
-
-		const userExist = await pool.query(`SELECT email, password, id
-		FROM public."customer" where email = '${email}'`);
-		return userExist.rows[0]
+	async checkUserExist(data){
+		const email = data.email
+		const sql = `SELECT email FROM public."customer" where email = '${email}'`;
+		try {
+			const userExist = await pool.query(sql);
+			return userExist.rows[0]
+		} catch (error) {
+			console.error(error);
+		};
 	},
 
 	async createUser(req, validationlink, res) {
@@ -86,7 +90,7 @@ const userDatamapper = {
 	},
 
 	async foundUserBymail(email) {
-		const sql = `SELECT * FROM public.v_customer WHERE email =$1`;
+		const sql = `SELECT * FROM customer WHERE email =$1`;
 		try {
 			const result = await pool.query(sql,[email]);
 			return result.rows[0];
