@@ -38,15 +38,18 @@ app.use(cors(corsOptions));
 
 //Passport.js
 app.use(
-	session({
-		secret: "somethingsecretgoeshere",
-		resave: false,
-		saveUninitialized: true,
-		cookie: {
-			maxAge: 360000,
-			secure: false,
-		},
-	})
+    session({
+        secret: "somethingsecretgoeshere",
+        resave: false,
+        saveUninitialized: true,
+        cookie: {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+            proxy: true,
+            maxAge: 360000,
+        },
+    })
 );
 app.use(passport.initialize());
 app.use(passport.session());
