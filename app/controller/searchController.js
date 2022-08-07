@@ -17,7 +17,7 @@ const searchController={
 
     async fetchAllProjectByAsc(req,res) {
         try {
-            const result = await searchDatamapper.projectsByAsc(startDate);
+            const result = await searchDatamapper.projectsByAsc();
             return res.status(200).json(result);
         } catch (error) {
             console.error(error);
@@ -27,7 +27,7 @@ const searchController={
     async fetchAllProjectByDesc(req,res) {
 
         try {
-            const result = await searchDatamapper.projectsByAsc(endDate);
+            const result = await searchDatamapper.projectsByDesc();
             return res.status(200).json(result);
         } catch (error) {
             console.error(error);

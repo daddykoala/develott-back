@@ -187,7 +187,7 @@ const userDatamapper = {
 			console.log(newPassword, id);
 			const encryptedPassword = await bcrypt.hash(newPassword, 10);
 	
-			sql = `UPDATE public."customer" SET password =$1 WHERE id=$2`;
+			sql = `UPDATE public."customer" SET password =$1 WHERE id=$2 RETURNING password`;
 			const values = [encryptedPassword, id];
 			const result = await pool.query(sql, values);
 	
