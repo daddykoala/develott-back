@@ -120,7 +120,7 @@ const userController = {
 			const valideleted = await userDatamapper.deleteLinkEmail(userId);
 			
 
-			res.status(200).redirect(`https:localhost3000/newpassword/${userId}`);
+			res.status(200).redirect(`http://localhost:3000/newpassword/${userId}`);
 
 		} catch (error) {
          console.error(error);

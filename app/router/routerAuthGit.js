@@ -10,7 +10,8 @@ const {
 //module
 
 //ROUTER API
-const CLIENT_URL = "https://develott-front.herokuapp.com/";
+// const CLIENT_URL = "https://develott-front.herokuapp.com/";
+const CLIENT_URL = "http://localhost:3000";
 
 
 /*******************
