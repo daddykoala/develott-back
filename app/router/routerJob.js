@@ -12,7 +12,24 @@ const jobController = require("../controller/jobController");
 *******************/
 
 
-jobRouter.get("/jobs",jobController.getAllJob)
+jobRouter.get(
+		/**
+		 * GET /v1/jobs
+		 * @summary Avoir tout les jobs
+		 * @description Avoir tout les jobs
+		 * @tags Job
+		 * 
+		 * @returns {string} 200 - Description
+		 * @example response - 200 - success response - application/json
+		 * {
+			"id": "1"
+			"name": "Product Owner"
+			}
+		 * @example response - 500 - Page non trouvé
+	 	 * {"Error 500": ""message": "Page non trouvé""}
+		 * @return {string} 500 - Page non trouvé"
+		 */
+	"/jobs",jobController.getAllJob)
 
 
 
@@ -31,7 +48,7 @@ jobRouter.post(
 		 * @description Ajoute un job à un projet
 		 * @tags Job
 		 * @param {number} request.id.required 
-		 * 
+		 * @reqbody
 		 * @returns {string} 200 - Description
 		 * @example response - 200 - success response - application/json
 		 * {

@@ -5,7 +5,6 @@ const pool = require('../db/connect');
 const jobController ={
 
     async getAllJob(_,res) {
-console.log('ici');
         try {
             const result = await jobDatamapper.AllJob();
             return res.status(200).json(result);
