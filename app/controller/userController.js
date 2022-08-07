@@ -122,7 +122,7 @@ const userController = {
 				throw new MainError('The link has not been deleted', req, res, 400);
 			};
 
-			res.status(200).redirect(`https:localhost3000/newpassword/${userId}`);
+			res.status(200).redirect(`http://localhost:3000/newpassword/${userId}`);
 
 		} catch (error) {
          console.error(error);
