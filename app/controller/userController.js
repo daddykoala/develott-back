@@ -119,7 +119,7 @@ const userController = {
             //TODO update l'utilisateur : on supprime le verificationLink + on passe Verified à true
             await userDatamapper.deleteLinkEmail(userId);
 
-            res.status(200).redirect(`http:localhost3000/newpassword/${userId}`);
+            res.status(200).redirect(`http://localhost:3000/newpassword/${userId}`);
         } catch (error) {
             console.error(error);
         }
