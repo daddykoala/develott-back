@@ -81,28 +81,27 @@ gitRouter.get(
 	* @return {string} 500 - Description Global
 	*/
 	"/login/success", async (req, res) => {
-	if (req.user) {
-		console.log("ici", req.user);
-		const foundUser = await foundByGithubUsername(req.user._json.login);
-		console.log("là", foundUser);
-		const accessToken = generateAccessToken(foundUser.email);
-		const refreshToken = generateRefreshToken(foundUser.email);
-		res.cookie("jwt", refreshToken, {
-			httpOnly: true,
-			maxAge: 24 * 60 * 60 * 1000,
-		});
-
-		res.status(200).json({
-			success: true,
-			message: "successful",
-			githubUser: req.user,
-			foundUser: foundUser,
-			accessToken: accessToken,
-		});
-	} else {
-		res.status(403).json({ message: "no user" });
-	}
-});
+		if (req.session.passport) {
+			const githubUsername = req.session.passport.user.username;
+			const foundUser = await foundByGithubUsername(githubUsername);
+			const accessToken = generateAccessToken(foundUser.email);
+			const refreshToken = generateRefreshToken(foundUser.email);
+			res.cookie("jwt", refreshToken, {
+				httpOnly: true,
+				maxAge: 24 * 60 * 60 * 1000,
+			});
+	
+			res.status(200).json({
+				success: true,
+				message: "successful",
+				githubUser: req.session.passport.user,
+				foundUser: foundUser,
+				accessToken: accessToken,
+			});
+		} else {
+			res.status(403).json({ message: "no user" });
+		}
+	});
 
 gitRouter.get(
 	/**

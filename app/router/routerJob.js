@@ -18,16 +18,14 @@ jobRouter.get(
 		 * @summary Avoir tout les jobs
 		 * @description Avoir tout les jobs
 		 * @tags Job
-		 * 
-		 * @example
+		 * @return {string} 200 - success response - application/json
+ 		 * @example response - 200 - success response - application/json
 		 * {
 			"id": "1",
 			"name": "Product Owner"
 			}
-		 * 
-		 * @return 200 - success response
 		 * @return 404 - data not found
-		 * @return 500 - Page non trouvé"
+		 * @return 500 - Page non trouvé
 		 */
 	"/jobs",jobController.getAllJob)
 
