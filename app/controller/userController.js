@@ -31,7 +31,7 @@ const userController = {
 				throw new MainError('This user does not exists', req, res, 400);};
 			const message = `https://develott.herokuapp.com/v1/user/verify/${user.id}/${verificationLink}`;
 			await postMail(data.email, message);
-			res.status(200).json(result);
+			res.status(201).json(result);
 		} catch (error) {
          console.error(error);
         };
