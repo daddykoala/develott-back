@@ -82,8 +82,8 @@ gitRouter.get(
 	*/
 	"/login/success", async (req, res) => {
 	if (req.user) {
-		const foundUser = await foundByGithubUsername(req.user._json.login);
 		console.log("ici", req.user);
+		const foundUser = await foundByGithubUsername(req.user._json.login);
 		console.log("là", foundUser);
 		const accessToken = generateAccessToken(foundUser.email);
 		const refreshToken = generateRefreshToken(foundUser.email);
