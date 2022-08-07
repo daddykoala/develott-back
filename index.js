@@ -24,7 +24,7 @@ const { options } = require("./app/service/optionDocSwagger");
 //receptionner le cookies
 const cookieParser = require("cookie-parser");
 const bodySanitizer = require("./app/service/sanitize");
-
+app.enable('trust proxy');
 
 //variable d'environnement
 expressJsDocSwagger(app)(options);
