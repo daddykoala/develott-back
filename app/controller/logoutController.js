@@ -12,7 +12,7 @@ const handleLogout = (req, res) => {
       return res.sendStatus(204);
     }
     const refreshToken = cookies.jwt;
-    
+    req.logOut();
     // res.clearCookie("jwt", refreshToken, {httpOnly: true})
     res.clearCookie("jwt", {path: '/', httpOnly: true, sameSite: 'None', secure: true });
     res.clearCookie("connect.sid", {path: '/', httpOnly: true, sameSite: 'None', secure: true });
