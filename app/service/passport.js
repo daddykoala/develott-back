@@ -10,11 +10,11 @@ passport.use(
 			callbackURL: "https://develott.herokuapp.com/v1/auth/github/callback",
 		},
 		async function (accessToken, refreshToken, profile, done) {
-			// console.log(profile);
-			const User = await foundByGithubUsername(profile._json.login);
-			if (!User) {
-				return done(null, false);
-			}
+			console.log(profile);
+			// const User = await foundByGithubUsername(profile._json.login);
+			// if (!User) {
+			// 	return done(null, false);
+			// }
 
 			return done(null, profile);
 		}
