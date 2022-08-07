@@ -16,8 +16,7 @@ const userController = {
 			const data = req.body;
 			const email = data.email
 			let checkUserExist = await userDatamapper.checkUserExist(email);
-			const checkUseremail = Object.values(checkUserExist)
-			if (checkUseremail == data.email){
+			if (checkUserExist && checkUserExist.email === email){
 				console.log('passe par la ')
 				throw new MainError('This email already use', req, res, 409);};
 			const verificationLink = crypto.randomBytes(32).toString("hex");
