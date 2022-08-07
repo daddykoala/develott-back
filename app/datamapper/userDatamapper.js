@@ -121,8 +121,7 @@ const userDatamapper = {
 	async update(body, userId) {
 		try {
 			const fields = Object.keys(body).map(
-				(prop, index) => `"${prop}" = $${index + 1}`
-			);
+				(prop, index) => `"${prop}" = $${index + 1}`);
 			const values = Object.values(body);
 			const savedPost = await pool.query(
 				`
