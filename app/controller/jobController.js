@@ -7,6 +7,9 @@ const jobController ={
     async getAllJob(_,res) {
         try {
             const result = await jobDatamapper.AllJob();
+            if (!result){
+                throw new MainError('data not found', req, res, 404);
+            };
             return res.status(200).json(result);
         } catch (error) {
             console.error(error);

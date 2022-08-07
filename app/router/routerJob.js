@@ -19,28 +19,21 @@ jobRouter.get(
 		 * @description Avoir tout les jobs
 		 * @tags Job
 		 * 
-		 * @returns {string} 200 - Description
-		 * @example response - 200 - success response - application/json
+		 * @example
 		 * {
-			"id": "1"
+			"id": "1",
 			"name": "Product Owner"
 			}
-		 * @example response - 500 - Page non trouvé
-	 	 * {"Error 500": ""message": "Page non trouvé""}
-		 * @return {string} 500 - Page non trouvé"
+		 * 
+		 * @return 200 - success response
+		 * @return 404 - data not found
+		 * @return 500 - Page non trouvé"
 		 */
 	"/jobs",jobController.getAllJob)
-
-
-
-
-
-
 
 /*******************
  **       POST     **              
  *******************/
-
 jobRouter.post(
          /**
 		 * POST /v1/project/:id(\\d+)/addjob
@@ -54,7 +47,7 @@ jobRouter.post(
 		 * {
 			"projet.id":"1",
             "job.id":"2"
-		* }
+		 * }
 		 *@example response - 400 - Intitulé 01
  		 * {"Error 400": "Demande erroné"}
 		 * @return {string} 400 - Description Global
