@@ -97,58 +97,47 @@ const userController = {
 	},
 
 	async checkPasswordResetLink(req, res) {
-		try {
-			const data = req.params;
-			const userId = data.id;
-			if (!userId){
-				throw new MainError('missing parameter', req, res, 400);
-            };
-			const userVerificationLink = data.verificationLink;
-			if (!userVerificationLink) {
-				throw new MainError('Lien invalide', req, res, 400);
-			};
-			//TODO check dans base si l'email (userId) existe ET le lien de vérification
-			//si utilisateur n'existe pas : res.status(400).send("Lien invalide")
-			const result = await userDatamapper.verificationLink(
-				userId,
-				userVerificationLink
-			);
-			if (!result) {
-				throw new MainError('Lien invalide', req, res, 404);
-			};
-			//TODO update l'utilisateur : on supprime le verificationLink + on passe Verified à true
-			const valideleted = await userDatamapper.deleteLinkEmail(userId);
-			if (!valideleted){
-				throw new MainError('The link has not been deleted', req, res, 400);
-			};
+        try {
+            const data = req.params;
+            const userId = data.id;
+            if (!userId) {
+                throw new MainError("missing parameter", req, res, 400);
+            }
+            const userVerificationLink = data.verificationLink;
+            if (!userVerificationLink) {
+                throw new MainError("Lien invalide", req, res, 400);
+            }
+            //TODO check dans base si l'email (userId) existe ET le lien de vérification
+            //si utilisateur n'existe pas : res.status(400).send("Lien invalide")
+            const result = await userDatamapper.verificationLink(
+                userId,
+                userVerificationLink
+            );
+            if (!result) {
+                throw new MainError("Lien invalide", req, res, 404);
+            }
+            //TODO update l'utilisateur : on supprime le verificationLink + on passe Verified à true
+            await userDatamapper.deleteLinkEmail(userId);
 
-			res.status(200).redirect(`http://localhost:3000/newpassword/${userId}`);
+            res.status(200).redirect(`https:localhost3000/newpassword/${userId}`);
+        } catch (error) {
+            console.error(error);
+        }
+    },
 
-		} catch (error) {
-         console.error(error);
-        };
-	},
+	async updatePassword(newPassword, id) {
+        try {
+            console.log(newPassword, id);
+            const encryptedPassword = await bcrypt.hash(newPassword, 10);
 
-	async updatePassword(req, res) {
-		try {
-			const newPassword = req.body.password;
-			const userId = Number(req.body.userId);
-			if (!userId){
-				throw new MainError('missing parameter', req, res, 400);
-            };
-			console.log(req.body);
-			const resetPassword = await userDatamapper.updatePassword(
-				newPassword,
-				userId
-			);
-			if (!resetPassword){
-				throw new MainError('missing reset', req, res, 404);
-            };
-			res.sendStatus(200);
-		} catch (error) {
-         console.error(error);
-        };
-	},
+            sql = `UPDATE public."customer" SET password =$1 WHERE id=$2 RETURNING password`;
+            const values = [encryptedPassword, id];
+            const result = await pool.query(sql, values);
+            return result.rows[0];
+        } catch (error) {
+            console.error(error);
+        }
+    },
 
 
 	async fetchAllUser(_, res) {
