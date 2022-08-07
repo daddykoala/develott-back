@@ -125,19 +125,26 @@ const userController = {
         }
     },
 
-	async updatePassword(newPassword, id) {
-        try {
-            console.log(newPassword, id);
-            const encryptedPassword = await bcrypt.hash(newPassword, 10);
-
-            sql = `UPDATE public."customer" SET password =$1 WHERE id=$2 RETURNING password`;
-            const values = [encryptedPassword, id];
-            const result = await pool.query(sql, values);
-            return result.rows[0];
-        } catch (error) {
-            console.error(error);
-        }
-    },
+	async updatePassword(req, res) {
+		try {
+			const newPassword = req.body.password;
+			const userId = Number(req.body.userId);
+			if (!userId){
+				throw new MainError('missing parameter', req, res, 400);
+            };
+			console.log(req.body);
+			const resetPassword = await userDatamapper.updatePassword(
+				newPassword,
+				userId
+			);
+			if (!resetPassword){
+				throw new MainError('missing reset', req, res, 404);
+            };
+			res.sendStatus(200);
+		} catch (error) {
+         console.error(error);
+        };
+	},
 
 
 	async fetchAllUser(_, res) {
