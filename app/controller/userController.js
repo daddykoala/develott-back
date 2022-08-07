@@ -11,39 +11,34 @@ const userController = {
 	 * creer un utilisateur
 	 * @param {string} data
 	 */
-	 async create(req, res) {
-        try {
-            const data = req.body;
-            console.log(req.body);
-            const email = data.email;
-            console.log(email);
-            const checkUserExist = await userDatamapper.checkUserExist(email);
 
-            if (checkUserExist && checkUserExist.email === data.email) {
-                console.log("passe par la ");
-                throw new MainError("This email already use", req, res, 409);
-            }
-            const verificationLink = crypto.randomBytes(32).toString("hex");
-            if (!verificationLink) {
-                throw new MainError("Link does not exists", req, res, 400);
-            }
+	async create(req, res) {
+		try {
+			const data = req.body;
+			const email = data.email
+			let checkUserExist = await userDatamapper.checkUserExist(email);
+			if (checkUserExist && checkUserExist.email === email){
+				console.log('passe par la ')
+				throw new MainError('This email already use', req, res, 409);};
+			const verificationLink = crypto.randomBytes(32).toString("hex");
+			if (!verificationLink){
+				throw new MainError('Link does not exists', req, res, 400);	};
+		//TODO créer l'utilisateur en bdd + la verificationLink
+			const result = await userDatamapper.createUser(data, verificationLink);
+			if (!result) {
+				throw new MainError('Lien invalide', req, res, 400);};
+			const user = await userDatamapper.foundUserBymail(data.email);
+			if (!user) {
+				throw new MainError('This user does not exists', req, res, 400);};
+			const message = `https://develott.herokuapp.com/v1/user/verify/${user.id}/${verificationLink}`;
+			await postMail(data.email, message);
+			res.status(201).json(result);
+		} catch (error) {
+         console.error(error);
+        };
+	},
 
-            const result = await userDatamapper.createUser(data, verificationLink);
-            if (!result) {
-                throw new MainError("Lien invalide", req, res, 400);
-            }
 
-            const user = await userDatamapper.foundUserBymail(data.email);
-            if (!user) {
-                throw new MainError("This user does not exists", req, res, 400);
-            }
-            const message = `https://develott.herokuapp.com/v1/user/verify/${user.id}/${verificationLink}`;
-            await postMail(data.email, message);
-            res.status(201).json(result);
-        } catch (error) {
-            console.error(error);
-        }
-    },
 	
 	async checkVerificationLink(req, res) {
 		try {
