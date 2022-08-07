@@ -18,6 +18,9 @@ const searchController={
     async fetchAllProjectByAsc(req,res) {
         try {
             const result = await searchDatamapper.projectsByAsc();
+            if (!result){
+                throw new MainError('can\'t get all project', req, res, 404);
+            };
             return res.status(200).json(result);
         } catch (error) {
             console.error(error);
@@ -28,6 +31,9 @@ const searchController={
 
         try {
             const result = await searchDatamapper.projectsByDesc();
+            if (!result){
+                throw new MainError('can\'t get all project', req, res, 404);
+            };
             return res.status(200).json(result);
         } catch (error) {
             console.error(error);
