@@ -165,18 +165,18 @@ const userDatamapper = {
 		try {
 			values = id;
 			const result = await pool.query(sql, [values]);
-			return;
+			return result.rows[0]
 		} catch (error) {
 			console.error(error);
 		};
 	},
 
 	async updatesValidationLink(validationLink, id) {
-		sql = `UPDATE public."customer" SET validation_link =$1 WHERE id=$2`;
+		sql = `UPDATE public."customer" SET validation_link =$1 WHERE id=$2 RETURNING validation_link`;
 		try {
 			const values = [validationLink, id];
 			const result = await pool.query(sql, values);
-			return;
+			return result.rows[0]
 		} catch (error) {
 			console.error(error);
 		};
@@ -187,11 +187,11 @@ const userDatamapper = {
 			console.log(newPassword, id);
 			const encryptedPassword = await bcrypt.hash(newPassword, 10);
 	
-			sql = `UPDATE public."customer" SET password =$1 WHERE id=$2`;
+			sql = `UPDATE public."customer" SET password =$1 WHERE id=$2 RETURNING password`;
 			const values = [encryptedPassword, id];
 			const result = await pool.query(sql, values);
 	
-			return;
+			return result.rows[0]
 		} catch (error) {
 			console.error(error);
 		};

@@ -118,9 +118,7 @@ const userController = {
 			};
 			//TODO update l'utilisateur : on supprime le verificationLink + on passe Verified à true
 			const valideleted = await userDatamapper.deleteLinkEmail(userId);
-			if (!valideleted){
-				throw new MainError('The link has not been deleted', req, res, 400);
-			};
+			
 
 			res.status(200).redirect(`https:localhost3000/newpassword/${userId}`);
 
