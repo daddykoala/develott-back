@@ -11,6 +11,7 @@ const userController = {
 	 * creer un utilisateur
 	 * @param {string} data
 	 */
+
 	async create(req, res) {
 		try {
 			const data = req.body;
@@ -36,6 +37,8 @@ const userController = {
          console.error(error);
         };
 	},
+
+
 	
 	async checkVerificationLink(req, res) {
 		try {
