@@ -15,9 +15,6 @@ const handleLogout = (req, res) => {
 
     // res.clearCookie("jwt", refreshToken, {httpOnly: true})
     res.clearCookie("jwt", {path: '/', httpOnly: true, sameSite: 'None', secure: true });
-    req.session.destroy((err) => {
-      res.clearCookie("connect.sid", {path: '/', httpOnly: true, secure: true, sameSite: 'None', proxy: true }).send('cleared cookie');
-   });
     //! En prod: si https ajouter secure: true !!!!
     res.sendStatus(204);
   } catch (error) {
