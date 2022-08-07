@@ -4,13 +4,16 @@ const MainError = require ('../error/customError');
 
 const technoController ={
 
-    async addTechnoProject (req, res, next) {
+    async addTechnoProject (req, res) {
         try {
             const projectId= req.params.id;
             if (!projectId){
                 throw new MainError('missing parameter', req, res, 400);
             };
             const technoName = req.body.techno
+            if (!technoName){
+                throw new MainError('missing parameter', req, res, 400);
+            };
             const technoFinded = await technoDatamapper.getTechnoId(technoName);
             if (!technoFinded){
                 throw new MainError('This techno does not exists', req, res, 400);
@@ -22,13 +25,16 @@ const technoController ={
         };
     },
 
-    async deleteTechnoUser (req, res, next) {
+    async deleteTechnoUser (req, res) {
         try {
             const UserId= req.params.id;
-            if (!projectId){
+            if (!UserId){
                 throw new MainError('missing parameter', req, res, 400);
             };
             const technoName = req.body.techno
+            if (!technoName){
+                throw new MainError('missing parameter', req, res, 400);
+            };
             const technoFinded = await technoDatamapper.getTechnoId(technoName);
             if (!technoFinded){
                 throw new MainError('This techno does not exists', req, res, 400);
@@ -40,13 +46,16 @@ const technoController ={
         };
     },
 
-    async addTechnoUser (req, res, next) {
+    async addTechnoUser (req, res) {
         try {
             const UserId= req.params.id;
             if (!UserId){
                 throw new MainError('missing parameter', req, res, 400);
             };
             const technoName = req.body.techno
+            if (!technoName){
+                throw new MainError('missing parameter', req, res, 400);
+            };
             const technoFinded = await technoDatamapper.getTechnoId(technoName);
             if (!technoFinded){
                 throw new MainError('This techno does not exists', req, res, 400);
@@ -58,13 +67,16 @@ const technoController ={
         };
     },
 
-    async deleteTechnoProject (req, res, next) {
+    async deleteTechnoProject (req, res) {
         try {
             const projectId= req.params.id;
             if (!projectId){
                 throw new MainError('missing parameter', req, res, 400);
             };
             const technoName = req.body.techno
+            if (!technoName){
+                throw new MainError('missing parameter', req, res, 400);
+            };
             const technoFinded = await technoDatamapper.getTechnoId(technoName);
             if (!technoFinded){
                 throw new MainError('This techno does not exists', req, res, 400);

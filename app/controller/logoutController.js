@@ -1,7 +1,7 @@
  const { generateAccessToken } = require('../service/jsonwebToken');
  const MainError = require ('../error/customError');
 
-const handleLogout = (req, res, next) => {
+const handleLogout = (req, res) => {
 
   try {
     const cookies = req.cookies;
@@ -14,7 +14,7 @@ const handleLogout = (req, res, next) => {
     const refreshToken = cookies.jwt;
     
     // res.clearCookie("jwt", refreshToken, {httpOnly: true})
-    res.clearCookie("jwt", {path: '/', httpOnly: true, sameSite: 'None', secure: true })
+    res.clearCookie("jwt", {path: '/', httpOnly: true, sameSite: 'None', secure: true });
     //! En prod: si https ajouter secure: true !!!!
     res.sendStatus(204);
   } catch (error) {

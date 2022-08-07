@@ -5,7 +5,6 @@ const searchRouter = express.Router();
 searchRouter.get('/search/projects',searchController.searchFilter);
 searchRouter.get("/search/projectsbyasc",searchController.fetchAllProjectByAsc);
 searchRouter.get("/search/projectsbydesc",searchController.fetchAllProjectByDesc);
-searchRouter.get("/search/projectsbetween",searchController.fetchAllProjectBetween);
 
 
 module.exports = searchRouter ;

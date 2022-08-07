@@ -20,7 +20,7 @@ console.log('ici');
             if (!projectId){
                 throw new MainError('missing parameter', req, res, 400);
             };
-            const jobName = req.body.job
+            const jobName = req.body.job;
             const jobfinded = await jobDatamapper.getJobId(jobName);
             if (!jobfinded){
                 throw new MainError('This job does not exists', req, res, 400);
@@ -51,14 +51,14 @@ console.log('ici');
             if (!userId){
                 throw new MainError('missing parameter', req, res, 400);
             };
-            const jobName = req.body.job
+            const jobName = req.body.job;
             console.log('ici 2');
             const jobfinded = await jobDatamapper.getJobId(jobName);
             if (!jobfinded){
                 throw new MainError('This job does not exists', req, res, 400);
             };
             const result = await jobDatamapper.addJobUser (userId ,jobfinded.id);
-            return res.status(200).json(result);;
+            return res.status(200).json(result);
         } catch (error) {
         console.error(error);
         };
