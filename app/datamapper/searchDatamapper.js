@@ -45,7 +45,6 @@ const searchDatamapper = {
 
   async projectsByAsc(startDate) {
     try {
-      console.log('la commande est passée bientot un petit bébé codeur ;)');
       const sql = `SELECT * FROM public.v_project where start_date >= ($1) ORDER BY start_date ASC`;
   
       const result = await pool.query(sql, [startDate]);
@@ -121,7 +120,6 @@ const searchDatamapper = {
       const result = await pool.query(sql,[startDate,endDate]);
       const projects = result.rows;
   
-      console.log(projects);
       const fields = [];
       const values = [];
   

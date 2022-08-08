@@ -18,7 +18,6 @@ const userController = {
 			const email = data.email
 			let checkUserExist = await userDatamapper.checkUserExist(email);
 			if (checkUserExist && checkUserExist.email === email){
-				console.log('passe par la ')
 				throw new MainError('This email already use', req, res, 409);};
 			const verificationLink = crypto.randomBytes(32).toString("hex");
 			if (!verificationLink){
@@ -229,10 +228,7 @@ const userController = {
 			if (!foundUser) {
 				throw new MainError('le mail n\'existe pas', req, res, 400);
 			};
-			
-			console.log("password: ", password);
-			console.log("foundUser.password: ", foundUser.password);
-
+		
 			const passwordValidate = await bcrypt.compare(password, foundUser.password);
 			
 			if (!passwordValidate){

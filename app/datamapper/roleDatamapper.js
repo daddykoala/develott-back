@@ -41,7 +41,6 @@ const roleDatamapper={
             values=[customerId,roleId,projectId];
             await pool.query(sql,values);
         } catch (error) {
-			console.log(newPassword, id);
             console.error(error);
         };
     },

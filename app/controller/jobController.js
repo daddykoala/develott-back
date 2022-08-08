@@ -54,7 +54,6 @@ const jobController ={
                 throw new MainError('missing parameter', req, res, 400);
             };
             const jobName = req.body.job;
-            console.log('ici 2');
             const jobfinded = await jobDatamapper.getJobId(jobName);
             if (!jobfinded){
                 throw new MainError('This job does not exists', req, res, 400);

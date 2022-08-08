@@ -23,7 +23,6 @@ const roleController={
                 throw new MainError('missing parameter', req, res, 400);
             };
             const customerId=req.body.customer_id;
-            console.log(roleId,projectId,customerId);
             const result = await roleDatamapper.addRoleToCustomer(roleId,projectId,customerId);
             return res.status(200).json(result);
 

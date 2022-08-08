@@ -39,9 +39,7 @@ const userDatamapper = {
 
 	async createUser(req, validationlink, res) {
 		//todo creer la requete imbriquer pour chopper le job_id
-		//     console.log(req.body);
 		//     const job_id = await getJobId(req.job_name)
-		//     console.log('lllooo',job_id);
 		//todo vérifier que le user n'existe pas deja
 
 		const encryptedPassword = await bcrypt.hash(req.password, 10);
@@ -183,7 +181,6 @@ const userDatamapper = {
 
 	async updatePassword(newPassword, id) {
 		try {
-			console.log(newPassword, id);
 			const encryptedPassword = await bcrypt.hash(newPassword, 10);
 	
 			sql = `UPDATE public."customer" SET password =$1 WHERE id=$2 RETURNING password`;
@@ -203,7 +200,6 @@ const userDatamapper = {
 		values=[customer_id,techno_id];
 	try {
 		const result = await pool.query(sql, values);
-		console.log(result);
 		return result.rows[0];
 	} catch (error) {
 		console.error(error);
