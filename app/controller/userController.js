@@ -96,6 +96,7 @@ const userController = {
 	},
 
 	async checkPasswordResetLink(req, res) {
+
         try {
             const data = req.params;
             const userId = data.id;
@@ -117,6 +118,7 @@ const userController = {
             }
             //TODO update l'utilisateur : on supprime le verificationLink + on passe Verified à true
             await userDatamapper.deleteLinkEmail(userId);
+
 
             res.status(200).redirect(`http://localhost:3000/newpassword/${userId}`);
         } catch (error) {
