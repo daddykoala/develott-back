@@ -1,5 +1,6 @@
 const pool = require("../db/connect");
 const bcrypt = require("bcrypt");
+const { triggerAsyncId } = require("async_hooks");
 
 /**
  * @typedef {*} customer
@@ -26,10 +27,14 @@ const bcrypt = require("bcrypt");
 const userDatamapper = {
 
 	async checkUserExist(email){
+		const sql = `SELECT email FROM public.customer where email = '${email}'`;
+		try {
+			const userExist = await pool.query(sql);
+			return userExist.rows[0];
 
-		const userExist = await pool.query(`SELECT email, password, id
-		FROM public."customer" where email = '${email}'`);
-		return userExist.rows[0]
+		} catch (error) {
+			console.error(error);
+		};
 	},
 
 	async createUser(req, validationlink, res) {
@@ -41,7 +46,7 @@ const userDatamapper = {
 
 		const encryptedPassword = await bcrypt.hash(req.password, 10);
 		const sql = `INSERT INTO customer( firstname, lastname, password, email, city, description, profil_picture, username_gith, url_github, url_gitlab, url_portfolio, url_linkedin, validation_link)
-            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)RETURNING id`;
+            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)RETURNING *`;
 
 		const values = [
 			req.firstname,
@@ -71,107 +76,125 @@ const userDatamapper = {
 			return result.rows;
 		} catch (error) {
 			console.error(error);
-		}
+		};
 	},
 
 	async foundUserById(userId) {
 		const sql = "SELECT * FROM public.v_customer WHERE id=$1";
+		try {
 			const result = await pool.query(sql, [userId]);
 			return result.rows[0];
+		} catch (error) {
+			console.error(error);
+		};
 	},
 
 	async foundUserBymail(email) {
-		console.log(email);
-
-		const sql = `SELECT * FROM public.v_customer WHERE email =$1`;
-
+		const sql = `SELECT * FROM customer WHERE email =$1`;
 		try {
 			const result = await pool.query(sql,[email]);
 			return result.rows[0];
 		} catch (error) {
 			console.error(error);
-		}
+		};
 	},
 
 	async foundByGithubUsername(username) {
 		const sql = `SELECT * FROM customer WHERE username_gith=$1`;
-
 		try {
 			const result = await pool.query(sql, [username]);
 			return result.rows[0];
 		} catch (error) {
 			console.error(error);
-		}
+		};
 	},
 
 	async destroy(userId) {
 		const sql = `DELETE FROM customer WHERE id=$1`;
 		try {
-			const result = await pool.query(sql, [userId]);
-			return result.rows[0];
+			await pool.query(sql, [userId]);
 		} catch (error) {
 			console.error(error);
 		}
 	},
 
 	async update(body, userId) {
-		const fields = Object.keys(body).map(
-			(prop, index) => `"${prop}" = $${index + 1}`
-		);
-		const values = Object.values(body);
-		const savedPost = await pool.query(
-			`
-                    UPDATE customer SET
-                        ${fields}
-                    WHERE id = $${fields.length + 1}
-                    RETURNING *
-                `,
-			[...values, userId]
-		);
-		return savedPost.rows[0];
+		try {
+			const fields = Object.keys(body).map(
+				(prop, index) => `"${prop}" = $${index + 1}`
+			);
+			const values = Object.values(body);
+			const savedPost = await pool.query(
+				`
+						UPDATE customer SET
+							${fields}
+						WHERE id = $${fields.length + 1}
+						RETURNING *
+					`,
+				[...values, userId]
+			);
+			return savedPost.rows[0];
+		} catch (error) {
+			console.error(error);
+		};
 	},
 
 	async verificationLink(id) {
-		const result = await pool.query(`SELECT validation_link,email
-            FROM public."customer" where id = '${id}'`);
-		return result.rows[0];
+		sql = `SELECT validation_link,email	FROM public."customer" where id = '${id}'`;
+		try {
+			const result = await pool.query(sql);
+			return result.rows[0];
+			
+		} catch (error) {
+			console.error(error);
+		};
 	},
 
 	async deleteLinkEmail(id) {
 		sql = `UPDATE public."customer" SET validation_link =' ' WHERE id=$1`;
-		values = id;
-		const result = await pool.query(sql, [values]);
-		return;
+		try {
+			values = id;
+			await pool.query(sql, [values]);
+		} catch (error) {
+			console.error(error);
+		};
 	},
 
 	async updatesStatus(id) {
-		console.log(id);
 		sql = `UPDATE public."customer" SET validate ='true' WHERE id=$1`;
-		values = id;
-		const result = await pool.query(sql, [values]);
-		console.log("voilivoilou");
-		return;
+		try {
+			values = id;
+			const result = await pool.query(sql, [values]);
+			return result.rows[0]
+		} catch (error) {
+			console.error(error);
+		};
 	},
 
 	async updatesValidationLink(validationLink, id) {
-		console.log(id);
-		sql = `UPDATE public."customer" SET validation_link =$1 WHERE id=$2`;
-
-		const values = [validationLink, id];
-		const result = await pool.query(sql, values);
-
-		return;
+		sql = `UPDATE public."customer" SET validation_link =$1 WHERE id=$2 RETURNING validation_link`;
+		try {
+			const values = [validationLink, id];
+			const result = await pool.query(sql, values);
+			return result.rows[0]
+		} catch (error) {
+			console.error(error);
+		};
 	},
 
 	async updatePassword(newPassword, id) {
-		console.log(newPassword, id);
-		const encryptedPassword = await bcrypt.hash(newPassword, 10);
-
-		sql = `UPDATE public."customer" SET password =$1 WHERE id=$2`;
-		const values = [encryptedPassword, id];
-		const result = await pool.query(sql, values);
-
-		return;
+		try {
+			console.log(newPassword, id);
+			const encryptedPassword = await bcrypt.hash(newPassword, 10);
+	
+			sql = `UPDATE public."customer" SET password =$1 WHERE id=$2 RETURNING password`;
+			const values = [encryptedPassword, id];
+			const result = await pool.query(sql, values);
+	
+			return result.rows[0]
+		} catch (error) {
+			console.error(error);
+		};
 	},
 
 	async pickTechnoHasCustomer(body){
