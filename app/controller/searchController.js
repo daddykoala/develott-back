@@ -17,11 +17,10 @@ const searchController={
 
     async fetchAllProjectByAsc(req,res) {
         try {
-            const startDate =req.body.startDate;
-            if (!startDate){
-                throw new MainError('missing parameter', req, res, 400);
+            const result = await searchDatamapper.projectsByAsc();
+            if (!result){
+                throw new MainError('can\'t get all project', req, res, 404);
             };
-            const result = await searchDatamapper.projectsByAsc(startDate);
             return res.status(200).json(result);
         } catch (error) {
             console.error(error);
@@ -31,8 +30,10 @@ const searchController={
     async fetchAllProjectByDesc(req,res) {
 
         try {
-            const endDate = req.body.endDate;
-            const result = await searchDatamapper.projectsByAsc(endDate);
+            const result = await searchDatamapper.projectsByDesc();
+            if (!result){
+                throw new MainError('can\'t get all project', req, res, 404);
+            };
             return res.status(200).json(result);
         } catch (error) {
             console.error(error);

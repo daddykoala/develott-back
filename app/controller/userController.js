@@ -96,6 +96,7 @@ const userController = {
 	},
 
 	async checkPasswordResetLink(req, res) {
+
         try {
             const data = req.params;
             const userId = data.id;
@@ -118,7 +119,12 @@ const userController = {
             //TODO update l'utilisateur : on supprime le verificationLink + on passe Verified à true
             await userDatamapper.deleteLinkEmail(userId);
 
+<<<<<<< HEAD
             res.status(200).redirect(`https://develott-front.herokuapp.com/newpassword/${userId}`);
+=======
+
+            res.status(200).redirect(`http://localhost:3000/newpassword/${userId}`);
+>>>>>>> 429fa7dc4bf4dddf10be1ae0f9b5a8dca28b28c8
         } catch (error) {
             console.error(error);
         }
