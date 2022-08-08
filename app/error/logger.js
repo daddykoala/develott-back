@@ -1,3 +1,14 @@
 const bunyan = require ('bunyan');
-const log = bunyan.createLogger({name:'mylogger'})
+
+const streams = [];
+
+
 log.info('hi');
+
+const logger = bunyan.createLogger({
+    name:'develott-api',
+    streams
+});
+
+
+module.exports = logger;

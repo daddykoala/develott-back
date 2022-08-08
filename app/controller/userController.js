@@ -59,7 +59,7 @@ const userController = {
 			//TODO update l'utilisateur : on supprime le verificationLink + on passe Verified à true
 			const valideleted = await userDatamapper.deleteLinkEmail(userId);
 			const updated = await userDatamapper.updatesStatus(userId);
-			res.status(200).redirect("http://localhost:3000/connexion/");
+			res.status(200).redirect("https://develott-front.herokuapp.com/connexion/");
 		} catch (error) {
          console.error(error);
         };
@@ -118,7 +118,7 @@ const userController = {
             //TODO update l'utilisateur : on supprime le verificationLink + on passe Verified à true
             await userDatamapper.deleteLinkEmail(userId);
 
-            res.status(200).redirect(`http://localhost:3000/newpassword/${userId}`);
+            res.status(200).redirect(`https://develott-front.herokuapp.com/newpassword/${userId}`);
         } catch (error) {
             console.error(error);
         }
