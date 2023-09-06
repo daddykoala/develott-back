@@ -1,4 +1,4 @@
-# Develott
+# Develott-api
 
 ## Introduction
 
@@ -8,13 +8,14 @@ Develott est une application ayant pour vocation de devenir une plateforme de mi
 
 ## Table des Matières
 
-- [Develott](#develott)
+- [Develott-api](#develott-api)
   - [Introduction](#introduction)
   - [Table des Matières](#table-des-matières)
   - [Résumé](#résumé)
   - [Fonctionnalités](#fonctionnalités)
   - [🤖 Technologies Principales](#-technologies-principales)
   - [Installation et Configuration](#installation-et-configuration)
+  - [Mon Rôle dans ce Projet](#mon-rôle-dans-ce-projet)
   - [Auteurs](#auteurs)
   - [Contact](#contact)
 
@@ -41,16 +42,62 @@ Nous y retrouverons :
 
 ## 🤖 Technologies Principales
 
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white) ![Express](https://img.shields.io/badge/Express-000000?style=flat-square&logo=express&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white) ![Socket.io](https://img.shields.io/badge/Socket.io-010101?style=flat-square&logo=socketdotio&logoColor=white) ![JWT](https://img.shields.io/badge/JWT-00f6e6?style=flat-square&logo=jsonwebtokens&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white) ![Express](https://img.shields.io/badge/Express-000000?style=flat-square&logo=express&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)  ![JWT](https://img.shields.io/badge/JWT-00f6e6?style=flat-square&logo=jsonwebtokens&logoColor=white)
 
 ---
 
 ## Installation et Configuration
 
-[... Les mêmes étapes que votre précédent README ...]
+Pour installer et configurer le projet, suivez les étapes ci-dessous :
+
+1. **Clonez le dépôt**
+
+    ```bash
+    git clone https://github.com/daddykoala/develott-back.git
+    ```
+
+2. **Accédez au dossier du projet**
+
+    ```bash
+    cd app
+    ```
+
+3. **Installez les dépendances**
+
+    ```bash
+    npm install
+    ```
+
+4. **Lancez le projet**
+
+    ```bash
+    npm start
+    ```
+
 
 ---
+## Mon Rôle dans ce Projet
 
+Dans le cadre de ce projet, nous nous sommes principalement concentrés sur les aspects suivants :
+
+- **Versionnage de la BDD avec Sqitch** : Mise en place de la gestion des versions de la base de données pour faciliter le suivi des changements.
+  
+- **CRUD en Datamapper avec PostgreSQL** : Nous avons implémenté le CRUD (Create, Read, Update, Delete) en utilisant le modèle de conception Datamapper et optimisé les requêtes en utilisant des jointures dans PostgreSQL.
+  
+- **Optimisation du Backend sans ORM** : Nous avons fait le choix de ne pas utiliser d'ORM pour maximiser les performances sur la partie backend.
+  
+- **Routing et Contrôleurs** : Nous avons également géré la partie routage et les contrôleurs de l'application.
+  
+- **Conception et Rédaction de la Base de Données** : De la conception à la rédaction, nous avons supervisé toutes les étapes liées à la base de données.
+  
+- **Documentation avec JSDoc et Swagger** : Rédaction de la documentation de l'API avec l'aide de JSDoc et Swagger.
+  
+- **Validation des Données avec Joi** : Nous avons utilisé Joi pour le filtrage et la validation du type des données entrantes.
+  
+- **Contrôle des Données Frauduleuses avec Sanitizer** : Mise en place de mesures pour contrôler et nettoyer les données entrantes avec Sanitizer.
+
+- **Paramétrage des CORS** : Nous avons configuré les CORS (Cross-Origin Resource Sharing) pour gérer les requêtes sécurisées entre différentes origines.
+  
 ## Auteurs
 
 - [@Charlelie](https://github.com/Charlelielataste) - Scrum Master, développeur Frontend
