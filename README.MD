@@ -1,5 +1,9 @@
 # Develott-api
 
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white) ![Express](https://img.shields.io/badge/Express-000000?style=flat-square&logo=express&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)  ![JWT](https://img.shields.io/badge/JWT-00f6e6?style=flat-square&logo=jsonwebtokens&logoColor=white)
+
+---
+
 ## Introduction
 
 Develott est une application ayant pour vocation de devenir une plateforme de mise en relation, d’échange et de collaboration entre développeurs juniors autour de projets open-sources proposés par la communauté. Develott répond à un réel besoin de développeurs juniors rencontrant des difficultés à trouver un premier emploi.
